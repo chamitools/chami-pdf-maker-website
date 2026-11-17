@@ -7,6 +7,7 @@
   'use strict';
   var file = null; // {name, type, size, dataUrl?, bytes?, width?, height?, pages?}
   var outBlob = null;
+  var busy = false; // a compression is running; ignore new files until it finishes
   var $ = function (id) { return document.getElementById(id); };
 
   var TARGETS = { '100': 100, '200': 200, '500': 500, '1000': 1000 };
@@ -23,7 +24,7 @@
 
   function renderInfo() {
     var info = $('fileInfo');
-    if (!file) { info.textContent = ''; $('compressBtn').disabled = true; return; }
+    if (!file) { info.textContent = ''; $('compressBtn').disabled = true; $('clearBtn').disabled = true; return; }
     var kind = file.type === 'pdf' ? file.pages + ' pages' : file.width + ' x ' + file.height + ' px';
     info.textContent = file.name + ' — ' + Chami.fmtBytes(file.size) + ' (' + kind + '). Pick a target size and tap Compress to KB.';
     $('compressBtn').disabled = false;
@@ -32,6 +33,7 @@
 
   async function addFiles(list) {
     var status = $('status');
+    if (busy) { Chami.setStatus(status, 'Please wait for the current compression to finish before choosing another file.', 'error'); return; }
     var f = list[0];
     if (!f) return;
     var isPdf = f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
@@ -54,11 +56,13 @@
         await pdf.destroy();
       }
       outBlob = null;
-      Chami.setStatus(status, 'File loaded.', 'ok');
+      Chami.setStatus(status, list.length > 1 ? 'File loaded — only the first of ' + list.length + ' files is used; this tool takes one file at a time.' : 'File loaded.', 'ok');
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'Could not open that file: ' + (e && e.message ? e.message : e), 'error');
+      var msg = e && e.message ? e.message : String(e);
+      if (/password/i.test(msg)) msg = 'This PDF is password-protected. Please use an unlocked copy — this tool cannot open password-protected PDFs.';
+      Chami.setStatus(status, 'Could not open that file: ' + msg, 'error');
     }
   }
 
@@ -79,6 +83,9 @@
       canvas.width = w; canvas.height = h;
       var ctx = canvas.getContext('2d');
       ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      // White background: JPEG has no transparency, so a transparent PNG
+      // would otherwise come out with a black background.
+      ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
       ctx.drawImage(img, 0, 0, w, h);
       var lo = 0.10, hi = 0.95, fit = null;
       for (var i = 0; i < 6; i++) {
@@ -91,6 +98,11 @@
       Chami.setStatus($('status'), 'Still too big — trying a smaller image (' + Math.round(scales[s] * 100) + '% size)...');
       await new Promise(function (r) { setTimeout(r, 0); });
     }
+    // The binary search above never probes the very lowest quality at the
+    // smallest size, so the smallest file it saw may not be the smallest
+    // possible. Probe q=0.10 at the smallest scale before giving up.
+    var tiny = await canvasToBlob(canvas, 0.10);
+    if (!best || tiny.size < best.size) best = tiny;
     return { blob: best, reached: false };
   }
 
@@ -100,38 +112,51 @@
     { scale: 1.2, jpeg: 0.60 },
     { scale: 1.0, jpeg: 0.50 },
     { scale: 0.8, jpeg: 0.40 },
-    { scale: 0.6, jpeg: 0.30 }
+    { scale: 0.6, jpeg: 0.30 },
+    // Last resorts: the old floor was ~293 KB for a 19-page text PDF, so a
+    // 200 KB (or 100 KB) target was unreachable. These two steps get it
+    // there (measured: 138 KB, then 86 KB) at the cost of low resolution —
+    // only ever tried after every sharper step has failed.
+    { scale: 0.45, jpeg: 0.22 },
+    { scale: 0.35, jpeg: 0.18 }
   ];
 
   async function compressPdf(targetBytes) {
     var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
     var jsPDF = window.jspdf.jsPDF;
     var best = null;
-    for (var s = 0; s < PDF_STEPS.length; s++) {
-      var st = PDF_STEPS[s];
-      var doc = null;
-      for (var i = 1; i <= pdf.numPages; i++) {
-        var page = await pdf.getPage(i);
-        var viewport = page.getViewport({ scale: st.scale });
-        var canvas = document.createElement('canvas');
-        canvas.width = Math.floor(viewport.width);
-        canvas.height = Math.floor(viewport.height);
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
-        var imgData = canvas.toDataURL('image/jpeg', st.jpeg);
-        var vp1 = page.getViewport({ scale: 1 });
-        var pageW = vp1.width, pageH = vp1.height;
-        var orientation = pageW >= pageH ? 'landscape' : 'portrait';
-        if (i === 1) doc = new jsPDF({ unit: 'pt', format: [pageW, pageH], orientation: orientation, compress: true });
-        else doc.addPage([pageW, pageH], orientation);
-        doc.addImage(imgData, 'JPEG', 0, 0, pageW, pageH);
+    try {
+      for (var s = 0; s < PDF_STEPS.length; s++) {
+        var st = PDF_STEPS[s];
+        var doc = null;
+        for (var i = 1; i <= pdf.numPages; i++) {
+          var page = await pdf.getPage(i);
+          var viewport = page.getViewport({ scale: st.scale });
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.floor(viewport.width);
+          canvas.height = Math.floor(viewport.height);
+          var ctx = canvas.getContext('2d');
+          // White background: JPEG has no transparency, so a page with a
+          // transparent background would otherwise come out black.
+          ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+          await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+          var imgData = canvas.toDataURL('image/jpeg', st.jpeg);
+          var vp1 = page.getViewport({ scale: 1 });
+          var pageW = vp1.width, pageH = vp1.height;
+          var orientation = pageW >= pageH ? 'landscape' : 'portrait';
+          if (i === 1) doc = new jsPDF({ unit: 'pt', format: [pageW, pageH], orientation: orientation, compress: true });
+          else doc.addPage([pageW, pageH], orientation);
+          doc.addImage(imgData, 'JPEG', 0, 0, pageW, pageH);
+        }
+        var blob = doc.output('blob');
+        if (!best || blob.size < best.size) best = blob;
+        Chami.setStatus($('status'), 'Trying quality ' + (s + 1) + ' of ' + PDF_STEPS.length + ' — now ' + Chami.fmtBytes(blob.size) + '...');
+        await new Promise(function (r) { setTimeout(r, 0); });
+        if (blob.size <= targetBytes) return { blob: blob, reached: true };
       }
-      var blob = doc.output('blob');
-      if (!best || blob.size < best.size) best = blob;
-      Chami.setStatus($('status'), 'Trying quality ' + (s + 1) + ' of ' + PDF_STEPS.length + ' — now ' + Chami.fmtBytes(blob.size) + '...');
-      await new Promise(function (r) { setTimeout(r, 0); });
-      if (blob.size <= targetBytes) { await pdf.destroy(); return { blob: blob, reached: true }; }
+    } finally {
+      await pdf.destroy();
     }
-    await pdf.destroy();
     return { blob: best, reached: false };
   }
 
@@ -147,25 +172,54 @@
     var targetBytes = Math.round(kb * 1024);
     var btn = $('compressBtn');
     btn.disabled = true;
+    busy = true;
     Chami.showResult($('resultBox'), false);
     try {
       Chami.setStatus(status, 'Compressing to under ' + kb + ' KB...');
-      var res = file.type === 'image' ? await compressImage(targetBytes) : await compressPdf(targetBytes);
+      var res;
+      if (file.size <= targetBytes) {
+        // Already under target: re-encoding would only lose quality (and
+        // can even make the file BIGGER), so keep the original as-is.
+        var origBlob = file.type === 'image'
+          ? await (await fetch(file.dataUrl)).blob()
+          : new Blob([file.bytes], { type: 'application/pdf' });
+        res = { blob: origBlob, reached: true, alreadyUnder: true };
+      } else {
+        res = file.type === 'image' ? await compressImage(targetBytes) : await compressPdf(targetBytes);
+      }
       outBlob = res.blob;
       var base = file.name.replace(/\.[^.]+$/, '');
-      var ext = file.type === 'image' ? 'jpg' : 'pdf';
+      // A kept-as-is original must keep its real extension: naming a PNG
+      // ".jpg" would hand the user a mislabelled file.
+      var ext;
+      if (res.alreadyUnder) {
+        var m = file.name.match(/\.([^.]+)$/);
+        ext = m ? m[1].toLowerCase() : (file.type === 'image' ? 'jpg' : 'pdf');
+      } else {
+        ext = file.type === 'image' ? 'jpg' : 'pdf';
+      }
+      var grew = !res.alreadyUnder && outBlob.size > file.size;
       $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(file.size) + '  →  After: ' + Chami.fmtBytes(outBlob.size) +
-        (res.reached ? '  (under your ' + kb + ' KB target)' : '  (smallest possible is ' + Chami.fmtBytes(outBlob.size) + ' — still above your ' + kb + ' KB target)');
+        (res.alreadyUnder ? '  (already under your ' + kb + ' KB target — original kept as-is, no quality lost)'
+          : res.reached ? '  (under your ' + kb + ' KB target)'
+          : '  (smallest possible is ' + Chami.fmtBytes(outBlob.size) + ' — still above your ' + kb + ' KB target)') +
+        (grew ? '  Note: that is larger than the original, so this file cannot be shrunk further by this tool.' : '');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(outBlob, base + '-under-' + kb + 'kb.' + ext); };
       $('previewBtn').onclick = function () {
         var kind = file.type === 'pdf' ? 'pdf' : 'image';
         Chami.openPreview('Compressed file — ' + Chami.fmtBytes(outBlob.size), outBlob, kind);
       };
       Chami.showResult($('resultBox'), true);
-      Chami.setStatus(status, res.reached ? 'Done! Your file is under ' + kb + ' KB.' : 'Done — this is the smallest it can go: ' + Chami.fmtBytes(outBlob.size) + '.', res.reached ? 'ok' : '');
+      Chami.setStatus(status,
+        res.alreadyUnder ? 'Done! Your file was already under ' + kb + ' KB, so the original is kept as-is.' :
+        res.reached ? 'Done! Your file is under ' + kb + ' KB.' :
+        grew ? 'Done — but the smallest this tool can make is ' + Chami.fmtBytes(outBlob.size) + ', larger than the original.' :
+        'Done — this is the smallest it can go: ' + Chami.fmtBytes(outBlob.size) + '.',
+        res.reached && !grew ? 'ok' : '');
     } catch (e) {
       Chami.setStatus(status, 'Compression failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
+      busy = false;
       btn.disabled = !file;
     }
   }

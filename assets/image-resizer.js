@@ -4,6 +4,7 @@
 (function () {
   'use strict';
   var file = null; // {name, type, dataUrl, width, height}
+  var busy = false; // a resize is running; ignore new files until it finishes
   var $ = function (id) { return document.getElementById(id); };
 
   var PRESETS = {
@@ -16,7 +17,7 @@
 
   function renderInfo() {
     var info = $('fileInfo');
-    if (!file) { info.textContent = ''; $('resizeBtn').disabled = true; return; }
+    if (!file) { info.textContent = ''; $('resizeBtn').disabled = true; $('clearBtn').disabled = true; return; }
     info.textContent = file.name + ' — ' + file.width + ' x ' + file.height + ' px. Pick a size below and tap Resize Image.';
     $('resizeBtn').disabled = false;
     $('clearBtn').disabled = false;
@@ -34,6 +35,7 @@
 
   async function addFiles(list) {
     var status = $('status');
+    if (busy) { Chami.setStatus(status, 'Please wait for the current resize to finish before choosing another image.', 'error'); return; }
     var f = list[0];
     if (!f) return;
     if (!/^image\//.test(f.type)) {
@@ -46,7 +48,7 @@
       file = { name: f.name, type: f.type, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight };
       $('widthInput').value = file.width;
       $('heightInput').value = file.height;
-      Chami.setStatus(status, 'Image loaded.', 'ok');
+      Chami.setStatus(status, list.length > 1 ? 'Image loaded — only the first of ' + list.length + ' images is used; this tool takes one image at a time.' : 'Image loaded.', 'ok');
       Chami.showResult($('resultBox'), false);
       showPreview();
       renderInfo();
@@ -56,14 +58,20 @@
   }
 
   function targetSize() {
-    var mode = document.querySelector('input[name="sizeMode"]:checked').value;
+    var picked = document.querySelector('input[name="sizeMode"]:checked');
+    if (!picked) return null;
+    var mode = picked.value;
     if (mode === 'percent') {
       var pct = parseFloat($('percentInput').value);
       if (isNaN(pct) || pct <= 0 || pct > 400) return null;
-      return {
+      var size = {
         w: Math.max(1, Math.round(file.width * pct / 100)),
         h: Math.max(1, Math.round(file.height * pct / 100))
       };
+      // Percent can push a big image past the 8000 px canvas cap that the
+      // width/height mode enforces (e.g. 400% of a 3000 px photo).
+      if (size.w > 8000 || size.h > 8000) return null;
+      return size;
     }
     if (mode === 'preset') {
       var p = PRESETS[$('presetInput').value];
@@ -92,8 +100,10 @@
     }
     var format = $('format').value; // jpg, png, webp
     var targetKb = parseFloat($('targetKb').value);
+    var hasTargetKb = !isNaN(targetKb) && targetKb > 0;
     var btn = $('resizeBtn');
     btn.disabled = true;
+    busy = true;
     Chami.setStatus(status, 'Resizing your image...');
     try {
       var img = await Chami.loadImage(file.dataUrl);
@@ -102,37 +112,52 @@
       var ctx = canvas.getContext('2d');
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
+      if (format === 'jpg') {
+        // White background: JPEG has no transparency, so a transparent PNG
+        // would otherwise come out with a black background.
+        ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, size.w, size.h);
+      }
       ctx.drawImage(img, 0, 0, size.w, size.h);
-      var blob, quality = 0.92;
+      var blob, targetMissed = false;
       if (format === 'png') {
         blob = await canvasToBlob(canvas, 'png');
-      } else if (!isNaN(targetKb) && targetKb > 0) {
-        // Adjust JPEG/WEBP quality until the file is near the target size.
-        var lo = 0.1, hi = 0.95, best = null;
+      } else if (hasTargetKb) {
+        // Adjust JPEG/WEBP quality until the file is at or under the target.
+        // Keep the LARGEST file that fits (best quality under target). The
+        // old code kept the file CLOSEST to the target, which could be OVER
+        // it — e.g. 129.6 KB picked for a 100 KB target — without saying so.
+        var lo = 0.1, hi = 0.95, fit = null, smallest = null;
         for (var i = 0; i < 7; i++) {
           var q = (lo + hi) / 2;
           var test = await canvasToBlob(canvas, format, q);
-          if (!best || Math.abs(test.size - targetKb * 1024) < Math.abs(best.size - targetKb * 1024)) best = test;
-          if (test.size > targetKb * 1024) hi = q; else lo = q;
-          quality = q;
+          if (!smallest || test.size < smallest.size) smallest = test;
+          if (test.size <= targetKb * 1024) { if (!fit || test.size > fit.size) fit = test; lo = q; }
+          else hi = q;
         }
-        blob = best;
+        blob = fit || smallest;
+        targetMissed = !fit;
       } else {
-        blob = await canvasToBlob(canvas, format, quality);
+        blob = await canvasToBlob(canvas, format, 0.92);
       }
       var ext = format === 'jpg' ? 'jpg' : format;
       var base = file.name.replace(/\.[^.]+$/, '');
       $('sizeInfo').textContent = 'New size: ' + size.w + ' x ' + size.h + ' px — ' + Chami.fmtBytes(blob.size) +
-        (format !== 'png' && !isNaN(targetKb) && targetKb > 0 ? ' (target was ' + targetKb + ' KB)' : '');
+        (format === 'png' && hasTargetKb ? ' (target KB does not apply to PNG — PNG is lossless, so its size is whatever the pixels need)'
+          : hasTargetKb && targetMissed ? ' (target was ' + targetKb + ' KB — still above target, this is the smallest possible at this size)'
+          : hasTargetKb ? ' (target was ' + targetKb + ' KB)' : '');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(blob, base + '-resized.' + ext); };
       $('previewBtn').onclick = function () {
         Chami.openPreview('Resized image — ' + size.w + ' x ' + size.h + ' px (' + Chami.fmtBytes(blob.size) + ')', blob, 'image');
       };
       Chami.showResult($('resultBox'), true);
-      Chami.setStatus(status, 'Done! Your resized image is ready.', 'ok');
+      Chami.setStatus(status,
+        targetMissed ? 'Done — but the smallest possible at this size is ' + Chami.fmtBytes(blob.size) + ', still above your ' + targetKb + ' KB target. Try a smaller size.' :
+        'Done! Your resized image is ready.',
+        targetMissed ? '' : 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Resizing failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
+      busy = false;
       btn.disabled = !file;
     }
   }
@@ -149,11 +174,16 @@
       Chami.showResult($('resultBox'), false);
       renderInfo();
     });
-    // Keep aspect ratio when the user edits width.
+    // Keep aspect ratio when the user edits width or height.
     $('widthInput').addEventListener('change', function () {
       if (!file) return;
       var w = parseInt($('widthInput').value, 10);
       if (!isNaN(w) && w > 0) $('heightInput').value = Math.max(1, Math.round(file.height * w / file.width));
+    });
+    $('heightInput').addEventListener('change', function () {
+      if (!file) return;
+      var h = parseInt($('heightInput').value, 10);
+      if (!isNaN(h) && h > 0) $('widthInput').value = Math.max(1, Math.round(file.width * h / file.height));
     });
     renderInfo();
   });

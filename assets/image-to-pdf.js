@@ -62,11 +62,14 @@
 
   async function addFiles(list) {
     var status = $('status');
-    var added = 0;
+    var added = 0, failed = 0;
     for (var k = 0; k < list.length; k++) {
       var file = list[k];
-      if (!/^image\//.test(file.type)) {
+      // Some pickers (notably on Android) send an empty MIME type for a
+      // valid image, so fall back to the file extension before rejecting.
+      if (!/^image\//.test(file.type || '') && !/\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(file.name || '')) {
         Chami.setStatus(status, '"' + file.name + '" is not an image file. Please choose JPG, PNG or WEBP images.', 'error');
+        failed++;
         continue;
       }
       try {
@@ -75,10 +78,15 @@
         files.push({ name: file.name, type: file.type, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight });
         added++;
       } catch (e) {
+        failed++;
         Chami.setStatus(status, 'Could not read "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
       }
     }
-    if (added) Chami.setStatus(status, added + ' image' + (added > 1 ? 's' : '') + ' added. Drag the list or use Up / Down to reorder, then tap Convert to PDF.', 'ok');
+    if (added) {
+      var msg = added + ' image' + (added > 1 ? 's' : '') + ' added. Drag the list or use Up / Down to reorder, then tap Convert to PDF.';
+      if (failed) msg += ' ' + failed + ' file' + (failed > 1 ? 's' : '') + ' could not be added.';
+      Chami.setStatus(status, msg, 'ok');
+    }
     renderAll();
   }
 
@@ -88,13 +96,17 @@
     if (!Chami.requireLib(function () { return window.jspdf && window.jspdf.jsPDF; }, 'PDF', status)) return;
     var btn = $('convertBtn');
     btn.disabled = true;
+    $('clearBtn').disabled = true;
+    // Snapshot the list: if the user clears or adds images mid-convert,
+    // the loop must still finish exactly the pages that were queued.
+    var pages = files.slice();
     Chami.setStatus(status, 'Creating your PDF...');
     try {
       var size = $('pageSize').value;
       var jsPDF = window.jspdf.jsPDF;
       var doc = null;
-      for (var i = 0; i < files.length; i++) {
-        var f = files[i];
+      for (var i = 0; i < pages.length; i++) {
+        var f = pages[i];
         var wPt, hPt, format, orientation;
         // A4 is ALWAYS portrait. (The old code flipped orientation by image
         // aspect, which turned A4 into a landscape page while the fit math
@@ -137,7 +149,7 @@
         } else {
           await addViaCanvas(doc, f, x, y, drawW, drawH);
         }
-        Chami.setStatus(status, 'Creating your PDF... page ' + (i + 1) + ' of ' + files.length);
+        Chami.setStatus(status, 'Creating your PDF... page ' + (i + 1) + ' of ' + pages.length);
         await new Promise(function (r) { setTimeout(r, 0); });
       }
       var out = doc.output('blob');
@@ -145,16 +157,16 @@
         Chami.downloadBlob(out, 'chami-images-to-pdf.pdf');
       };
       $('previewBtn').onclick = function () {
-        Chami.openPreview('Your PDF — ' + files.length + ' page' + (files.length > 1 ? 's' : ''), out, 'pdf');
+        Chami.openPreview('Your PDF — ' + pages.length + ' page' + (pages.length > 1 ? 's' : ''), out, 'pdf');
       };
       Chami.showResult($('resultBox'), true);
       var meta = $('resultMeta');
-      if (meta) meta.textContent = (size === 'a4' ? 'A4' : 'Original size') + '  •  ' + files.length + ' page' + (files.length > 1 ? 's' : '') + '  •  ' + Chami.fmtBytes(out.size);
-      Chami.setStatus(status, 'Done! Your PDF is ready — ' + files.length + ' page' + (files.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
+      if (meta) meta.textContent = (size === 'a4' ? 'A4' : 'Original size') + '  •  ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + '  •  ' + Chami.fmtBytes(out.size);
+      Chami.setStatus(status, 'Done! Your PDF is ready — ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Could not create the PDF: ' + (e && e.message ? e.message : e), 'error');
     } finally {
-      btn.disabled = files.length === 0;
+      renderList();
     }
   }
 

@@ -22,7 +22,12 @@
   function setStatus(el, msg, kind) {
     if (!el) return;
     el.textContent = msg || '';
-    el.className = 'status' + (kind ? ' ' + kind : '');
+    /* Keep any other classes on the element (e.g. layout classes):
+       only swap the status kind. The old version overwrote className
+       entirely, which silently dropped classes added elsewhere. */
+    el.classList.add('status');
+    el.classList.remove('error', 'ok');
+    if (kind) el.classList.add(kind);
   }
 
   function showResult(box, show) {
@@ -66,8 +71,17 @@
     ['dragenter', 'dragover'].forEach(function (ev) {
       dropEl.addEventListener(ev, function (e) { e.preventDefault(); dropEl.classList.add('drag'); });
     });
-    ['dragleave', 'drop'].forEach(function (ev) {
-      dropEl.addEventListener(ev, function (e) { e.preventDefault(); dropEl.classList.remove('drag'); });
+    /* dragleave also fires when the pointer moves over a child element
+       inside the dropzone — only clear the highlight when it really
+       leaves the dropzone, otherwise the highlight flickers mid-drag. */
+    dropEl.addEventListener('dragleave', function (e) {
+      e.preventDefault();
+      if (e.relatedTarget && dropEl.contains(e.relatedTarget)) return;
+      dropEl.classList.remove('drag');
+    });
+    dropEl.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dropEl.classList.remove('drag');
     });
     dropEl.addEventListener('drop', function (e) {
       // Snapshot the FileList into a plain array: a live FileList can be
@@ -141,6 +155,9 @@
       var b = item.blob;
       var k = kind;
       if (!k) k = (b.type === 'application/pdf') ? 'pdf' : (b.type && b.type.indexOf('image/') === 0 ? 'image' : '');
+      /* Unknown type (e.g. a ZIP): there is nothing sensible to render —
+         skip it instead of showing a broken <img>. */
+      if (k !== 'pdf' && k !== 'image') return;
       var url = URL.createObjectURL(b);
       urls.push(url);
       var label = item.label || (items.length > 1 ? 'Page ' + (idx + 1) : '');
@@ -164,6 +181,7 @@
         body.appendChild(img);
       }
     });
+    if (!urls.length) return; /* nothing renderable — leave the modal closed */
     previewUrls = urls;
     overlay.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -181,7 +199,10 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
     nav.addEventListener('click', function (e) {
-      if (e.target && e.target.tagName === 'A') {
+      /* closest() so a tap on any element inside a link (icon, span)
+         still closes the menu — e.target alone is the inner element. */
+      var link = e.target && e.target.closest ? e.target.closest('a') : null;
+      if (link) {
         header.classList.remove('nav-open');
         btn.setAttribute('aria-expanded', 'false');
       }

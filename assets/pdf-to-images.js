@@ -5,11 +5,12 @@
   'use strict';
   var file = null; // {name, bytes}
   var pages = [];  // {num, blob, url, ext}
+  var busy = false; // a conversion is running; ignore new files until it finishes
   var $ = function (id) { return document.getElementById(id); };
 
   function renderInfo() {
     var info = $('fileInfo');
-    if (!file) { info.textContent = ''; $('convertBtn').disabled = true; return; }
+    if (!file) { info.textContent = ''; $('convertBtn').disabled = true; $('clearBtn').disabled = true; return; }
     info.textContent = file.name + ' loaded. Choose PNG or JPG, then tap Convert to Images.';
     $('convertBtn').disabled = false;
     $('clearBtn').disabled = false;
@@ -45,6 +46,7 @@
 
   async function addFiles(list) {
     var status = $('status');
+    if (busy) { Chami.setStatus(status, 'Please wait for the current conversion to finish before choosing another file.', 'error'); return; }
     if (!Chami.requireLib(function () { return window.pdfjsLib; }, 'PDF', status)) return;
     var f = list[0];
     if (!f) return;
@@ -62,11 +64,13 @@
       pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
       pages = [];
       renderPages();
-      Chami.setStatus(status, 'PDF loaded — ' + file.pages + ' pages.', 'ok');
+      Chami.setStatus(status, 'PDF loaded — ' + file.pages + ' pages.' + (list.length > 1 ? ' Only the first of ' + list.length + ' files is used; this tool takes one PDF at a time.' : ''), 'ok');
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
+      var msg = e && e.message ? e.message : String(e);
+      if (/password/i.test(msg)) msg = 'This PDF is password-protected. Please use an unlocked copy — this tool cannot open password-protected PDFs.';
+      Chami.setStatus(status, 'Could not open that PDF: ' + msg, 'error');
     }
   }
 
@@ -74,7 +78,7 @@
     return new Promise(function (resolve, reject) {
       var type = format === 'jpg' ? 'image/jpeg' : 'image/png';
       var q = format === 'jpg' ? 0.92 : undefined;
-      canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error('render')); }, type, q);
+      canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error('Could not encode the page image.')); }, type, q);
     });
   }
 
@@ -85,9 +89,13 @@
     var format = $('format').value; // png or jpg
     var btn = $('convertBtn');
     btn.disabled = true;
+    $('zipBtn').disabled = true; // no partial ZIP while pages are still rendering
+    busy = true;
     Chami.showResult($('resultBox'), false);
     try {
       var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
+      // Only drop the previous results once the new PDF has actually
+      // opened — a bad file used to wipe the good results for nothing.
       pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
       pages = [];
       for (var i = 1; i <= pdf.numPages; i++) {
@@ -96,7 +104,13 @@
         var canvas = document.createElement('canvas');
         canvas.width = Math.floor(viewport.width);
         canvas.height = Math.floor(viewport.height);
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+        var ctx = canvas.getContext('2d');
+        if (format === 'jpg') {
+          // White background: JPEG has no transparency, so a page with a
+          // transparent background would otherwise come out black.
+          ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
         var blob = await canvasToBlob(canvas, format);
         pages.push({ num: i, blob: blob, url: URL.createObjectURL(blob), ext: format });
         Chami.setStatus(status, 'Converting... page ' + i + ' of ' + pdf.numPages);
@@ -111,8 +125,14 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' converted to ' + format.toUpperCase() + ' at 2x quality.', 'ok');
     } catch (e) {
+      // Drop any half-finished set: showing partial pages (or letting the
+      // ZIP button offer them) would pass off an incomplete conversion.
+      pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
+      pages = [];
+      renderPages();
       Chami.setStatus(status, 'Conversion failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
+      busy = false;
       btn.disabled = !file;
     }
   }
@@ -121,12 +141,20 @@
     var status = $('status');
     if (!pages.length) return;
     if (!Chami.requireLib(function () { return window.JSZip; }, 'ZIP', status)) return;
+    var zipBtn = $('zipBtn');
+    zipBtn.disabled = true;
     Chami.setStatus(status, 'Making your ZIP file...');
-    var zip = new JSZip();
-    pages.forEach(function (p) { zip.file('page-' + p.num + '.' + p.ext, p.blob); });
-    var blob = await zip.generateAsync({ type: 'blob' });
-    Chami.downloadBlob(blob, 'chami-pdf-images.zip');
-    Chami.setStatus(status, 'Done! ZIP downloaded with ' + pages.length + ' images.', 'ok');
+    try {
+      var zip = new JSZip();
+      pages.forEach(function (p) { zip.file('page-' + p.num + '.' + p.ext, p.blob); });
+      var blob = await zip.generateAsync({ type: 'blob' });
+      Chami.downloadBlob(blob, 'chami-pdf-images.zip');
+      Chami.setStatus(status, 'Done! ZIP downloaded with ' + pages.length + ' images.', 'ok');
+    } catch (e) {
+      Chami.setStatus(status, 'Could not make the ZIP file: ' + (e && e.message ? e.message : e), 'error');
+    } finally {
+      zipBtn.disabled = pages.length === 0;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function () {

@@ -16,7 +16,7 @@
 
   function renderInfo() {
     var info = $('fileInfo');
-    if (!file) { info.textContent = ''; $('compressBtn').disabled = true; return; }
+    if (!file) { info.textContent = ''; $('compressBtn').disabled = true; $('clearBtn').disabled = true; return; }
     info.textContent = file.name + ' — original size ' + Chami.fmtBytes(file.size) + '. Choose a quality and tap Compress PDF.';
     $('compressBtn').disabled = false;
     $('clearBtn').disabled = false;
@@ -39,7 +39,7 @@
       var pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
       file = { name: f.name, bytes: bytes, size: f.size, pages: pdf.numPages };
       await pdf.destroy();
-      Chami.setStatus(status, 'PDF loaded — ' + file.pages + ' pages.', 'ok');
+      Chami.setStatus(status, 'PDF loaded — ' + file.pages + ' pages.' + (list.length > 1 ? ' Only the first PDF was used.' : ''), 'ok');
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
@@ -55,9 +55,16 @@
     var q = QUALITY[$('quality').value] || QUALITY.medium;
     var btn = $('compressBtn');
     btn.disabled = true;
+    $('clearBtn').disabled = true;
+    // Snapshot the file: if the user clears or drops a new PDF mid-run,
+    // the size math and output must still use the file that was queued.
+    var srcFile = file;
     Chami.showResult($('resultBox'), false);
+    $('sizeInfo').textContent = '';
+    var pdf = null;
     try {
-      var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
+      pdf = await pdfjsLib.getDocument({ data: srcFile.bytes.slice(0) }).promise;
+      if (!pdf.numPages) throw new Error('That PDF has no pages to compress.');
       var jsPDF = window.jspdf.jsPDF;
       var doc = null;
       for (var i = 1; i <= pdf.numPages; i++) {
@@ -79,11 +86,10 @@
         Chami.setStatus(status, 'Compressing... page ' + i + ' of ' + pdf.numPages + ' (' + q.label + ' quality)');
         await new Promise(function (r) { setTimeout(r, 0); });
       }
-      await pdf.destroy();
       var out = doc.output('blob');
-      var saved = file.size - out.size;
-      var pct = file.size > 0 ? Math.round(saved / file.size * 100) : 0;
-      $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(file.size) + '  →  After: ' + Chami.fmtBytes(out.size) +
+      var saved = srcFile.size - out.size;
+      var pct = srcFile.size > 0 ? Math.round(saved / srcFile.size * 100) : 0;
+      $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(srcFile.size) + '  →  After: ' + Chami.fmtBytes(out.size) +
         (saved > 0 ? '  (saved ' + pct + '%)' : '  (no size saved — this PDF is mostly text, which is already small)');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(out, 'chami-compressed.pdf'); };
       $('previewBtn').onclick = function () {
@@ -94,7 +100,11 @@
     } catch (e) {
       Chami.setStatus(status, 'Compression failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
-      btn.disabled = !file;
+      // Destroy even when a page render throws mid-loop; otherwise the
+      // pdf.js document (and its worker) leaks and the next run reuses a
+      // half-dead document.
+      if (pdf) { try { await pdf.destroy(); } catch (ignored) { /* already torn down */ } }
+      renderInfo();
     }
   }
 
@@ -107,6 +117,7 @@
     $('clearBtn').addEventListener('click', function () {
       file = null;
       Chami.setStatus($('status'), '');
+      $('sizeInfo').textContent = '';
       Chami.showResult($('resultBox'), false);
       renderInfo();
     });
