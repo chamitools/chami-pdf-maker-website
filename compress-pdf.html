@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-pdf.html">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Compress PDF — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Compress a PDF and reduce its file size online free, in your browser."}
 </script>
@@ -23,86 +23,82 @@
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script defer src="assets/common.js"></script>
-<script defer src="assets/compress-pdf.js"></script>
+<script defer src="assets/common.js?v=3"></script>
+<script defer src="assets/compress-pdf.js?v=3"></script>
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
     <nav class="main" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="image-to-pdf.html">Image to PDF</a>
       <a href="merge-pdf.html">Merge PDF</a>
       <a href="split-pdf.html">Split PDF</a>
       <a href="compress-pdf.html" class="active">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
       <a href="pdf-to-images.html">PDF to Images</a>
       <a href="image-resizer.html">Image Resizer</a>
-      <a href="compress-kb.html">Compress KB</a>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <h1>Compress PDF — Reduce PDF File Size Free</h1>
+    <h1>Compress PDF</h1>
     <p class="intro">Make your PDF smaller for email and WhatsApp — free, no signup.</p>
 
     <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
     <!-- PASTE GOOGLE ADSENSE CODE HERE -->
     </div>
 
-    <div class="tool-box">
+    <section class="tool" aria-label="Compress PDF tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file">
-        <strong>Drop a PDF here, or tap to choose</strong><br>
-        One PDF at a time
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop a PDF here, or tap to choose</strong>
+        <span class="dz-sub">One PDF at a time</span>
       </div>
       <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
       <p class="status" id="fileInfo" aria-live="polite"></p>
-      <div class="options">
-        <label>Quality:
-          <select id="quality">
-            <option value="high">High — best quality, less shrinking</option>
-            <option value="medium" selected>Medium — balanced</option>
-            <option value="low">Low — smallest file</option>
-          </select>
-        </label>
-        <button class="btn" id="compressBtn" type="button" disabled>Compress PDF</button>
-        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear</button>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <label class="opt-label" for="quality">Quality</label>
+          <div class="opt-control">
+            <select id="quality">
+              <option value="high">High — best quality, less shrinking</option>
+              <option value="medium" selected>Medium — balanced</option>
+              <option value="low">Low — smallest file</option>
+            </select>
+          </div>
+        </div>
       </div>
+      <button class="btn btn-block" id="compressBtn" type="button" disabled>Compress PDF</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear</button>
       <p class="status" id="status" aria-live="polite"></p>
       <div class="result" id="resultBox" hidden>
         <p id="sizeInfo"></p>
         <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
           <button class="btn" id="downloadBtn" type="button">Download Compressed PDF</button>
-          <button class="btn secondary" id="previewBtn" type="button">Preview</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="note"><strong>Please note:</strong> this tool rebuilds each page as an image at the quality you choose. Scanned and image-heavy PDFs shrink the most. Text in the compressed file looks the same but is no longer selectable or searchable. If your PDF is mostly text, it is already small and will shrink only a little.</div>
-
-    <h2>How to Compress a PDF — 3 Steps</h2>
-    <div class="steps">
-      <div class="step"><b>1. Add your PDF</b>Drop a PDF file into the box above, or tap to pick one.</div>
-      <div class="step"><b>2. Pick a quality</b>High keeps the sharpest pages. Medium is a good balance. Low gives the smallest file.</div>
-      <div class="step"><b>3. Download the smaller PDF</b>Tap Compress PDF. You will see the before and after size before you download.</div>
-    </div>
-
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
-    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq">
-      <details><summary>How do I compress a PDF?</summary><p>Upload your PDF, pick a quality — High, Medium or Low — then tap Compress PDF and download the smaller file.</p></details>
-      <details><summary>Can I compress a PDF to 100KB?</summary><p>It depends on the file. Scanned and image-heavy PDFs shrink a lot and often reach 100KB. Text-only PDFs are already small, so they shrink less.</p></details>
-      <details><summary>Does compressing a PDF change the text?</summary><p>In this tool, each page is rebuilt as an image at the quality you choose. The text still looks the same, but it is no longer selectable or searchable in the compressed file.</p></details>
-      <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Compression runs entirely in your browser. Your files never leave your device.</p></details>
-    </div>
-
-    <h2>More Free PDF Tools</h2>
-    <p><a href="merge-pdf.html">Merge PDF</a> · <a href="split-pdf.html">Split PDF</a> · <a href="image-to-pdf.html">Image to PDF</a> · <a href="pdf-to-images.html">PDF to JPG</a> · <a href="compress-kb.html">Compress KB</a> · <a href="index.html">All tools</a></p>
+    <details class="how">
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Add your PDF</b> — drop a PDF file in, or tap to pick one.</li>
+        <li><b>Pick a quality</b> — High keeps the sharpest pages. Medium is a good balance. Low gives the smallest file.</li>
+        <li><b>Download the smaller PDF</b> — tap Compress PDF, then Preview or Download. You will see the before and after size first.</li>
+      </ol>
+      <p class="note"><strong>Please note:</strong> this tool rebuilds each page as an image at the quality you choose. Scanned and image-heavy PDFs shrink the most. Text in the compressed file looks the same but is no longer selectable or searchable. If your PDF is mostly text, it is already small and will shrink only a little.</p>
+      <div class="faq">
+        <details><summary>How do I compress a PDF?</summary><p>Upload your PDF, pick a quality — High, Medium or Low — then tap Compress PDF and download the smaller file.</p></details>
+        <details><summary>Can I compress a PDF to 100KB?</summary><p>It depends on the file. Scanned and image-heavy PDFs shrink a lot and often reach 100KB. Text-only PDFs are already small, so they shrink less.</p></details>
+        <details><summary>Does compressing a PDF change the text?</summary><p>In this tool, each page is rebuilt as an image at the quality you choose. The text still looks the same, but it is no longer selectable or searchable in the compressed file.</p></details>
+        <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Compression runs entirely in your browser. Your files never leave your device.</p></details>
+      </div>
+    </details>
   </div>
 </main>
 

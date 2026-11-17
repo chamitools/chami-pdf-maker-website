@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/merge-pdf.html">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Merge PDF — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/merge-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Merge multiple PDF files into one document online free, in your browser."}
 </script>
@@ -22,78 +22,70 @@
 ]}
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script defer src="assets/common.js"></script>
-<script defer src="assets/merge-pdf.js"></script>
+<script defer src="assets/common.js?v=3"></script>
+<script defer src="assets/merge-pdf.js?v=3"></script>
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
     <nav class="main" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="image-to-pdf.html">Image to PDF</a>
       <a href="merge-pdf.html" class="active">Merge PDF</a>
       <a href="split-pdf.html">Split PDF</a>
       <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
       <a href="pdf-to-images.html">PDF to Images</a>
       <a href="image-resizer.html">Image Resizer</a>
-      <a href="compress-kb.html">Compress KB</a>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <h1>Merge PDF — Combine PDF Files into One Free</h1>
+    <h1>Merge PDF</h1>
     <p class="intro">Combine PDF files into one document — free, no signup, files stay on your device.</p>
 
     <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
     <!-- PASTE GOOGLE ADSENSE CODE HERE -->
     </div>
 
-    <div class="tool-box">
+    <section class="tool" aria-label="Merge PDF tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF files">
-        <strong>Drop PDF files here, or tap to choose</strong><br>
-        Add 2 or more PDFs — they will merge in the order shown
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop PDF files here, or tap to choose</strong>
+        <span class="dz-sub">Add 2 or more PDFs — they merge in the order shown</span>
       </div>
       <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple hidden>
+      <button class="btn-add" id="addMoreBtn" type="button">+ Add PDFs</button>
       <ul class="file-list" id="pdfList"></ul>
       <p class="count" id="countText" aria-live="polite"></p>
-      <div class="options">
-        <button class="btn secondary" id="addMoreBtn" type="button">Add more PDFs</button>
-        <button class="btn" id="mergeBtn" type="button" disabled>Merge PDFs</button>
-        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear all</button>
-      </div>
+      <button class="btn btn-block" id="mergeBtn" type="button" disabled>Merge PDFs</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear all</button>
       <p class="status" id="status" aria-live="polite"></p>
       <div class="result" id="resultBox" hidden>
         <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
           <button class="btn" id="downloadBtn" type="button">Download Merged PDF</button>
-          <button class="btn secondary" id="previewBtn" type="button">Preview</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <h2>How to Merge PDF Files — 3 Steps</h2>
-    <div class="steps">
-      <div class="step"><b>1. Add your PDFs</b>Drop two or more PDF files into the box above, or tap to pick them.</div>
-      <div class="step"><b>2. Arrange the order</b>Use Up and Down to put the files in the order you want them in the final document.</div>
-      <div class="step"><b>3. Download the merged PDF</b>Tap Merge PDFs and download one combined file.</div>
-    </div>
-
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
-    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq">
-      <details><summary>How do I merge PDF files?</summary><p>Add two or more PDF files, arrange them in the order you want with Up and Down, then tap Merge PDFs and download the combined file.</p></details>
-      <details><summary>Does merging PDFs reduce quality?</summary><p>No. Pages are copied exactly as they are, so text and images keep their original quality.</p></details>
-      <details><summary>How many PDFs can I merge at once?</summary><p>There is no set limit. You can merge as many PDFs as your device's memory can handle.</p></details>
-      <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Merging runs entirely in your browser. Your files never leave your device.</p></details>
-    </div>
-
-    <h2>More Free PDF Tools</h2>
-    <p><a href="image-to-pdf.html">Image to PDF</a> · <a href="split-pdf.html">Split PDF</a> · <a href="compress-pdf.html">Compress PDF</a> · <a href="pdf-to-images.html">PDF to JPG</a> · <a href="compress-kb.html">Compress KB</a> · <a href="index.html">All tools</a></p>
+    <details class="how">
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Add your PDFs</b> — drop two or more PDF files in, or tap to pick them.</li>
+        <li><b>Arrange the order</b> — use Up and Down to put the files in the order you want them in the final document.</li>
+        <li><b>Download the merged PDF</b> — tap Merge PDFs, then Preview or Download.</li>
+      </ol>
+      <div class="faq">
+        <details><summary>How do I merge PDF files?</summary><p>Add two or more PDF files, arrange them in the order you want with Up and Down, then tap Merge PDFs and download the combined file.</p></details>
+        <details><summary>Does merging PDFs reduce quality?</summary><p>No. Pages are copied exactly as they are, so text and images keep their original quality.</p></details>
+        <details><summary>How many PDFs can I merge at once?</summary><p>There is no set limit. You can merge as many PDFs as your device's memory can handle.</p></details>
+        <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Merging runs entirely in your browser. Your files never leave your device.</p></details>
+      </div>
+    </details>
   </div>
 </main>
 

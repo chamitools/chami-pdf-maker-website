@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/image-resizer.html">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Image Resizer — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/image-resizer.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Resize and compress images online free — by pixels, percent or preset — in your browser."}
 </script>
@@ -21,107 +21,123 @@
 {"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Resizing runs entirely in your browser. Your images never leave your device."}}
 ]}
 </script>
-<script defer src="assets/common.js"></script>
-<script defer src="assets/image-resizer.js"></script>
+<script defer src="assets/common.js?v=3"></script>
+<script defer src="assets/image-resizer.js?v=3"></script>
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
     <nav class="main" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="image-to-pdf.html">Image to PDF</a>
       <a href="merge-pdf.html">Merge PDF</a>
       <a href="split-pdf.html">Split PDF</a>
       <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
       <a href="pdf-to-images.html">PDF to Images</a>
       <a href="image-resizer.html" class="active">Image Resizer</a>
-      <a href="compress-kb.html">Compress KB</a>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <h1>Image Resizer — Resize &amp; Compress Images Free</h1>
+    <h1>Image Resizer</h1>
     <p class="intro">Resize images by pixels, percent or preset — free, no signup.</p>
 
     <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
     <!-- PASTE GOOGLE ADSENSE CODE HERE -->
     </div>
 
-    <div class="tool-box">
+    <section class="tool" aria-label="Image Resizer tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose an image">
-        <strong>Drop an image here, or tap to choose</strong><br>
-        JPG, PNG, WEBP — one image at a time
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop an image here, or tap to choose</strong>
+        <span class="dz-sub">JPG, PNG, WEBP — one image at a time</span>
       </div>
       <input type="file" id="fileInput" accept="image/*" hidden>
       <p class="status" id="fileInfo" aria-live="polite"></p>
       <div id="previewBox"></div>
-      <div class="options">
-        <label><input type="radio" name="sizeMode" value="pixels" checked> Width &amp; height</label>
-        <label><input type="radio" name="sizeMode" value="percent"> Percent</label>
-        <label><input type="radio" name="sizeMode" value="preset"> Preset</label>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <span class="opt-label" id="sizeModeLabel">Resize by</span>
+          <div class="opt-control">
+            <div class="chip-group" role="group" aria-labelledby="sizeModeLabel">
+              <label class="chip"><input type="radio" name="sizeMode" value="pixels" checked> Width &amp; height</label>
+              <label class="chip"><input type="radio" name="sizeMode" value="percent"> Percent</label>
+              <label class="chip"><input type="radio" name="sizeMode" value="preset"> Preset</label>
+            </div>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="widthInput">Width (px)</label>
+          <div class="opt-control"><input type="number" id="widthInput" min="1" max="8000" placeholder="e.g. 1080"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="heightInput">Height (px)</label>
+          <div class="opt-control"><input type="number" id="heightInput" min="1" max="8000" placeholder="e.g. 1080"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="percentInput">Percent</label>
+          <div class="opt-control"><input type="number" id="percentInput" min="1" max="400" value="50"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="presetInput">Preset</label>
+          <div class="opt-control">
+            <select id="presetInput">
+              <option value="whatsapp">WhatsApp status / post (1080 x 1080)</option>
+              <option value="instagram">Instagram post (1080 x 1080)</option>
+              <option value="story">Instagram / WhatsApp story (1080 x 1920)</option>
+              <option value="passport">Passport photo (413 x 531)</option>
+              <option value="a4">A4 at 300 dpi (2480 x 3508)</option>
+            </select>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="format">Output format</label>
+          <div class="opt-control">
+            <select id="format">
+              <option value="jpg" selected>JPG</option>
+              <option value="png">PNG</option>
+              <option value="webp">WEBP</option>
+            </select>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="targetKb">Target size (KB)</label>
+          <div class="opt-control">
+            <input type="number" id="targetKb" min="1" placeholder="e.g. 100">
+            <p class="opt-hint">Optional — for JPG / WEBP only. Leave empty for best quality.</p>
+          </div>
+        </div>
       </div>
-      <div class="options">
-        <label>Width (px): <input type="number" id="widthInput" min="1" max="8000" placeholder="e.g. 1080"></label>
-        <label>Height (px): <input type="number" id="heightInput" min="1" max="8000" placeholder="e.g. 1080"></label>
-        <label>Percent: <input type="number" id="percentInput" min="1" max="400" value="50"> %</label>
-        <label>Preset:
-          <select id="presetInput">
-            <option value="whatsapp">WhatsApp status / post (1080 x 1080)</option>
-            <option value="instagram">Instagram post (1080 x 1080)</option>
-            <option value="story">Instagram / WhatsApp story (1080 x 1920)</option>
-            <option value="passport">Passport photo (413 x 531)</option>
-            <option value="a4">A4 at 300 dpi (2480 x 3508)</option>
-          </select>
-        </label>
-      </div>
-      <div class="options">
-        <label>Output format:
-          <select id="format">
-            <option value="jpg" selected>JPG</option>
-            <option value="png">PNG</option>
-            <option value="webp">WEBP</option>
-          </select>
-        </label>
-        <label>Target size (optional, JPG/WEBP):
-          <input type="number" id="targetKb" min="1" placeholder="e.g. 100"> KB
-        </label>
-        <button class="btn" id="resizeBtn" type="button" disabled>Resize Image</button>
-        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear</button>
-      </div>
+      <button class="btn btn-block" id="resizeBtn" type="button" disabled>Resize Image</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear</button>
       <p class="status" id="status" aria-live="polite"></p>
       <div class="result" id="resultBox" hidden>
         <p id="sizeInfo"></p>
         <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
           <button class="btn" id="downloadBtn" type="button">Download Resized Image</button>
-          <button class="btn secondary" id="previewBtn" type="button">Preview</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <h2>How to Resize an Image — 3 Steps</h2>
-    <div class="steps">
-      <div class="step"><b>1. Add your image</b>Drop a JPG, PNG or WEBP image into the box above, or tap to pick one.</div>
-      <div class="step"><b>2. Pick a new size</b>Enter width and height, choose a percent, or use a preset like Instagram post or Passport photo.</div>
-      <div class="step"><b>3. Download the resized image</b>Tap Resize Image. Add a target KB if you need the file under a certain size, then download.</div>
-    </div>
-
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
-    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq">
-      <details><summary>How do I resize an image?</summary><p>Upload your image, enter a new width and height, choose a percent, or pick a preset like Instagram post or Passport, then tap Resize Image and download.</p></details>
-      <details><summary>Can I reduce an image to an exact KB size?</summary><p>Yes. Enter a target KB for JPG or WEBP output and the tool adjusts the quality until the file is close to that size.</p></details>
-      <details><summary>Does resizing reduce image quality?</summary><p>Making an image smaller always loses some detail, but this tool uses high-quality smoothing. Making an image larger than the original will look soft, so it is best to resize down.</p></details>
-      <details><summary>Are my images uploaded to a server?</summary><p>No. Resizing runs entirely in your browser. Your images never leave your device.</p></details>
-    </div>
-
-    <h2>More Free PDF Tools</h2>
-    <p><a href="image-to-pdf.html">Image to PDF</a> · <a href="compress-pdf.html">Compress PDF</a> · <a href="pdf-to-images.html">PDF to JPG</a> · <a href="merge-pdf.html">Merge PDF</a> · <a href="compress-kb.html">Compress KB</a> · <a href="index.html">All tools</a></p>
+    <details class="how">
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Add your image</b> — drop a JPG, PNG or WEBP image in, or tap to pick one.</li>
+        <li><b>Pick a new size</b> — enter width and height, choose a percent, or use a preset like Instagram post or Passport photo.</li>
+        <li><b>Download the resized image</b> — tap Resize Image, then Preview or Download. Add a target KB if you need the file under a certain size.</li>
+      </ol>
+      <div class="faq">
+        <details><summary>How do I resize an image?</summary><p>Upload your image, enter a new width and height, choose a percent, or pick a preset like Instagram post or Passport, then tap Resize Image and download.</p></details>
+        <details><summary>Can I reduce an image to an exact KB size?</summary><p>Yes. Enter a target KB for JPG or WEBP output and the tool adjusts the quality until the file is close to that size.</p></details>
+        <details><summary>Does resizing reduce image quality?</summary><p>Making an image smaller always loses some detail, but this tool uses high-quality smoothing. Making an image larger than the original will look soft, so it is best to resize down.</p></details>
+        <details><summary>Are my images uploaded to a server?</summary><p>No. Resizing runs entirely in your browser. Your images never leave your device.</p></details>
+      </div>
+    </details>
   </div>
 </main>
 

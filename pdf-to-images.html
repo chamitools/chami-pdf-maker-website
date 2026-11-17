@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/pdf-to-images.html">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"PDF to Images — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/pdf-to-images.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Convert PDF pages to JPG or PNG images online free, at 2x quality, in your browser."}
 </script>
@@ -23,83 +23,82 @@
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script defer src="assets/common.js"></script>
-<script defer src="assets/pdf-to-images.js"></script>
+<script defer src="assets/common.js?v=3"></script>
+<script defer src="assets/pdf-to-images.js?v=3"></script>
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
     <nav class="main" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="image-to-pdf.html">Image to PDF</a>
       <a href="merge-pdf.html">Merge PDF</a>
       <a href="split-pdf.html">Split PDF</a>
       <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
       <a href="pdf-to-images.html" class="active">PDF to Images</a>
       <a href="image-resizer.html">Image Resizer</a>
-      <a href="compress-kb.html">Compress KB</a>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <h1>PDF to JPG &amp; PNG — Convert PDF Pages to Images Free</h1>
+    <h1>PDF to JPG &amp; PNG</h1>
     <p class="intro">Turn PDF pages into JPG or PNG images — free, no signup.</p>
 
     <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
     <!-- PASTE GOOGLE ADSENSE CODE HERE -->
     </div>
 
-    <div class="tool-box">
+    <section class="tool" aria-label="PDF to Images tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file">
-        <strong>Drop a PDF here, or tap to choose</strong><br>
-        One PDF at a time — every page becomes an image
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop a PDF here, or tap to choose</strong>
+        <span class="dz-sub">One PDF at a time — every page becomes an image</span>
       </div>
       <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
       <p class="status" id="fileInfo" aria-live="polite"></p>
-      <div class="options">
-        <label>Image format:
-          <select id="format">
-            <option value="png" selected>PNG</option>
-            <option value="jpg">JPG</option>
-          </select>
-        </label>
-        <button class="btn" id="convertBtn" type="button" disabled>Convert to Images</button>
-        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear</button>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <label class="opt-label" for="format">Image format</label>
+          <div class="opt-control">
+            <select id="format">
+              <option value="png" selected>PNG</option>
+              <option value="jpg">JPG</option>
+            </select>
+            <p class="opt-hint">Every page is rendered at 2x quality, so images stay sharp.</p>
+          </div>
+        </div>
       </div>
+      <button class="btn btn-block" id="convertBtn" type="button" disabled>Convert to Images</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear</button>
       <p class="status" id="status" aria-live="polite"></p>
+      <p class="strip-label" id="stripLabel" hidden>Page images</p>
       <div class="thumbs" id="thumbs"></div>
       <div class="result" id="resultBox" hidden>
         <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
           <button class="btn" id="zipBtn" type="button" disabled>Download All as ZIP</button>
-          <button class="btn secondary" id="previewBtn" type="button">Preview</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <h2>How to Convert PDF to Images — 3 Steps</h2>
-    <div class="steps">
-      <div class="step"><b>1. Add your PDF</b>Drop a PDF file into the box above, or tap to pick one.</div>
-      <div class="step"><b>2. Choose PNG or JPG</b>Pick your image format, then tap Convert to Images. Pages render at 2x quality.</div>
-      <div class="step"><b>3. Download the images</b>Download any page on its own, or get all pages together as a ZIP file.</div>
-    </div>
-
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
-    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq">
-      <details><summary>How do I convert a PDF to JPG?</summary><p>Upload your PDF, choose JPG or PNG, tap Convert to Images, then download each page or all pages together as a ZIP.</p></details>
-      <details><summary>What quality are the images?</summary><p>Every page is rendered at 2x scale, so the images stay sharp for presentations, printing and sharing.</p></details>
-      <details><summary>Can I convert only one page?</summary><p>Yes. After conversion, every page has its own Download button, so you can save just the pages you need.</p></details>
-      <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Conversion runs entirely in your browser. Your files never leave your device.</p></details>
-    </div>
-
-    <h2>More Free PDF Tools</h2>
-    <p><a href="image-to-pdf.html">Image to PDF</a> · <a href="merge-pdf.html">Merge PDF</a> · <a href="split-pdf.html">Split PDF</a> · <a href="compress-pdf.html">Compress PDF</a> · <a href="compress-kb.html">Compress KB</a> · <a href="index.html">All tools</a></p>
+    <details class="how">
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Add your PDF</b> — drop a PDF file in, or tap to pick one.</li>
+        <li><b>Choose PNG or JPG</b> — pick your image format, then tap Convert to Images. Pages render at 2x quality.</li>
+        <li><b>Download the images</b> — download any page on its own, or get all pages together as a ZIP file.</li>
+      </ol>
+      <div class="faq">
+        <details><summary>How do I convert a PDF to JPG?</summary><p>Upload your PDF, choose JPG or PNG, tap Convert to Images, then download each page or all pages together as a ZIP.</p></details>
+        <details><summary>What quality are the images?</summary><p>Every page is rendered at 2x scale, so the images stay sharp for presentations, printing and sharing.</p></details>
+        <details><summary>Can I convert only one page?</summary><p>Yes. After conversion, every page has its own Download button, so you can save just the pages you need.</p></details>
+        <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Conversion runs entirely in your browser. Your files never leave your device.</p></details>
+      </div>
+    </details>
   </div>
 </main>
 

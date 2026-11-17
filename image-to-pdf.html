@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/image-to-pdf.html">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Image to PDF — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/image-to-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Convert JPG, PNG and WEBP images to PDF online free, at original quality, in your browser."}
 </script>
@@ -22,85 +22,85 @@
 ]}
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script defer src="assets/common.js"></script>
-<script defer src="assets/image-to-pdf.js"></script>
+<script defer src="assets/common.js?v=3"></script>
+<script defer src="assets/image-to-pdf.js?v=3"></script>
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
     <nav class="main" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="image-to-pdf.html" class="active">Image to PDF</a>
       <a href="merge-pdf.html">Merge PDF</a>
       <a href="split-pdf.html">Split PDF</a>
       <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
       <a href="pdf-to-images.html">PDF to Images</a>
       <a href="image-resizer.html">Image Resizer</a>
-      <a href="compress-kb.html">Compress KB</a>
     </nav>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <h1>Image to PDF — Convert JPG, PNG &amp; Photos to PDF Free</h1>
-    <p class="intro">JPG, PNG and WEBP photos into one PDF — free, no signup, files stay on your device.</p>
+    <h1>Image to PDF</h1>
+    <p class="intro">Turn JPG, PNG and WEBP photos into one PDF — free, no signup, files stay on your device.</p>
 
     <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
     <!-- PASTE GOOGLE ADSENSE CODE HERE -->
     </div>
 
-    <div class="tool-box">
+    <section class="tool" aria-label="Image to PDF tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images">
-        <strong>Drop images here, or tap to choose</strong><br>
-        JPG, PNG, WEBP — each image becomes one page
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop images here, or tap to choose</strong>
+        <span class="dz-sub">JPG, PNG, WEBP — each image becomes one page</span>
       </div>
       <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      <button class="btn-add" id="addMoreBtn" type="button">+ Add images</button>
       <ul class="file-list" id="imgList"></ul>
       <p class="count" id="countText" aria-live="polite"></p>
+      <p class="strip-label" id="stripLabel" hidden>Pages preview</p>
       <div class="thumbs" id="thumbs"></div>
-      <div class="options">
-        <label>Page size:
-          <select id="pageSize">
-            <option value="original" selected>Original (same size as image)</option>
-            <option value="a4">A4</option>
-          </select>
-        </label>
-        <button class="btn secondary" id="addMoreBtn" type="button">Add more images</button>
-        <button class="btn" id="convertBtn" type="button" disabled>Convert to PDF</button>
-        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear all</button>
-      </div>
-      <p class="status" id="status" aria-live="polite"></p>
-      <div class="result" id="resultBox" hidden>
-        <div class="result-btns">
-          <button class="btn" id="downloadBtn" type="button">Download PDF</button>
-          <button class="btn secondary" id="previewBtn" type="button">Preview</button>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <label class="opt-label" for="pageSize">Page size</label>
+          <div class="opt-control">
+            <select id="pageSize">
+              <option value="a4" selected>A4 — standard page, image fitted</option>
+              <option value="original">Original — page same size as image</option>
+            </select>
+            <p class="opt-hint">A4 gives a proper document page, like a printed sheet.</p>
+          </div>
         </div>
       </div>
-    </div>
+      <button class="btn btn-block" id="convertBtn" type="button" disabled>Convert to PDF</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear all</button>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="result" id="resultBox" hidden>
+        <p class="result-meta" id="resultMeta"></p>
+        <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
+          <button class="btn" id="downloadBtn" type="button">Download PDF</button>
+        </div>
+      </div>
+    </section>
 
-    <h2>How to Convert Image to PDF — 3 Steps</h2>
-    <div class="steps">
-      <div class="step"><b>1. Add your images</b>Drop JPG, PNG or WEBP photos into the box above, or tap to pick them from your phone or computer.</div>
-      <div class="step"><b>2. Arrange the pages</b>Use Up and Down to reorder. Each image becomes one page, in your chosen order.</div>
-      <div class="step"><b>3. Download your PDF</b>Choose A4 or Original page size, tap Convert to PDF, and download your file.</div>
-    </div>
-
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
-    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq">
-      <details><summary>How do I convert an image to PDF?</summary><p>Add your images, reorder them if needed, choose A4 or Original page size, then tap Convert to PDF and download the file.</p></details>
-      <details><summary>Does converting JPG to PDF reduce image quality?</summary><p>No. Chami PDF Maker embeds JPG and PNG images at their original resolution. Nothing is downscaled unless you choose a smaller page size.</p></details>
-      <details><summary>Are my photos uploaded anywhere?</summary><p>No. The conversion runs entirely in your browser. Your photos never leave your device.</p></details>
-      <details><summary>Can I convert multiple images into one PDF?</summary><p>Yes. Add as many images as you like — each one becomes one page in the same PDF, in the order you choose.</p></details>
-    </div>
-
-    <h2>More Free PDF Tools</h2>
-    <p><a href="merge-pdf.html">Merge PDF</a> · <a href="compress-pdf.html">Compress PDF</a> · <a href="pdf-to-images.html">PDF to JPG</a> · <a href="image-resizer.html">Image Resizer</a> · <a href="compress-kb.html">Compress KB</a> · <a href="index.html">All tools</a></p>
+    <details class="how">
+      <summary>How it works</summary>
+      <ol>
+        <li><b>Add your images</b> — drop JPG, PNG or WEBP photos in, or tap to pick them from your phone or computer.</li>
+        <li><b>Arrange the pages</b> — use Up and Down to reorder. Each image becomes one page, in the order you choose.</li>
+        <li><b>Download your PDF</b> — pick A4 or Original page size, tap Convert to PDF, then Preview or Download.</li>
+      </ol>
+      <div class="faq">
+        <details><summary>How do I convert an image to PDF?</summary><p>Add your images, reorder them if needed, choose A4 or Original page size, then tap Convert to PDF and download the file.</p></details>
+        <details><summary>Does converting JPG to PDF reduce image quality?</summary><p>No. Chami PDF Maker embeds JPG and PNG images at their original resolution. Nothing is downscaled unless you choose a smaller page size.</p></details>
+        <details><summary>Are my photos uploaded anywhere?</summary><p>No. The conversion runs entirely in your browser. Your photos never leave your device.</p></details>
+        <details><summary>Can I convert multiple images into one PDF?</summary><p>Yes. Add as many images as you like — each one becomes one page in the same PDF, in the order you choose.</p></details>
+      </div>
+    </details>
   </div>
 </main>
 
