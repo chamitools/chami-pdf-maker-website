@@ -44,11 +44,12 @@
   async function addFiles(list) {
     var status = $('status');
     if (!Chami.requireLib(function () { return window.PDFLib; }, 'PDF', status)) return;
-    var added = 0;
+    var added = 0, failed = 0;
     for (var k = 0; k < list.length; k++) {
       var file = list[k];
       if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) {
         Chami.setStatus(status, '"' + file.name + '" is not a PDF file. Please choose PDF files only.', 'error');
+        failed++;
         continue;
       }
       try {
@@ -57,10 +58,15 @@
         files.push({ name: file.name, bytes: bytes, pages: doc.getPageCount() });
         added++;
       } catch (e) {
+        failed++;
         Chami.setStatus(status, 'Could not open "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
       }
     }
-    if (added) Chami.setStatus(status, added + ' PDF' + (added > 1 ? 's' : '') + ' added. Reorder with Up / Down, then tap Merge PDFs.', 'ok');
+    if (added) {
+      var msg = added + ' PDF' + (added > 1 ? 's' : '') + ' added. Reorder with Up / Down, then tap Merge PDFs.';
+      if (failed) msg += ' ' + failed + ' file' + (failed > 1 ? 's' : '') + ' could not be added.';
+      Chami.setStatus(status, msg, 'ok');
+    }
     renderAll();
   }
 
@@ -70,16 +76,22 @@
     if (!Chami.requireLib(function () { return window.PDFLib; }, 'PDF', status)) return;
     var btn = $('mergeBtn');
     btn.disabled = true;
+    $('clearBtn').disabled = true;
+    // Snapshot the list: if the user clears or adds PDFs mid-merge, the
+    // output must still be exactly the files that were queued.
+    // (pdf-lib does not detach the stored ArrayBuffers — verified: the
+    // same bytes load twice — so reusing files[i].bytes here is safe.)
+    var list = files.slice();
     Chami.setStatus(status, 'Merging your PDFs...');
     try {
       var merged = await PDFLib.PDFDocument.create();
       var total = 0;
-      for (var i = 0; i < files.length; i++) {
-        var src = await PDFLib.PDFDocument.load(files[i].bytes);
+      for (var i = 0; i < list.length; i++) {
+        var src = await PDFLib.PDFDocument.load(list[i].bytes);
         var pages = await merged.copyPages(src, src.getPageIndices());
         pages.forEach(function (p) { merged.addPage(p); });
         total += pages.length;
-        Chami.setStatus(status, 'Merging... ' + (i + 1) + ' of ' + files.length + ' files');
+        Chami.setStatus(status, 'Merging... ' + (i + 1) + ' of ' + list.length + ' files');
         await new Promise(function (r) { setTimeout(r, 0); });
       }
       var out = await merged.save();
@@ -89,11 +101,11 @@
         Chami.openPreview('Merged PDF — ' + total + ' pages', blob, 'pdf');
       };
       Chami.showResult($('resultBox'), true);
-      Chami.setStatus(status, 'Done! ' + files.length + ' PDFs merged into one file with ' + total + ' pages (' + Chami.fmtBytes(blob.size) + ').', 'ok');
+      Chami.setStatus(status, 'Done! ' + list.length + ' PDFs merged into one file with ' + total + ' pages (' + Chami.fmtBytes(blob.size) + ').', 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Merging failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
-      btn.disabled = files.length < 2;
+      renderList();
     }
   }
 
