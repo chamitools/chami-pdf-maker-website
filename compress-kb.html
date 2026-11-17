@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compress to KB — Reduce Image &amp; PDF Size to 100KB Free</title>
+<meta name="description" content="Compress image or PDF to under 100 KB, 200 KB, 500 KB or 1 MB online free. Exact target size, before and after shown. No signup — files stay on your device.">
+<meta name="keywords" content="compress to kb, reduce image size to 100kb, compress pdf to 100kb, compress image to 200kb, kb compressor, reduce pdf size to 200kb">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-kb.html">
+<link rel="icon" href="assets/panda-512.png" type="image/png">
+<link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Compress KB — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-kb.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Compress an image or PDF to under 100 KB, 200 KB, 500 KB or 1 MB online free, in your browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I compress a file to 100KB?","acceptedAnswer":{"@type":"Answer","text":"Upload your image or PDF, pick Under 100 KB, then tap Compress to KB. You will see the before and after size before you download."}},
+{"@type":"Question","name":"What if my file cannot reach 100KB?","acceptedAnswer":{"@type":"Answer","text":"Some files cannot go that small. In that case the tool gives you the smallest possible file and tells you its exact size, so you know where you stand."}},
+{"@type":"Question","name":"Does compressing a PDF change the text?","acceptedAnswer":{"@type":"Answer","text":"For PDFs, each page is rebuilt as an image at a lower quality. The text still looks the same, but it is no longer selectable or searchable in the compressed file."}},
+{"@type":"Question","name":"Are my files uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Compression runs entirely in your browser. Your files never leave your device."}}
+]}
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer src="assets/common.js"></script>
+<script defer src="assets/compress-kb.js"></script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <nav class="main" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="image-to-pdf.html">Image to PDF</a>
+      <a href="merge-pdf.html">Merge PDF</a>
+      <a href="split-pdf.html">Split PDF</a>
+      <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html" class="active">Compress KB</a>
+      <a href="pdf-to-images.html">PDF to Images</a>
+      <a href="image-resizer.html">Image Resizer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>Compress to KB — Shrink Image &amp; PDF to Your Target Size</h1>
+    <p class="intro">Pick a size — 100 KB, 200 KB, 500 KB or 1 MB — and get your file under it. Free, no signup.</p>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
+    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
+    </div>
+
+    <div class="tool-box">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose an image or PDF file">
+        <strong>Drop an image or PDF here, or tap to choose</strong><br>
+        JPG, PNG, WEBP or PDF — one file at a time
+      </div>
+      <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf" hidden>
+      <p class="status" id="fileInfo" aria-live="polite"></p>
+      <div class="options target-row">
+        <span class="target-label">Target size:</span>
+        <label><input type="radio" name="target" value="100" checked> Under 100 KB</label>
+        <label><input type="radio" name="target" value="200"> Under 200 KB</label>
+        <label><input type="radio" name="target" value="500"> Under 500 KB</label>
+        <label><input type="radio" name="target" value="1000"> Under 1 MB</label>
+        <label>Custom: <input type="number" id="customKb" min="1" placeholder="e.g. 150"> KB</label>
+        <label><input type="radio" name="target" value="custom"> Use custom</label>
+      </div>
+      <div class="options">
+        <button class="btn" id="compressBtn" type="button" disabled>Compress to KB</button>
+        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="result" id="resultBox" hidden>
+        <p id="sizeInfo"></p>
+        <button class="btn" id="downloadBtn" type="button">Download Compressed File</button>
+      </div>
+    </div>
+
+    <div class="note"><strong>Please note:</strong> images are saved as JPG for size targeting. For PDFs, each page is rebuilt as an image — text still looks the same but is no longer selectable. If a file cannot reach your target, you get the smallest possible file with its exact size shown.</div>
+
+    <h2>How to Compress to KB — 3 Steps</h2>
+    <div class="steps">
+      <div class="step"><b>1. Add your file</b>Drop an image or PDF into the box above, or tap to pick one.</div>
+      <div class="step"><b>2. Pick a target</b>Choose Under 100 KB, 200 KB, 500 KB, 1 MB — or enter your own number.</div>
+      <div class="step"><b>3. Download it</b>Tap Compress to KB. You see the before and after size, then download.</div>
+    </div>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
+    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <details><summary>How do I compress a file to 100KB?</summary><p>Upload your image or PDF, pick Under 100 KB, then tap Compress to KB. You will see the before and after size before you download.</p></details>
+      <details><summary>What if my file cannot reach 100KB?</summary><p>Some files cannot go that small. In that case the tool gives you the smallest possible file and tells you its exact size, so you know where you stand.</p></details>
+      <details><summary>Does compressing a PDF change the text?</summary><p>For PDFs, each page is rebuilt as an image at a lower quality. The text still looks the same, but it is no longer selectable or searchable in the compressed file.</p></details>
+      <details><summary>Are my files uploaded to a server?</summary><p>No. Compression runs entirely in your browser. Your files never leave your device.</p></details>
+    </div>
+
+    <h2>More Free PDF Tools</h2>
+    <p><a href="compress-pdf.html">Compress PDF</a> · <a href="image-resizer.html">Image Resizer</a> · <a href="image-to-pdf.html">Image to PDF</a> · <a href="merge-pdf.html">Merge PDF</a> · <a href="index.html">All tools</a></p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="https://flemax369-sketch.github.io/chami-privacy/" rel="noopener">App Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
