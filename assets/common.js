@@ -70,10 +70,12 @@
       dropEl.addEventListener(ev, function (e) { e.preventDefault(); dropEl.classList.remove('drag'); });
     });
     dropEl.addEventListener('drop', function (e) {
-      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) onFiles(e.dataTransfer.files);
+      // Snapshot the FileList into a plain array: a live FileList can be
+      // invalidated while an async handler is still reading it.
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) onFiles(Array.prototype.slice.call(e.dataTransfer.files));
     });
     inputEl.addEventListener('change', function () {
-      if (inputEl.files && inputEl.files.length) onFiles(inputEl.files);
+      if (inputEl.files && inputEl.files.length) onFiles(Array.prototype.slice.call(inputEl.files));
       inputEl.value = '';
     });
   }

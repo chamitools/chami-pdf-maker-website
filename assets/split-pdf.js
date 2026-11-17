@@ -54,7 +54,7 @@
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'That PDF could not be opened. It may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
     }
   }
 
@@ -111,7 +111,7 @@
         Chami.setStatus(status, 'Done! Extracted ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' into a new PDF.', 'ok');
       }
     } catch (e) {
-      Chami.setStatus(status, 'Splitting failed. The file may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Splitting failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = !file;
     }

@@ -33,14 +33,17 @@
     }
     try {
       var bytes = await Chami.readAsArrayBuffer(f);
-      var pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      // Pass a COPY to pdf.js: it transfers the buffer to its worker, which
+      // detaches the original. The stored bytes must stay usable for the
+      // compress step, so every getDocument call gets a fresh slice.
+      var pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
       file = { name: f.name, bytes: bytes, size: f.size, pages: pdf.numPages };
       await pdf.destroy();
       Chami.setStatus(status, 'PDF loaded — ' + file.pages + ' pages.', 'ok');
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'That PDF could not be opened. It may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
     }
   }
 
@@ -54,7 +57,7 @@
     btn.disabled = true;
     Chami.showResult($('resultBox'), false);
     try {
-      var pdf = await pdfjsLib.getDocument({ data: file.bytes }).promise;
+      var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
       var jsPDF = window.jspdf.jsPDF;
       var doc = null;
       for (var i = 1; i <= pdf.numPages; i++) {
@@ -72,10 +75,7 @@
         var orientation = pageW >= pageH ? 'landscape' : 'portrait';
         if (i === 1) doc = new jsPDF({ unit: 'pt', format: [pageW, pageH], orientation: orientation, compress: true });
         else doc.addPage([pageW, pageH], orientation);
-        var bin = atob(imgData.split(',')[1]);
-        var bytes = new Uint8Array(bin.length);
-        for (var b = 0; b < bin.length; b++) bytes[b] = bin.charCodeAt(b);
-        doc.addImage(bytes, 'JPEG', 0, 0, pageW, pageH);
+        doc.addImage(imgData, 'JPEG', 0, 0, pageW, pageH);
         Chami.setStatus(status, 'Compressing... page ' + i + ' of ' + pdf.numPages + ' (' + q.label + ' quality)');
         await new Promise(function (r) { setTimeout(r, 0); });
       }
@@ -89,7 +89,7 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your compressed PDF is ready.', 'ok');
     } catch (e) {
-      Chami.setStatus(status, 'Compression failed. The file may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Compression failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = !file;
     }

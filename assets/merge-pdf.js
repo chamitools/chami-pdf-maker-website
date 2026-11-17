@@ -28,6 +28,8 @@
     });
     $('mergeBtn').disabled = files.length < 2;
     $('clearBtn').disabled = files.length === 0;
+    var count = $('countText');
+    if (count) count.textContent = files.length ? files.length + ' PDF' + (files.length > 1 ? 's' : '') + ' added' : '';
   }
 
   function move(i, dir) {
@@ -55,7 +57,7 @@
         files.push({ name: file.name, bytes: bytes, pages: doc.getPageCount() });
         added++;
       } catch (e) {
-        Chami.setStatus(status, '"' + file.name + '" could not be opened. It may be a damaged or password-protected PDF.', 'error');
+        Chami.setStatus(status, 'Could not open "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
       }
     }
     if (added) Chami.setStatus(status, added + ' PDF' + (added > 1 ? 's' : '') + ' added. Reorder with Up / Down, then tap Merge PDFs.', 'ok');
@@ -86,7 +88,7 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! ' + files.length + ' PDFs merged into one file with ' + total + ' pages (' + Chami.fmtBytes(blob.size) + ').', 'ok');
     } catch (e) {
-      Chami.setStatus(status, 'Merging failed. One of the files may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Merging failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = files.length < 2;
     }
@@ -94,6 +96,8 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     Chami.setupDropzone($('dropzone'), $('fileInput'), addFiles);
+    var addMore = $('addMoreBtn');
+    if (addMore) addMore.addEventListener('click', function () { $('fileInput').click(); });
     $('mergeBtn').addEventListener('click', merge);
     $('clearBtn').addEventListener('click', function () {
       files = [];

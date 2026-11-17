@@ -52,7 +52,9 @@
     }
     try {
       var bytes = await Chami.readAsArrayBuffer(f);
-      var pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      // Pass a COPY: pdf.js transfers the buffer to its worker, detaching
+      // the original. The stored bytes must stay usable for the convert step.
+      var pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
       file = { name: f.name, bytes: bytes, pages: pdf.numPages };
       await pdf.destroy();
       pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
@@ -62,7 +64,7 @@
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'That PDF could not be opened. It may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
     }
   }
 
@@ -83,7 +85,7 @@
     btn.disabled = true;
     Chami.showResult($('resultBox'), false);
     try {
-      var pdf = await pdfjsLib.getDocument({ data: file.bytes }).promise;
+      var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
       pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
       pages = [];
       for (var i = 1; i <= pdf.numPages; i++) {
@@ -103,7 +105,7 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' converted to ' + format.toUpperCase() + ' at 2x quality.', 'ok');
     } catch (e) {
-      Chami.setStatus(status, 'Conversion failed. The file may be damaged or password-protected.', 'error');
+      Chami.setStatus(status, 'Conversion failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = !file;
     }

@@ -51,7 +51,7 @@
       showPreview();
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'Could not read that image. It may be a damaged file.', 'error');
+      Chami.setStatus(status, 'Could not read that image: ' + (e && e.message ? e.message : e), 'error');
     }
   }
 
@@ -128,7 +128,7 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your resized image is ready.', 'ok');
     } catch (e) {
-      Chami.setStatus(status, 'Resizing failed. Please try a different image or size.', 'error');
+      Chami.setStatus(status, 'Resizing failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = !file;
     }

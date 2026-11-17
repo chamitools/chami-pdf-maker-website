@@ -3,7 +3,7 @@
    formats are converted through a canvas at full pixel size. */
 (function () {
   'use strict';
-  var files = []; // {name, type, bytes, dataUrl, width, height}
+  var files = []; // {name, type, dataUrl, width, height}
   var $ = function (id) { return document.getElementById(id); };
 
   function renderList() {
@@ -44,6 +44,8 @@
     });
     $('convertBtn').disabled = files.length === 0;
     $('clearBtn').disabled = files.length === 0;
+    var count = $('countText');
+    if (count) count.textContent = files.length ? files.length + ' image' + (files.length > 1 ? 's' : '') + ' added' : '';
   }
 
   function move(i, dir) {
@@ -67,23 +69,14 @@
       try {
         var dataUrl = await Chami.readAsDataURL(file);
         var img = await Chami.loadImage(dataUrl);
-        var bytes = await Chami.readAsArrayBuffer(file);
-        files.push({ name: file.name, type: file.type, bytes: bytes, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight });
+        files.push({ name: file.name, type: file.type, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight });
         added++;
       } catch (e) {
-        Chami.setStatus(status, 'Could not read "' + file.name + '". It may be a damaged image file.', 'error');
+        Chami.setStatus(status, 'Could not read "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
       }
     }
     if (added) Chami.setStatus(status, added + ' image' + (added > 1 ? 's' : '') + ' added. Drag the list or use Up / Down to reorder, then tap Convert to PDF.', 'ok');
     renderAll();
-  }
-
-  function dataUrlToBytes(dataUrl) {
-    var parts = dataUrl.split(',');
-    var bin = atob(parts[1]);
-    var bytes = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return bytes;
   }
 
   async function convert() {
@@ -118,13 +111,15 @@
           drawW = f.width * scale; drawH = f.height * scale;
           x = (wPt - drawW) / 2; y = (hPt - drawH) / 2;
         }
+        // jsPDF accepts a data URL for JPEG/PNG/WEBP. Do NOT pass a raw
+        // ArrayBuffer here: jsPDF 2.5.1 throws "charCodeAt is not a function".
         if (f.type === 'image/jpeg' || f.type === 'image/jpg') {
-          doc.addImage(f.bytes, 'JPEG', x, y, drawW, drawH);
+          doc.addImage(f.dataUrl, 'JPEG', x, y, drawW, drawH);
         } else if (f.type === 'image/png') {
-          doc.addImage(f.bytes, 'PNG', x, y, drawW, drawH);
-        } else if (f.type === 'image/webp' && doc.addImage) {
-          try { doc.addImage(f.bytes, 'WEBP', x, y, drawW, drawH); }
-          catch (e) { addViaCanvas(doc, f, x, y, drawW, drawH); }
+          doc.addImage(f.dataUrl, 'PNG', x, y, drawW, drawH);
+        } else if (f.type === 'image/webp') {
+          try { doc.addImage(f.dataUrl, 'WEBP', x, y, drawW, drawH); }
+          catch (e) { await addViaCanvas(doc, f, x, y, drawW, drawH); }
         } else {
           await addViaCanvas(doc, f, x, y, drawW, drawH);
         }
@@ -138,7 +133,7 @@
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your PDF is ready — ' + files.length + ' page' + (files.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
     } catch (e) {
-      Chami.setStatus(status, 'Something went wrong while creating the PDF. Please try again with different images.', 'error');
+      Chami.setStatus(status, 'Could not create the PDF: ' + (e && e.message ? e.message : e), 'error');
     } finally {
       btn.disabled = files.length === 0;
     }
@@ -150,11 +145,13 @@
     c.width = img.naturalWidth; c.height = img.naturalHeight;
     c.getContext('2d').drawImage(img, 0, 0);
     var jpg = c.toDataURL('image/jpeg', 0.92);
-    doc.addImage(dataUrlToBytes(jpg), 'JPEG', x, y, w, h);
+    doc.addImage(jpg, 'JPEG', x, y, w, h);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
     Chami.setupDropzone($('dropzone'), $('fileInput'), addFiles);
+    var addMore = $('addMoreBtn');
+    if (addMore) addMore.addEventListener('click', function () { $('fileInput').click(); });
     $('convertBtn').addEventListener('click', convert);
     $('clearBtn').addEventListener('click', function () {
       files = [];
