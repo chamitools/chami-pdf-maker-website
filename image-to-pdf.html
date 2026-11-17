@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to PDF — Convert JPG, PNG to PDF Free Online</title>
+<meta name="description" content="Convert image to PDF free online. Turn JPG, PNG or WEBP photos into a PDF at original quality. No signup, no watermark — files stay on your device.">
+<meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, photo to pdf, jpeg to pdf, convert image to pdf free">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/image-to-pdf.html">
+<link rel="icon" href="assets/panda-512.png" type="image/png">
+<link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Image to PDF — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/image-to-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Convert JPG, PNG and WEBP images to PDF online free, at original quality, in your browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I convert an image to PDF?","acceptedAnswer":{"@type":"Answer","text":"Add your images, reorder them if needed, choose A4 or Original page size, then tap Convert to PDF and download the file."}},
+{"@type":"Question","name":"Does converting JPG to PDF reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"No. Chami PDF Maker embeds JPG and PNG images at their original resolution. Nothing is downscaled unless you choose a smaller page size."}},
+{"@type":"Question","name":"Are my photos uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The conversion runs entirely in your browser. Your photos never leave your device."}},
+{"@type":"Question","name":"Can I convert multiple images into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add as many images as you like — each one becomes one page in the same PDF, in the order you choose."}}
+]}
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer src="assets/common.js"></script>
+<script defer src="assets/image-to-pdf.js"></script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40">Chami PDF Maker</a>
+    <nav class="main" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="image-to-pdf.html" class="active">Image to PDF</a>
+      <a href="merge-pdf.html">Merge PDF</a>
+      <a href="split-pdf.html">Split PDF</a>
+      <a href="compress-pdf.html">Compress PDF</a>
+      <a href="pdf-to-images.html">PDF to Images</a>
+      <a href="image-resizer.html">Image Resizer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>Image to PDF — Convert JPG, PNG &amp; Photos to PDF Free</h1>
+    <p>Turn your photos into a PDF in seconds. Convert JPG to PDF, PNG to PDF or WEBP to PDF at original quality — no signup, no watermark, and your images never leave your device.</p>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
+    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
+    </div>
+
+    <div class="tool-box">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images">
+        <strong>Drop images here, or tap to choose</strong><br>
+        JPG, PNG, WEBP — each image becomes one page
+      </div>
+      <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      <ul class="file-list" id="imgList"></ul>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="options">
+        <label>Page size:
+          <select id="pageSize">
+            <option value="original" selected>Original (same size as image)</option>
+            <option value="a4">A4</option>
+          </select>
+        </label>
+        <button class="btn" id="convertBtn" type="button" disabled>Convert to PDF</button>
+        <button class="btn secondary small" id="clearBtn" type="button" disabled>Clear all</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="result" id="resultBox" hidden>
+        <button class="btn" id="downloadBtn" type="button">Download PDF</button>
+      </div>
+    </div>
+
+    <h2>How to Convert Image to PDF — 3 Steps</h2>
+    <div class="steps">
+      <div class="step"><b>1. Add your images</b>Drop JPG, PNG or WEBP photos into the box above, or tap to pick them from your phone or computer.</div>
+      <div class="step"><b>2. Arrange the pages</b>Use Up and Down to reorder. Each image becomes one page, in your chosen order.</div>
+      <div class="step"><b>3. Download your PDF</b>Choose A4 or Original page size, tap Convert to PDF, and download your file.</div>
+    </div>
+
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Advertisement
+    <!-- PASTE GOOGLE ADSENSE CODE HERE -->
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <details><summary>How do I convert an image to PDF?</summary><p>Add your images, reorder them if needed, choose A4 or Original page size, then tap Convert to PDF and download the file.</p></details>
+      <details><summary>Does converting JPG to PDF reduce image quality?</summary><p>No. Chami PDF Maker embeds JPG and PNG images at their original resolution. Nothing is downscaled unless you choose a smaller page size.</p></details>
+      <details><summary>Are my photos uploaded anywhere?</summary><p>No. The conversion runs entirely in your browser. Your photos never leave your device.</p></details>
+      <details><summary>Can I convert multiple images into one PDF?</summary><p>Yes. Add as many images as you like — each one becomes one page in the same PDF, in the order you choose.</p></details>
+    </div>
+
+    <h2>More Free PDF Tools</h2>
+    <p><a href="merge-pdf.html">Merge PDF</a> · <a href="compress-pdf.html">Compress PDF</a> · <a href="pdf-to-images.html">PDF to JPG</a> · <a href="image-resizer.html">Image Resizer</a> · <a href="index.html">All tools</a></p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="https://flemax369-sketch.github.io/chami-privacy/" rel="noopener">App Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
