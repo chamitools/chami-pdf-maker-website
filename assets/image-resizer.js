@@ -125,6 +125,9 @@
       $('sizeInfo').textContent = 'New size: ' + size.w + ' x ' + size.h + ' px — ' + Chami.fmtBytes(blob.size) +
         (format !== 'png' && !isNaN(targetKb) && targetKb > 0 ? ' (target was ' + targetKb + ' KB)' : '');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(blob, base + '-resized.' + ext); };
+      $('previewBtn').onclick = function () {
+        Chami.openPreview('Resized image — ' + size.w + ' x ' + size.h + ' px (' + Chami.fmtBytes(blob.size) + ')', blob, 'image');
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your resized image is ready.', 'ok');
     } catch (e) {

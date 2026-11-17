@@ -71,16 +71,24 @@
         if (!Chami.requireLib(function () { return window.JSZip; }, 'ZIP', status)) { btn.disabled = false; return; }
         Chami.setStatus(status, 'Splitting into ' + file.pages + ' separate PDFs...');
         var zip = new JSZip();
+        var firstPageBytes = null;
         for (var i = 0; i < file.pages; i++) {
           var one = await PDFLib.PDFDocument.create();
           var copied = await one.copyPages(src, [i]);
           one.addPage(copied[0]);
-          zip.file('page-' + (i + 1) + '.pdf', await one.save());
+          var savedPage = await one.save();
+          if (i === 0) firstPageBytes = savedPage;
+          zip.file('page-' + (i + 1) + '.pdf', savedPage);
           if (i % 10 === 0) await new Promise(function (r) { setTimeout(r, 0); });
         }
         var blob = await zip.generateAsync({ type: 'blob' });
         $('downloadBtn').textContent = 'Download ZIP (' + file.pages + ' PDFs)';
         $('downloadBtn').onclick = function () { Chami.downloadBlob(blob, 'chami-split-pages.zip'); };
+        // A ZIP file cannot be previewed, so preview the first extracted page.
+        $('previewBtn').onclick = function () {
+          var firstPage = new Blob([firstPageBytes], { type: 'application/pdf' });
+          Chami.openPreview('Split pages — page 1 of ' + file.pages + ' (preview)', firstPage, 'pdf');
+        };
         Chami.showResult($('resultBox'), true);
         Chami.setStatus(status, 'Done! ' + file.pages + ' separate PDFs in one ZIP file.', 'ok');
       } else {
@@ -107,6 +115,9 @@
         var pdfBlob = new Blob([bytes], { type: 'application/pdf' });
         $('downloadBtn').textContent = 'Download PDF (' + pages.length + ' pages)';
         $('downloadBtn').onclick = function () { Chami.downloadBlob(pdfBlob, 'chami-split.pdf'); };
+        $('previewBtn').onclick = function () {
+          Chami.openPreview('Split PDF — ' + pages.length + ' page' + (pages.length > 1 ? 's' : ''), pdfBlob, 'pdf');
+        };
         Chami.showResult($('resultBox'), true);
         Chami.setStatus(status, 'Done! Extracted ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' into a new PDF.', 'ok');
       }

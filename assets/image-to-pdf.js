@@ -130,6 +130,9 @@
       $('downloadBtn').onclick = function () {
         Chami.downloadBlob(out, 'chami-images-to-pdf.pdf');
       };
+      $('previewBtn').onclick = function () {
+        Chami.openPreview('Your PDF — ' + files.length + ' page' + (files.length > 1 ? 's' : ''), out, 'pdf');
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your PDF is ready — ' + files.length + ' page' + (files.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
     } catch (e) {

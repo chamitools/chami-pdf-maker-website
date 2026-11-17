@@ -102,6 +102,10 @@
       }
       await pdf.destroy();
       renderPages();
+      $('previewBtn').onclick = function () {
+        var items = pages.map(function (p) { return { blob: p.blob, label: 'Page ' + p.num }; });
+        Chami.openPreview('Page images — ' + pages.length + ' page' + (pages.length > 1 ? 's' : ''), items, 'image');
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' converted to ' + format.toUpperCase() + ' at 2x quality.', 'ok');
     } catch (e) {

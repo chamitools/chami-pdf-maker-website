@@ -85,6 +85,9 @@
       var out = await merged.save();
       var blob = new Blob([out], { type: 'application/pdf' });
       $('downloadBtn').onclick = function () { Chami.downloadBlob(blob, 'chami-merged.pdf'); };
+      $('previewBtn').onclick = function () {
+        Chami.openPreview('Merged PDF — ' + total + ' pages', blob, 'pdf');
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! ' + files.length + ' PDFs merged into one file with ' + total + ' pages (' + Chami.fmtBytes(blob.size) + ').', 'ok');
     } catch (e) {

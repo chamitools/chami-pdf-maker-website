@@ -87,6 +87,86 @@
     return false;
   }
 
+  /* Shared preview modal. openPreview(title, blob, kind):
+     blob may be a single Blob or an array of Blobs / {blob, label} items.
+     kind is 'pdf' or 'image' (auto-detected from the blob type if omitted).
+     A PDF shows in an iframe so the user can scroll through ALL pages;
+     images show stacked, all of them, scrollable. Blob URLs are revoked
+     when the modal closes, and previewing never triggers a download. */
+  var previewUrls = null;
+
+  function closePreview() {
+    var overlay = document.getElementById('previewOverlay');
+    if (overlay) overlay.hidden = true;
+    var body = document.getElementById('previewBody');
+    if (body) body.innerHTML = '';
+    if (previewUrls) {
+      previewUrls.forEach(function (u) { URL.revokeObjectURL(u); });
+      previewUrls = null;
+    }
+    document.body.style.overflow = '';
+  }
+
+  function openPreview(title, blob, kind) {
+    var raw = Array.isArray(blob) ? blob : [blob];
+    var items = [];
+    raw.forEach(function (b) {
+      if (!b) return;
+      if (b instanceof Blob) items.push({ blob: b, label: '' });
+      else if (b && b.blob instanceof Blob) items.push({ blob: b.blob, label: b.label || '' });
+    });
+    if (!items.length) return;
+    var overlay = document.getElementById('previewOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'previewOverlay';
+      overlay.className = 'preview-overlay';
+      overlay.hidden = true;
+      overlay.innerHTML = '<div class="preview-dialog" role="dialog" aria-modal="true" aria-label="Preview">' +
+        '<div class="preview-head"><span id="previewTitle"></span>' +
+        '<button type="button" id="previewClose" class="preview-close" aria-label="Close preview">\u2715</button></div>' +
+        '<div class="preview-body" id="previewBody"></div></div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function (e) { if (e.target === overlay) closePreview(); });
+      document.getElementById('previewClose').addEventListener('click', closePreview);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePreview(); });
+    }
+    closePreview();
+    document.getElementById('previewTitle').textContent = title || 'Preview';
+    var body = document.getElementById('previewBody');
+    var urls = [];
+    items.forEach(function (item, idx) {
+      var b = item.blob;
+      var k = kind;
+      if (!k) k = (b.type === 'application/pdf') ? 'pdf' : (b.type && b.type.indexOf('image/') === 0 ? 'image' : '');
+      var url = URL.createObjectURL(b);
+      urls.push(url);
+      var label = item.label || (items.length > 1 ? 'Page ' + (idx + 1) : '');
+      if (k === 'pdf') {
+        var frame = document.createElement('iframe');
+        frame.src = url;
+        frame.className = 'preview-pdf';
+        frame.title = label || 'PDF preview';
+        body.appendChild(frame);
+      } else {
+        if (label) {
+          var cap = document.createElement('div');
+          cap.className = 'preview-caption';
+          cap.textContent = label;
+          body.appendChild(cap);
+        }
+        var img = document.createElement('img');
+        img.src = url;
+        img.className = 'preview-img';
+        img.alt = label || 'Preview';
+        body.appendChild(img);
+      }
+    });
+    previewUrls = urls;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
   window.Chami = {
     fmtBytes: fmtBytes,
     downloadBlob: downloadBlob,
@@ -96,6 +176,8 @@
     readAsDataURL: readAsDataURL,
     loadImage: loadImage,
     setupDropzone: setupDropzone,
-    requireLib: requireLib
+    requireLib: requireLib,
+    openPreview: openPreview,
+    closePreview: closePreview
   };
 })();

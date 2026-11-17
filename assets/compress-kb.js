@@ -157,6 +157,10 @@
       $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(file.size) + '  →  After: ' + Chami.fmtBytes(outBlob.size) +
         (res.reached ? '  (under your ' + kb + ' KB target)' : '  (smallest possible is ' + Chami.fmtBytes(outBlob.size) + ' — still above your ' + kb + ' KB target)');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(outBlob, base + '-under-' + kb + 'kb.' + ext); };
+      $('previewBtn').onclick = function () {
+        var kind = file.type === 'pdf' ? 'pdf' : 'image';
+        Chami.openPreview('Compressed file — ' + Chami.fmtBytes(outBlob.size), outBlob, kind);
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, res.reached ? 'Done! Your file is under ' + kb + ' KB.' : 'Done — this is the smallest it can go: ' + Chami.fmtBytes(outBlob.size) + '.', res.reached ? 'ok' : '');
     } catch (e) {

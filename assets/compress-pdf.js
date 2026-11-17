@@ -86,6 +86,9 @@
       $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(file.size) + '  →  After: ' + Chami.fmtBytes(out.size) +
         (saved > 0 ? '  (saved ' + pct + '%)' : '  (no size saved — this PDF is mostly text, which is already small)');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(out, 'chami-compressed.pdf'); };
+      $('previewBtn').onclick = function () {
+        Chami.openPreview('Compressed PDF — ' + Chami.fmtBytes(out.size), out, 'pdf');
+      };
       Chami.showResult($('resultBox'), true);
       Chami.setStatus(status, 'Done! Your compressed PDF is ready.', 'ok');
     } catch (e) {
