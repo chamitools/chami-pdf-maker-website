@@ -125,10 +125,12 @@
       overlay.innerHTML = '<div class="preview-dialog" role="dialog" aria-modal="true" aria-label="Preview">' +
         '<div class="preview-head"><span id="previewTitle"></span>' +
         '<button type="button" id="previewClose" class="preview-close" aria-label="Close preview">\u2715</button></div>' +
-        '<div class="preview-body" id="previewBody"></div></div>';
+        '<div class="preview-body" id="previewBody"></div>' +
+        '<div class="preview-foot"><button type="button" id="previewCloseBtn" class="btn btn-outline">Close preview</button></div></div>';
       document.body.appendChild(overlay);
       overlay.addEventListener('click', function (e) { if (e.target === overlay) closePreview(); });
       document.getElementById('previewClose').addEventListener('click', closePreview);
+      document.getElementById('previewCloseBtn').addEventListener('click', closePreview);
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePreview(); });
     }
     closePreview();

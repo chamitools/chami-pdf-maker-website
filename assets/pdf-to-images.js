@@ -39,6 +39,8 @@
       grid.appendChild(d);
     });
     $('zipBtn').disabled = pages.length === 0;
+    var stripLabel = $('stripLabel');
+    if (stripLabel) stripLabel.hidden = pages.length === 0;
   }
 
   async function addFiles(list) {

@@ -31,17 +31,20 @@
     });
     var thumbs = $('thumbs');
     thumbs.innerHTML = '';
-    files.forEach(function (f) {
+    files.forEach(function (f, i) {
       var d = document.createElement('div');
       d.className = 'thumb';
       var img = document.createElement('img');
-      img.src = f.dataUrl; img.alt = f.name;
+      img.src = f.dataUrl; img.alt = 'Page ' + (i + 1) + ' — ' + f.name;
       d.appendChild(img);
-      var cap = document.createElement('div');
-      cap.textContent = f.name.length > 18 ? f.name.slice(0, 15) + '...' : f.name;
+      var cap = document.createElement('span');
+      cap.className = 'page-badge';
+      cap.textContent = 'Page ' + (i + 1);
       d.appendChild(cap);
       thumbs.appendChild(d);
     });
+    var stripLabel = $('stripLabel');
+    if (stripLabel) stripLabel.hidden = files.length === 0;
     $('convertBtn').disabled = files.length === 0;
     $('clearBtn').disabled = files.length === 0;
     var count = $('countText');
@@ -134,6 +137,8 @@
         Chami.openPreview('Your PDF — ' + files.length + ' page' + (files.length > 1 ? 's' : ''), out, 'pdf');
       };
       Chami.showResult($('resultBox'), true);
+      var meta = $('resultMeta');
+      if (meta) meta.textContent = (size === 'a4' ? 'A4' : 'Original size') + '  •  ' + files.length + ' page' + (files.length > 1 ? 's' : '') + '  •  ' + Chami.fmtBytes(out.size);
       Chami.setStatus(status, 'Done! Your PDF is ready — ' + files.length + ' page' + (files.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Could not create the PDF: ' + (e && e.message ? e.message : e), 'error');
