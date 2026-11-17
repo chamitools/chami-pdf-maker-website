@@ -169,6 +169,27 @@
     document.body.style.overflow = 'hidden';
   }
 
+  /* Mobile header menu: hamburger toggle. Works on every page that loads
+     common.js; harmless on pages without a toggle button. */
+  function initNavToggle() {
+    var btn = document.querySelector('.nav-toggle');
+    var header = btn && btn.closest('header.site');
+    var nav = header && header.querySelector('nav.main');
+    if (!btn || !header || !nav) return;
+    btn.addEventListener('click', function () {
+      var open = header.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target && e.target.tagName === 'A') {
+        header.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNavToggle);
+  else initNavToggle();
+
   window.Chami = {
     fmtBytes: fmtBytes,
     downloadBlob: downloadBlob,

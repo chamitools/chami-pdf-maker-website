@@ -96,10 +96,16 @@
       for (var i = 0; i < files.length; i++) {
         var f = files[i];
         var wPt, hPt, format, orientation;
+        // A4 is ALWAYS portrait. (The old code flipped orientation by image
+        // aspect, which turned A4 into a landscape page while the fit math
+        // still used portrait dimensions, so images landed bottom-left and
+        // overflowed.) Original keeps the image's own page size, so its
+        // orientation must match the image's aspect — jsPDF enforces
+        // orientation by swapping dimensions.
         if (size === 'a4') {
-          wPt = 595.28; hPt = 841.89;
+          wPt = 595.28; hPt = 841.89; // A4 portrait, in points
           format = 'a4';
-          orientation = f.width >= f.height ? 'landscape' : 'portrait';
+          orientation = 'portrait';
         } else {
           // Original: one point per pixel (72 dpi), so nothing is downscaled.
           wPt = f.width; hPt = f.height;
@@ -110,7 +116,12 @@
         else doc.addPage(format, orientation);
         var drawW = wPt, drawH = hPt, x = 0, y = 0;
         if (size === 'a4') {
-          var scale = Math.min(wPt / f.width, hPt / f.height);
+          // Fit inside a uniform 36pt margin on every side, keeping the
+          // image's aspect ratio exactly (never stretched, never cropped),
+          // centred on the page.
+          var margin = 36;
+          var availW = wPt - margin * 2, availH = hPt - margin * 2;
+          var scale = Math.min(availW / f.width, availH / f.height);
           drawW = f.width * scale; drawH = f.height * scale;
           x = (wPt - drawW) / 2; y = (hPt - drawH) / 2;
         }

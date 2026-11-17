@@ -26,13 +26,15 @@ p{margin:8px 0}
 
 /* ---------- Header ---------- */
 header.site{border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);position:sticky;top:0;z-index:20}
-header.site .wrap{display:flex;flex-direction:column;gap:8px;padding-top:10px;padding-bottom:10px}
-.logo{display:flex;align-items:center;gap:10px;color:var(--green-dark);font-weight:800;font-size:18px}
+header.site .wrap{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding-top:10px;padding-bottom:10px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--green-dark);font-weight:800;font-size:18px;flex:1 1 auto;min-width:0}
 .logo:hover{text-decoration:none}
 .logo img{width:36px;height:36px;border-radius:10px;display:block}
-nav.main{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
-nav.main::-webkit-scrollbar{display:none}
-nav.main a{flex:0 0 auto;white-space:nowrap;color:var(--ink-2);font-size:14px;font-weight:600;padding:8px 12px;border-radius:999px}
+.nav-toggle{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:44px;height:44px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--green-dark);font-size:22px;font-weight:800;cursor:pointer;line-height:1}
+.nav-toggle:hover{border-color:var(--green);background:var(--green-050)}
+nav.main{display:none;flex-basis:100%;flex-direction:column;gap:0;padding-bottom:0}
+header.site.nav-open nav.main{display:flex}
+nav.main a{display:block;white-space:nowrap;color:var(--ink-2);font-size:15px;font-weight:600;padding:12px 8px;border-top:1px solid var(--line-soft);border-radius:8px}
 nav.main a:hover{background:var(--green-100);color:var(--green-dark);text-decoration:none}
 nav.main a.active{background:var(--green);color:#fff}
 
@@ -172,8 +174,12 @@ footer.site a{color:var(--muted)}
   body{font-size:16px}
   h1{font-size:32px}
   .wrap{padding:0 24px}
-  header.site .wrap{flex-direction:row;align-items:center;gap:16px;padding-top:12px;padding-bottom:12px}
-  nav.main{margin-left:auto;padding-bottom:0}
+  header.site .wrap{flex-direction:row;flex-wrap:nowrap;align-items:center;gap:16px;padding-top:12px;padding-bottom:12px;max-width:1120px}
+  .logo{flex:0 0 auto}
+  .nav-toggle{display:none}
+  nav.main{display:flex;flex-direction:row;flex-basis:auto;margin-left:auto;padding-bottom:0;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav.main::-webkit-scrollbar{display:none}
+  nav.main a{display:inline-flex;flex:0 0 auto;padding:8px 10px;border-top:0;border-radius:999px;font-size:14px}
   .hero{padding:48px 0 32px}
   .hero h1{font-size:40px}
   .tool-grid{grid-template-columns:repeat(2,1fr)}
