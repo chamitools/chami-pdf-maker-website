@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compress PDF to 150KB Online Free — Chami PDF Maker</title>
+<meta name="description" content="Compress PDF to 150KB online free. Upload a PDF, get it under 150 KB and download it. No signup — files stay on your device.">
+<meta name="keywords" content="compress pdf to 150kb, reduce pdf to 150kb, compress pdf 150kb online, pdf size reducer 150kb">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-pdf-to-150kb.html">
+<link rel="icon" href="assets/panda-512.png" type="image/png">
+<link rel="stylesheet" href="assets/style.css?v=6">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Compress PDF to 150KB — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/compress-pdf-to-150kb.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Compress a PDF to under 150 KB online free, in your browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I compress a PDF to 150KB?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, pick the 150 KB target, then tap Compress to KB. You will see the before and after size before you download."}},
+{"@type":"Question","name":"What if my PDF cannot reach 150KB?","acceptedAnswer":{"@type":"Answer","text":"Some PDFs cannot go that small. In that case the tool gives you the smallest possible file and tells you its exact size, so you know where you stand."}},
+{"@type":"Question","name":"Does compressing a PDF to 150KB change the text?","acceptedAnswer":{"@type":"Answer","text":"Each page is rebuilt as an image at a lower quality. The text still looks the same, but it is no longer selectable or searchable in the compressed file."}},
+{"@type":"Question","name":"Are my files uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Compression runs entirely in your browser. Your files never leave your device."}}
+]}
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer src="assets/common.js?v=6"></script>
+<script defer src="assets/compress-kb.js?v=5"></script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">&#9776;</button>
+    <nav class="main" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="image-to-pdf.html">Image to PDF</a>
+      <a href="merge-pdf.html">Merge PDF</a>
+      <a href="split-pdf.html">Split PDF</a>
+      <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html" class="active">Compress KB</a>
+      <a href="pdf-to-images.html">PDF to Images</a>
+      <a href="image-resizer.html">Image Resizer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>Compress PDF to 150KB</h1>
+    <p class="intro">Shrink a PDF to under 150 KB — free, no signup.</p>
+
+    <section class="tool" aria-label="Compress PDF to 150KB tool">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose an image or PDF file">
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop an image or PDF here, or tap to choose</strong>
+        <span class="dz-sub">JPG, PNG, WEBP or PDF — one file at a time</span>
+      </div>
+      <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf" hidden>
+      <p class="status" id="fileInfo" aria-live="polite"></p>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <span class="opt-label" id="targetLabel">Target size</span>
+          <div class="opt-control">
+            <div class="chip-group" role="group" aria-labelledby="targetLabel">
+              <label class="chip"><input type="radio" name="target" value="100"> Under 100 KB</label>
+              <label class="chip"><input type="radio" name="target" value="200"> Under 200 KB</label>
+              <label class="chip"><input type="radio" name="target" value="500"> Under 500 KB</label>
+              <label class="chip"><input type="radio" name="target" value="1000"> Under 1 MB</label>
+              <label class="chip"><input type="radio" name="target" value="custom" checked> Custom</label>
+            </div>
+            <p class="opt-hint">Custom size (KB): <input type="number" id="customKb" min="1" value="150" placeholder="e.g. 150" style="max-width:140px;display:inline-block;width:auto"> — pick "Custom" above, then enter your number.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-block" id="compressBtn" type="button" disabled>Compress to KB</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear</button>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="result" id="resultBox" hidden>
+        <p id="sizeInfo"></p>
+        <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
+          <button class="btn" id="downloadBtn" type="button">Download Compressed File</button>
+        </div>
+      </div>
+    </section>
+
+    <p><a href="compress-kb.html">Compress KB — all target sizes</a></p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resize Image to 1080x1350 Free — Instagram Portrait</title>
+<meta name="description" content="Resize image to 1080x1350 online free — Instagram portrait size. Upload a photo, get a 1080 x 1350 image. No signup — files stay on your device.">
+<meta name="keywords" content="resize image to 1080x1350, 1080x1350 image resizer, instagram portrait size 1080x1350, resize image instagram portrait">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/resize-image-to-1080x1350.html">
+<link rel="icon" href="assets/panda-512.png" type="image/png">
+<link rel="stylesheet" href="assets/style.css?v=6">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Resize Image to 1080x1350 — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/resize-image-to-1080x1350.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Resize an image to 1080 x 1350 px (Instagram portrait) online free, in your browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I resize an image to 1080x1350?","acceptedAnswer":{"@type":"Answer","text":"Upload your image, make sure the Instagram portrait preset (1080 x 1350) is selected, then tap Resize Image and download."}},
+{"@type":"Question","name":"What is 1080x1350 used for?","acceptedAnswer":{"@type":"Answer","text":"1080 x 1350 px is the Instagram portrait post size (4:5). It fills more of the screen than a square post."}},
+{"@type":"Question","name":"Does resizing to 1080x1350 reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"Making an image smaller always loses some detail, but this tool uses high-quality smoothing. Making an image larger than the original will look soft, so it is best to resize down."}},
+{"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Resizing runs entirely in your browser. Your images never leave your device."}}
+]}
+</script>
+<script defer src="assets/common.js?v=6"></script>
+<script defer src="assets/image-resizer.js?v=6"></script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">&#9776;</button>
+    <nav class="main" id="mainNav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="image-to-pdf.html">Image to PDF</a>
+      <a href="merge-pdf.html">Merge PDF</a>
+      <a href="split-pdf.html">Split PDF</a>
+      <a href="compress-pdf.html">Compress PDF</a>
+      <a href="compress-kb.html">Compress KB</a>
+      <a href="pdf-to-images.html">PDF to Images</a>
+      <a href="image-resizer.html" class="active">Image Resizer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>Resize Image to 1080x1350</h1>
+    <p class="intro">Resize an image to 1080 x 1350 px — Instagram portrait — free, no signup.</p>
+
+    <section class="tool" aria-label="Resize Image to 1080x1350 tool">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose an image">
+        <span class="dz-plus" aria-hidden="true">+</span>
+        <strong>Drop an image here, or tap to choose</strong>
+        <span class="dz-sub">JPG, PNG, WEBP — one image at a time</span>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+      <p class="status" id="fileInfo" aria-live="polite"></p>
+      <div id="previewBox"></div>
+      <div class="opt-grid">
+        <div class="opt-row">
+          <span class="opt-label" id="sizeModeLabel">Resize by</span>
+          <div class="opt-control">
+            <div class="chip-group" role="group" aria-labelledby="sizeModeLabel">
+              <label class="chip"><input type="radio" name="sizeMode" value="pixels"> Width &amp; height</label>
+              <label class="chip"><input type="radio" name="sizeMode" value="percent"> Percent</label>
+              <label class="chip"><input type="radio" name="sizeMode" value="preset" checked> Preset</label>
+            </div>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="widthInput">Width (px)</label>
+          <div class="opt-control"><input type="number" id="widthInput" min="1" max="8000" placeholder="e.g. 1080"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="heightInput">Height (px)</label>
+          <div class="opt-control"><input type="number" id="heightInput" min="1" max="8000" placeholder="e.g. 1350"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="percentInput">Percent</label>
+          <div class="opt-control"><input type="number" id="percentInput" min="1" max="400" value="50"></div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="presetInput">Preset</label>
+          <div class="opt-control">
+            <select id="presetInput">
+              <option value="whatsapp">WhatsApp status / post (1080 x 1080)</option>
+              <option value="instagram">Instagram post (1080 x 1080)</option>
+              <option value="instagram-portrait" selected>Instagram portrait (1080 x 1350)</option>
+              <option value="story">Instagram / WhatsApp story (1080 x 1920)</option>
+              <option value="passport">Passport photo (413 x 531)</option>
+              <option value="a4">A4 at 300 dpi (2480 x 3508)</option>
+            </select>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="format">Output format</label>
+          <div class="opt-control">
+            <select id="format">
+              <option value="jpg" selected>JPG</option>
+              <option value="png">PNG</option>
+              <option value="webp">WEBP</option>
+            </select>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="targetKb">Target size (KB)</label>
+          <div class="opt-control">
+            <input type="number" id="targetKb" min="1" placeholder="e.g. 100">
+            <p class="opt-hint">Optional — for JPG / WEBP only. Leave empty for best quality.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-block" id="resizeBtn" type="button" disabled>Resize Image</button>
+      <button class="btn-text" id="clearBtn" type="button" disabled>Clear</button>
+      <p class="status" id="status" aria-live="polite"></p>
+      <div class="result" id="resultBox" hidden>
+        <p id="sizeInfo"></p>
+        <div class="result-btns">
+          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
+          <button class="btn" id="downloadBtn" type="button">Download Resized Image</button>
+        </div>
+      </div>
+    </section>
+
+    <p><a href="image-resizer.html">Image Resizer — all sizes and presets</a></p>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
