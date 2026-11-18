@@ -104,16 +104,113 @@
   /* Shared preview modal. openPreview(title, blob, kind):
      blob may be a single Blob or an array of Blobs / {blob, label} items.
      kind is 'pdf' or 'image' (auto-detected from the blob type if omitted).
-     A PDF shows in an iframe so the user can scroll through ALL pages;
-     images show stacked, all of them, scrollable. Blob URLs are revoked
-     when the modal closes, and previewing never triggers a download. */
+     PDFs are rendered page by page to <canvas> with pdf.js (see below):
+     an <iframe> from a blob URL renders blank on many mobile / in-app
+     browsers, which was the mobile Preview-blank bug. Images show
+     stacked, all of them, scrollable. Blob URLs are revoked when the
+     modal closes, and previewing never triggers a download. */
   var previewUrls = null;
+  var previewToken = 0;
+
+  /* pdf.js CDN (same version the tool pages already use). Loaded on
+     demand only when a PDF preview needs it; pages that already loaded
+     it (compress-kb / compress-pdf / pdf-to-images) reuse window.pdfjsLib. */
+  var PDFJS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  var PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  var pdfjsLoading = null;
+
+  function loadPdfJs() {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+      return Promise.resolve(window.pdfjsLib);
+    }
+    if (pdfjsLoading) return pdfjsLoading;
+    pdfjsLoading = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = PDFJS_URL;
+      s.onload = function () {
+        if (window.pdfjsLib) {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+          resolve(window.pdfjsLib);
+        } else reject(new Error('pdf.js did not load.'));
+      };
+      s.onerror = function () { reject(new Error('Could not load the PDF preview library.')); };
+      document.head.appendChild(s);
+    });
+    /* Allow a later retry if the load failed (e.g. offline at first tap). */
+    pdfjsLoading.catch(function () { pdfjsLoading = null; });
+    return pdfjsLoading;
+  }
+
+  function blobToArrayBuffer(blob) {
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return readAsArrayBuffer(blob);
+  }
+
+  /* Render every page of a PDF blob as a canvas inside the modal body,
+     one at a time so a long PDF never freezes the UI. A page that fails
+     is skipped and noted; a total failure leaves a plain message and the
+     "Open in new tab" fallback still works. `token` is the openPreview
+     generation — rendering stops if the modal was closed/reopened. */
+  function renderPdfPreview(body, blob, token) {
+    var note = document.createElement('div');
+    note.className = 'preview-note';
+    note.textContent = 'Loading preview…';
+    body.appendChild(note);
+    blobToArrayBuffer(blob).then(function (buf) {
+      return loadPdfJs().then(function (lib) {
+        return lib.getDocument({ data: buf }).promise;
+      });
+    }).then(function (pdf) {
+      note.textContent = 'Rendering ' + pdf.numPages + ' page' + (pdf.numPages > 1 ? 's' : '') + '…';
+      var skipped = [];
+      var chain = Promise.resolve();
+      for (var p = 1; p <= pdf.numPages; p++) {
+        (function (pageNum) {
+          chain = chain.then(function () {
+            if (token !== previewToken) return;
+            return pdf.getPage(pageNum).then(function (page) {
+              var base = page.getViewport({ scale: 1 });
+              var avail = Math.max(200, body.clientWidth - 24);
+              var dpr = Math.min(window.devicePixelRatio || 1, 2);
+              var viewport = page.getViewport({ scale: (avail / base.width) * dpr });
+              var canvas = document.createElement('canvas');
+              canvas.className = 'preview-page';
+              canvas.width = Math.floor(viewport.width);
+              canvas.height = Math.floor(viewport.height);
+              var cap = document.createElement('div');
+              cap.className = 'preview-caption';
+              cap.textContent = 'Page ' + pageNum;
+              body.appendChild(cap);
+              body.appendChild(canvas);
+              return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+            }).catch(function () { skipped.push(pageNum); });
+          }).then(function () {
+            /* Yield between pages so taps/scrolling stay responsive. */
+            return new Promise(function (res) { setTimeout(res, 0); });
+          });
+        })(p);
+      }
+      return chain.then(function () {
+        if (token !== previewToken) return;
+        if (skipped.length) {
+          note.textContent = 'Preview loaded — page' + (skipped.length > 1 ? 's ' : ' ') + skipped.join(', ') + ' could not be rendered.';
+        } else if (note.parentNode) note.parentNode.removeChild(note);
+      });
+    }).catch(function () {
+      if (token !== previewToken) return;
+      note.textContent = 'Preview could not be rendered — tap Open in new tab.';
+    });
+  }
 
   function closePreview() {
     var overlay = document.getElementById('previewOverlay');
     if (overlay) overlay.hidden = true;
     var body = document.getElementById('previewBody');
     if (body) body.innerHTML = '';
+    /* Bump the generation so an in-flight pdf.js render stops appending
+       canvases to the now-closed modal. */
+    previewToken++;
     if (previewUrls) {
       previewUrls.forEach(function (u) { URL.revokeObjectURL(u); });
       previewUrls = null;
@@ -140,14 +237,22 @@
         '<div class="preview-head"><span id="previewTitle"></span>' +
         '<button type="button" id="previewClose" class="preview-close" aria-label="Close preview">\u2715</button></div>' +
         '<div class="preview-body" id="previewBody"></div>' +
-        '<div class="preview-foot"><button type="button" id="previewCloseBtn" class="btn btn-outline">Close preview</button></div></div>';
+        '<div class="preview-foot"><button type="button" id="previewOpenTab" class="btn btn-outline">Open in new tab</button><button type="button" id="previewCloseBtn" class="btn btn-outline">Close preview</button></div></div>';
       document.body.appendChild(overlay);
       overlay.addEventListener('click', function (e) { if (e.target === overlay) closePreview(); });
       document.getElementById('previewClose').addEventListener('click', closePreview);
       document.getElementById('previewCloseBtn').addEventListener('click', closePreview);
+      document.getElementById('previewOpenTab').addEventListener('click', function () {
+        /* First blob URL: the whole file for a single PDF/image, the
+           first item for a multi-item preview. URLs stay alive until
+           the modal closes (see closePreview). */
+        if (previewUrls && previewUrls.length) window.open(previewUrls[0], '_blank');
+      });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePreview(); });
     }
     closePreview();
+    previewToken++;
+    var token = previewToken;
     document.getElementById('previewTitle').textContent = title || 'Preview';
     var body = document.getElementById('previewBody');
     var urls = [];
@@ -162,11 +267,10 @@
       urls.push(url);
       var label = item.label || (items.length > 1 ? 'Page ' + (idx + 1) : '');
       if (k === 'pdf') {
-        var frame = document.createElement('iframe');
-        frame.src = url;
-        frame.className = 'preview-pdf';
-        frame.title = label || 'PDF preview';
-        body.appendChild(frame);
+        /* Canvas rendering via pdf.js (async): the old <iframe> from a
+           blob URL renders blank on many mobile / in-app browsers. The
+           blob URL is still created so "Open in new tab" works. */
+        renderPdfPreview(body, b, token);
       } else {
         if (label) {
           var cap = document.createElement('div');

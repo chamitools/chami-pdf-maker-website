@@ -10,6 +10,7 @@
   var PRESETS = {
     whatsapp:  { label: 'WhatsApp status / post', w: 1080, h: 1080 },
     instagram: { label: 'Instagram post', w: 1080, h: 1080 },
+    'instagram-portrait': { label: 'Instagram portrait', w: 1080, h: 1350 },
     story:     { label: 'Instagram / WhatsApp story', w: 1080, h: 1920 },
     passport:  { label: 'Passport photo (35 x 45 mm)', w: 413, h: 531 },
     a4:        { label: 'A4 at 300 dpi', w: 2480, h: 3508 }
