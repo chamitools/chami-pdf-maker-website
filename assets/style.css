@@ -204,3 +204,8 @@ footer.site a{color:var(--muted)}
 @media (min-width:940px){
   .tool-grid{grid-template-columns:repeat(3,1fr)}
 }
+
+.app-download{background:var(--green-050);border:1px solid var(--line);border-radius:var(--radius);padding:24px;text-align:center;margin:24px 0}
+.app-download h2{margin-top:0}
+.app-download p{color:var(--muted);max-width:560px;margin:8px auto}
+.app-download .install-note{font-size:13px}
