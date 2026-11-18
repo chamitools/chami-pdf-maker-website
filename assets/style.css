@@ -209,3 +209,13 @@ footer.site a{color:var(--muted)}
 .app-download h2{margin-top:0}
 .app-download p{color:var(--muted);max-width:560px;margin:8px auto}
 .app-download .install-note{font-size:13px}
+
+/* ---------- Drag to reorder (Images to PDF) ---------- */
+.file-list li .drag-handle{flex:0 0 auto;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;color:var(--muted);font-size:18px;line-height:1;padding:6px 2px}
+.file-list li .drag-handle:active{cursor:grabbing;color:var(--green-dark)}
+.file-list li.dragging,.thumb.dragging{opacity:.88;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.drag-gap{border:2px dashed var(--green)!important;background:var(--green-050)!important;margin-bottom:8px;list-style:none}
+.thumb{position:relative}
+.thumb .drag-handle{position:absolute;top:12px;left:12px;z-index:2;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:8px;padding:2px 7px;font-size:14px;line-height:1.4;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;color:var(--ink-2)}
+body.dragging-active,body.dragging-active *{-webkit-user-select:none!important;user-select:none!important}
+.tool.drop-active{outline:2px solid var(--green);outline-offset:2px}
