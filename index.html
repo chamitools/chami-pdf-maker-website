@@ -8,8 +8,15 @@
 <meta name="keywords" content="image to pdf, jpg to pdf, merge pdf, split pdf, compress pdf, pdf to jpg, resize image, free pdf tools online">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chami PDF Maker — Free PDF Tools, Right in Your Browser">
+<meta property="og:description" content="Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.">
+<meta property="og:url" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/">
+<meta property="og:image" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/assets/panda-512.png">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/","description":"Free online PDF tools that run entirely in your browser. Convert image to PDF, merge, split, compress and more."}
 </script>
@@ -21,92 +28,232 @@
 {"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server limit, because files are processed on your device. Very large files are limited only by your device's memory."}}
 ]}
 </script>
-<script defer src="assets/common.js?v=6"></script>
+<link rel="stylesheet" href="assets/style.css?v=7">
 </head>
 <body>
-<header class="site">
-  <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">&#9776;</button>
-    <nav class="main" id="mainNav" aria-label="Main navigation">
-      <a href="index.html" class="active">Home</a>
-      <a href="image-to-pdf.html">Image to PDF</a>
-      <a href="merge-pdf.html">Merge PDF</a>
-      <a href="split-pdf.html">Split PDF</a>
-      <a href="compress-pdf.html">Compress PDF</a>
-      <a href="compress-kb.html">Compress KB</a>
-      <a href="pdf-to-images.html">PDF to Images</a>
-      <a href="image-resizer.html">Image Resizer</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header" id="siteHeader">
+  <div class="wrap nav-wrap">
+    <a class="logo" href="index.html"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40"></span>Chami PDF Maker</a>
+    <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html" class="active" aria-current="page">Home</a>
+      <div class="has-drop" id="toolsDrop">
+        <button class="drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Tools
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="drop-menu" role="menu">
+          <a href="image-to-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>Image to PDF</a>
+          <a href="merge-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>Merge PDF</a>
+          <a href="split-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>Split PDF</a>
+          <a href="compress-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg>Compress PDF</a>
+          <a href="compress-kb.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Compress KB</a>
+          <a href="pdf-to-images.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>PDF to Images</a>
+          <a href="image-resizer.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Image Resizer</a>
+        </div>
+      </div>
       <a href="#download-app">Download App</a>
+      <span class="nav-cta"><a class="btn btn-primary" href="#download-app">Download App</a></span>
     </nav>
   </div>
 </header>
+<div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
-<main>
+<main id="main">
   <section class="hero">
-    <div class="wrap">
-      <h1>Free PDF Tools, Right in Your Browser</h1>
-      <p class="lead">Image to PDF, merge, split, compress and more. No signup, no watermark — your files never leave your device.</p>
-      <div class="cta-row">
-        <a class="btn" href="image-to-pdf.html">Convert Image to PDF</a>
-        <a class="btn btn-outline" href="merge-pdf.html">Merge PDFs</a>
-        <a class="btn btn-outline" href="#download-app">Download the App</a>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="hero-badge load-in" style="--d:0ms"><span class="dot"></span>Free &middot; No signup &middot; No watermark</span>
+        <h1 class="load-in" style="--d:60ms">Free <span style="color:var(--green)">PDF Tools</span>, Right in Your Browser</h1>
+        <p class="lead load-in" style="--d:120ms">Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.</p>
+        <div class="cta-row load-in" style="--d:180ms">
+          <a class="btn btn-primary" href="image-to-pdf.html">Convert Image to PDF</a>
+          <a class="btn btn-secondary" href="#download-app">Download the App</a>
+        </div>
+      </div>
+      <div class="hero-art load-in" style="--d:240ms" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="doc doc-a"><span class="doc-tag">PDF &middot; 3 pages</span><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div></div>
+        <div class="doc doc-b"><span class="doc-tag">Compressed &middot; 92 KB</span><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div></div>
+        <div class="doc doc-c"><span class="doc-tag">Merged &middot; 12 pages</span><div class="doc-bar"></div><div class="doc-bar"></div></div>
+        <img class="hero-panda" src="assets/panda-512.png" alt="" width="150" height="150">
       </div>
     </div>
   </section>
 
-  <div class="wrap">
-    <section class="app-download" id="download-app">
-      <h2>Get the Chami PDF Maker app</h2>
-      <p>All 10 tools in one free app — Images to PDF, Merge, Split, Protect, Compress, PDF to Images, Image Resizer, PDF Reader, Format Convert and OCR. Works fully offline, no signup. Android 8.0 or newer.</p>
-      <p><a class="btn" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk" download>Download the app — v1.2, ~54 MB, free</a></p>
-      <p class="install-note">Not on Google Play — this is a direct APK download. After tapping download, allow &ldquo;Install unknown apps&rdquo; when your phone asks.</p>
-    </section>
-
-    <div class="tool-grid">
-      <a class="tool-card" href="image-to-pdf.html"><span class="tool-icon" aria-hidden="true">&#128444;</span><span><h3>Image to PDF</h3><p>Turn JPG, PNG and WEBP photos into a PDF, on A4 pages.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="merge-pdf.html"><span class="tool-icon" aria-hidden="true">&#128209;</span><span><h3>Merge PDF</h3><p>Combine multiple PDFs into one document, in your order.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="split-pdf.html"><span class="tool-icon" aria-hidden="true">&#9986;</span><span><h3>Split PDF</h3><p>Extract the pages you need, or get every page separately.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="compress-pdf.html"><span class="tool-icon" aria-hidden="true">&#128230;</span><span><h3>Compress PDF</h3><p>Reduce PDF file size for email and WhatsApp sharing.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="compress-kb.html"><span class="tool-icon" aria-hidden="true">&#127919;</span><span><h3>Compress KB</h3><p>Shrink an image or PDF to under 100 KB, 200 KB, 500 KB or 1 MB.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="pdf-to-images.html"><span class="tool-icon" aria-hidden="true">&#127912;</span><span><h3>PDF to Images</h3><p>Turn PDF pages into JPG or PNG images at 2x quality.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-      <a class="tool-card" href="image-resizer.html"><span class="tool-icon" aria-hidden="true">&#8596;</span><span><h3>Image Resizer</h3><p>Resize images by pixels, percent or preset, to an exact KB.</p></span><span class="go" aria-hidden="true">&rsaquo;</span></a>
-    </div>
-
-    <nav class="popular" aria-label="Popular searches">
-      <span>Popular:</span>
-      <a href="compress-pdf-to-150kb.html">Compress PDF to 150KB</a>
-      <a href="compress-pdf-to-100kb.html">Compress PDF to 100KB</a>
-      <a href="compress-pdf-to-200kb.html">Compress PDF to 200KB</a>
-      <a href="resize-image-to-1080x1350.html">Resize Image to 1080x1350</a>
-      <a href="compress-jpg-to-200kb.html">Compress JPG to 200KB</a>
-    </nav>
-
-    <details class="how">
-      <summary>How it works</summary>
-      <ol>
-        <li><b>Choose a tool</b> — pick the tool you need from the list above.</li>
-        <li><b>Add your files</b> — drop files in or tap to choose them. Everything is processed on your device.</li>
-        <li><b>Download the result</b> — preview it first if you like, then tap download. No waiting, no email, no account.</li>
-      </ol>
-      <div class="faq">
-        <details><summary>Is Chami PDF Maker really free?</summary><p>Yes. Every tool on this website is free to use, with no signup, no account and no watermark on your files.</p></details>
-        <details><summary>Are my files uploaded to a server?</summary><p>No. All processing happens in your own browser. Your files are never uploaded to any server, which also keeps the tools fast even when many people use the site at once.</p></details>
-        <details><summary>Do the tools work on mobile?</summary><p>Yes. The tools work on Android and iPhone browsers as well as on desktop. For the best experience on Android, get the Chami PDF Maker app.</p></details>
-        <details><summary>Is there a file size limit?</summary><p>There is no server limit, because files are processed on your device. Very large files are limited only by your device's memory.</p></details>
+  <section class="trust" aria-label="Why Chami PDF Maker">
+    <div class="wrap">
+      <div class="trust-grid reveal">
+        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>No signup</div>
+        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/></svg></span>No watermark</div>
+        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 2 20 20"/><path d="M10 5.2A9.77 9.77 0 0 1 22 9.5a9.6 9.6 0 0 1-2.5 4.9M5 5.5A9.8 9.8 0 0 0 2 9.5a9.6 9.6 0 0 0 5 8.4M6 18h12a4 4 0 0 0 .9-7.9"/></svg></span>Files never uploaded</div>
+        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01M1.42 9a16 16 0 0 1 21.16 0"/></svg></span>Works offline in the app</div>
       </div>
-    </details>
-  </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="toolsTitle">
+    <div class="wrap">
+      <div class="tools-head reveal">
+        <h2 id="toolsTitle">Every PDF tool you need</h2>
+        <p>Seven free tools that run entirely in your browser. Pick one and get it done in seconds.</p>
+      </div>
+      <div class="tool-grid">
+        <a class="tool-card reveal" style="--d:0ms" href="image-to-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg></span><h3>Image to PDF</h3><p>Turn JPG, PNG and WEBP photos into a PDF, on A4 pages.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:60ms" href="merge-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></span><h3>Merge PDF</h3><p>Combine multiple PDFs into one document, in your order.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:120ms" href="split-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></span><h3>Split PDF</h3><p>Extract the pages you need, or get every page separately.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:0ms" href="compress-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg></span><h3>Compress PDF</h3><p>Reduce PDF file size for email and WhatsApp sharing.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:60ms" href="compress-kb.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span><h3>Compress KB</h3><p>Shrink an image or PDF to under 100 KB, 200 KB, 500 KB or 1 MB.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:120ms" href="pdf-to-images.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg></span><h3>PDF to Images</h3><p>Turn PDF pages into JPG or PNG images at 2x quality.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card reveal" style="--d:0ms" href="image-resizer.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span><h3>Image Resizer</h3><p>Resize images by pixels, percent or preset, to an exact KB.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+      <nav class="popular reveal" aria-label="Popular searches">
+        <div class="popular-row">
+          <span class="popular-label">Popular:</span>
+          <a class="chip" href="compress-pdf-to-100kb.html">Compress PDF to 100KB</a>
+          <a class="chip" href="compress-pdf-to-150kb.html">Compress PDF to 150KB</a>
+          <a class="chip" href="compress-pdf-to-200kb.html">Compress PDF to 200KB</a>
+          <a class="chip" href="resize-image-to-1080x1350.html">Resize Image to 1080x1350</a>
+          <a class="chip" href="compress-jpg-to-200kb.html">Compress JPG to 200KB</a>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <section class="app-section" id="download-app" aria-labelledby="appTitle">
+    <div class="wrap app-grid">
+      <div class="reveal">
+        <h2 id="appTitle">All 10 tools in one free app</h2>
+        <p>Take Chami PDF Maker with you. The Android app works fully offline, with no signup and no ads.</p>
+        <ul class="feature-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Images to PDF</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Merge</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Split</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Protect</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Compress</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>PDF to Images</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Image Resizer</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>PDF Reader</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Format Convert</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>OCR</li>
+        </ul>
+        <div class="app-badges">
+          <span class="badge">100% offline</span>
+          <span class="badge">No signup</span>
+          <span class="badge">No ads</span>
+        </div>
+        <p><a class="btn btn-primary" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk" download>Download the app — v1.2, ~54 MB, free</a></p>
+        <div class="install-note">
+          <b>Direct APK download, not on Google Play.</b> Install in 3 steps:
+          <ol>
+            <li>Download the APK file.</li>
+            <li>Allow &ldquo;Install unknown apps&rdquo; when your phone asks.</li>
+            <li>Open and enjoy — no account needed.</li>
+          </ol>
+        </div>
+        <p class="app-req">Requires Android 8.0 or newer.</p>
+      </div>
+      <div class="phone-stage reveal" style="--d:120ms" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"><span></span></div>
+          <div class="phone-app-head">
+            <img src="assets/panda-512.png" alt="" width="34" height="34">
+            <div><b>CHAMI PDF MAKER</b><small>Professional PDF Toolkit</small></div>
+          </div>
+          <div class="phone-body">
+            <div class="phone-search">Search tools&hellip;</div>
+            <div class="phone-tiles">
+              <div class="phone-tile"><i style="background:#DCFCE7"></i>Images to PDF</div>
+              <div class="phone-tile"><i style="background:#DBEAFE"></i>Merge PDF</div>
+              <div class="phone-tile"><i style="background:#FEF3C7"></i>Split PDF</div>
+              <div class="phone-tile"><i style="background:#FCE7F3"></i>Compress KB</div>
+              <div class="phone-tile"><i style="background:#E0E7FF"></i>PDF to Images</div>
+              <div class="phone-tile"><i style="background:#CCFBF1"></i>Image Resizer</div>
+              <div class="phone-tile"><i style="background:#F3E8FF"></i>PDF Reader</div>
+              <div class="phone-tile"><i style="background:#FFEDD5"></i>Format Convert</div>
+              <div class="phone-tile"><i style="background:#DCFCE7"></i>OCR</div>
+            </div>
+          </div>
+          <div class="phone-nav"><b>Home</b><span>History</span><span>Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="howTitle">
+    <div class="wrap">
+      <div class="tools-head reveal">
+        <h2 id="howTitle">How it works</h2>
+        <p>Three steps. No account, no waiting, no email.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal" style="--d:0ms"><div class="step-num">1</div><h3>Choose a tool</h3><p>Pick the tool you need from the list above — image to PDF, merge, split, compress and more.</p></div>
+        <div class="step reveal" style="--d:120ms"><div class="step-num">2</div><h3>Add your files</h3><p>Drop files in or tap to choose them. Everything is processed on your device.</p></div>
+        <div class="step reveal" style="--d:240ms"><div class="step-num">3</div><h3>Download the result</h3><p>Preview it first if you like, then tap download. No waiting, no email, no account.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy" aria-labelledby="privacyTitle">
+    <div class="wrap privacy-inner reveal">
+      <div class="privacy-ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h2 id="privacyTitle">Everything happens on your device</h2>
+      <p>Your files are never uploaded to any server. All processing happens in your own browser, on your own phone or computer — so your documents stay yours, and the tools stay fast. Read the full <a href="privacy-policy.html">Privacy Policy</a>.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="faqTitle">
+    <div class="wrap faq-wrap">
+      <div class="tools-head reveal">
+        <h2 id="faqTitle">Frequently asked questions</h2>
+      </div>
+      <div class="faq reveal">
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span>Is Chami PDF Maker really free?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+          <div class="faq-a"><div><p>Yes. Every tool on this website is free to use, with no signup, no account and no watermark on your files.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span>Are my files uploaded to a server?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+          <div class="faq-a"><div><p>No. All processing happens in your own browser. Your files are never uploaded to any server, which also keeps the tools fast even when many people use the site at once.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span>Do the tools work on mobile?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+          <div class="faq-a"><div><p>Yes. The tools work on Android and iPhone browsers as well as on desktop. For the best experience on Android, get the Chami PDF Maker app.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span>Is there a file size limit?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+          <div class="faq-a"><div><p>There is no server limit, because files are processed on your device. Very large files are limited only by your device's memory.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer class="site">
+<footer class="site-footer">
   <div class="wrap">
-    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
-    <nav aria-label="Footer">
-      <a href="index.html">Home</a>
-      <a href="privacy-policy.html">Privacy Policy</a>
-    </nav>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="44" height="44"></span>Chami PDF Maker</div>
+        <p class="footer-tag">Free PDF tools. Your files never leave your device.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+      </nav>
+    </div>
+    <p class="footer-base">&copy; 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</p>
   </div>
 </footer>
+
+<div class="app-bar" id="appBar" role="region" aria-label="Download the app">
+  <img src="assets/panda-512.png" alt="" width="44" height="44">
+  <div><b>Chami PDF Maker app</b><small>All 10 tools, free, offline</small></div>
+  <a class="btn btn-primary" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk" download>Download</a>
+  <button class="app-bar-close" type="button" id="appBarClose" aria-label="Dismiss download bar">&times;</button>
+</div>
+
+<script defer src="assets/common.js?v=7"></script>
 </body>
 </html>

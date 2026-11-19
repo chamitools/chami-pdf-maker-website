@@ -8,8 +8,16 @@
 <meta name="keywords" content="merge pdf, combine pdf, join pdf files, merge pdf online free, combine pdf files into one">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/merge-pdf.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Merge PDF Online Free — Chami PDF Maker">
+<meta property="og:description" content="Combine multiple PDFs into one document in the order you choose. No signup, no watermark — files stay on your device.">
+<meta property="og:url" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/merge-pdf.html">
+<meta property="og:image" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/assets/panda-512.png">
 <link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=7">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Merge PDF — Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/merge-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Merge multiple PDF files into one document online free, in your browser."}
 </script>
@@ -22,77 +30,145 @@
 ]}
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script defer src="assets/common.js?v=6"></script>
-<script defer src="assets/merge-pdf.js?v=5"></script>
+<script defer src="assets/common.js?v=7"></script>
+<script defer src="assets/merge-pdf.js?v=6"></script>
 </head>
 <body>
-<header class="site">
-  <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="36" height="36">Chami PDF Maker</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">&#9776;</button>
-    <nav class="main" id="mainNav" aria-label="Main navigation">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header" id="siteHeader">
+  <div class="wrap nav-wrap">
+    <a class="logo" href="index.html"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40"></span>Chami PDF Maker</a>
+    <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
       <a href="index.html">Home</a>
-      <a href="image-to-pdf.html">Image to PDF</a>
-      <a href="merge-pdf.html" class="active">Merge PDF</a>
-      <a href="split-pdf.html">Split PDF</a>
-      <a href="compress-pdf.html">Compress PDF</a>
-      <a href="compress-kb.html">Compress KB</a>
-      <a href="pdf-to-images.html">PDF to Images</a>
-      <a href="image-resizer.html">Image Resizer</a>
+      <div class="has-drop" id="toolsDrop">
+        <button class="drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Tools
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="drop-menu" role="menu">
+          <a href="image-to-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>Image to PDF</a>
+          <a href="merge-pdf.html" role="menuitem" class="active" aria-current="page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>Merge PDF</a>
+          <a href="split-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>Split PDF</a>
+          <a href="compress-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg>Compress PDF</a>
+          <a href="compress-kb.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Compress KB</a>
+          <a href="pdf-to-images.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>PDF to Images</a>
+          <a href="image-resizer.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Image Resizer</a>
+        </div>
+      </div>
+      <a href="index.html#download-app">Download App</a>
+      <span class="nav-cta"><a class="btn btn-primary" href="index.html#download-app">Download App</a></span>
     </nav>
   </div>
 </header>
+<div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
-<main>
-  <div class="wrap">
+<main id="main">
+  <div class="wrap tool-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Merge PDF</span>
+    </nav>
     <h1>Merge PDF</h1>
     <p class="intro">Combine PDF files into one document — free, no signup, files stay on your device.</p>
 
     <section class="tool" aria-label="Merge PDF tool">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF files">
-        <span class="dz-plus" aria-hidden="true">+</span>
+        <span class="dz-ic" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></span>
         <strong>Drop PDF files here, or tap to choose</strong>
         <span class="dz-sub">Add 2 or more PDFs — they merge in the order shown</span>
       </div>
       <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple hidden>
       <button class="btn-add" id="addMoreBtn" type="button">+ Add PDFs</button>
       <ul class="file-list" id="pdfList"></ul>
+      <div class="empty-state" id="emptyState">
+        <img src="assets/panda-512.png" alt="Chami panda" width="96" height="96">
+        <b>No PDFs yet</b>
+        <p>Drop PDF files above, or tap to choose them.</p>
+      </div>
       <p class="count" id="countText" aria-live="polite"></p>
       <button class="btn btn-block" id="mergeBtn" type="button" disabled>Merge PDFs</button>
       <button class="btn-text" id="clearBtn" type="button" disabled>Clear all</button>
+      <div class="progress" id="mergeProgress" hidden><div></div></div>
       <p class="status" id="status" aria-live="polite"></p>
       <div class="result" id="resultBox" hidden>
+        <p class="result-meta" id="resultMeta" hidden></p>
         <div class="result-btns">
-          <button class="btn btn-outline" id="previewBtn" type="button">&#128065; Preview</button>
+          <button class="btn btn-outline" id="previewBtn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>Preview</button>
           <button class="btn" id="downloadBtn" type="button">Download Merged PDF</button>
+        </div>
+        <p class="result-startover"><button class="btn-text" id="startOverBtn" type="button">Start over</button></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="howTitle">
+      <div class="tools-head reveal">
+        <h2 id="howTitle">How it works</h2>
+        <p>Three steps. No account, no waiting, no email.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal" style="--d:0ms"><div class="step-num">1</div><h3>Add your PDFs</h3><p>Drop two or more PDF files in, or tap to pick them.</p></div>
+        <div class="step reveal" style="--d:120ms"><div class="step-num">2</div><h3>Arrange the order</h3><p>Drag the files, or use Up and Down, to put them in the order you want.</p></div>
+        <div class="step reveal" style="--d:240ms"><div class="step-num">3</div><h3>Download the merged PDF</h3><p>Tap Merge PDFs, then Preview or Download.</p></div>
+      </div>
+    </section>
+
+    <section class="try-row" aria-labelledby="tryTitle">
+      <h2 id="tryTitle">Try another tool</h2>
+      <div class="try-grid">
+        <a class="tool-card" href="image-to-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg></span><h3>Image to PDF</h3><p>Turn JPG, PNG and WEBP photos into a PDF, on A4 pages.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card" href="split-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></span><h3>Split PDF</h3><p>Extract the pages you need, or get every page separately.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="tool-card" href="compress-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg></span><h3>Compress PDF</h3><p>Reduce PDF file size for email and WhatsApp sharing.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </section>
+
+    <section aria-labelledby="faqTitle">
+      <div class="faq-wrap">
+        <div class="tools-head reveal">
+          <h2 id="faqTitle">Frequently asked questions</h2>
+        </div>
+        <div class="faq reveal">
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false"><span>How do I merge PDF files?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq-a"><div><p>Add two or more PDF files, arrange them in the order you want with Up and Down, then tap Merge PDFs and download the combined file.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false"><span>Does merging PDFs reduce quality?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq-a"><div><p>No. Pages are copied exactly as they are, so text and images keep their original quality.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false"><span>How many PDFs can I merge at once?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq-a"><div><p>There is no set limit. You can merge as many PDFs as your device's memory can handle.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false"><span>Are my PDFs uploaded to a server?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+            <div class="faq-a"><div><p>No. Merging runs entirely in your browser. Your files never leave your device.</p></div></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <details class="how">
-      <summary>How it works</summary>
-      <ol>
-        <li><b>Add your PDFs</b> — drop two or more PDF files in, or tap to pick them.</li>
-        <li><b>Arrange the order</b> — use Up and Down to put the files in the order you want them in the final document.</li>
-        <li><b>Download the merged PDF</b> — tap Merge PDFs, then Preview or Download.</li>
-      </ol>
-      <div class="faq">
-        <details><summary>How do I merge PDF files?</summary><p>Add two or more PDF files, arrange them in the order you want with Up and Down, then tap Merge PDFs and download the combined file.</p></details>
-        <details><summary>Does merging PDFs reduce quality?</summary><p>No. Pages are copied exactly as they are, so text and images keep their original quality.</p></details>
-        <details><summary>How many PDFs can I merge at once?</summary><p>There is no set limit. You can merge as many PDFs as your device's memory can handle.</p></details>
-        <details><summary>Are my PDFs uploaded to a server?</summary><p>No. Merging runs entirely in your browser. Your files never leave your device.</p></details>
-      </div>
-    </details>
+    <section class="seo-block" aria-label="About merging PDFs">
+      <h2>Merge PDF files online, free</h2>
+      <p>Merge PDF files online for free with Chami PDF Maker. Combine multiple PDFs into a single document in the order you choose — no signup, no watermark, and your files never leave your device. Merging copies pages exactly, so text and images keep their original quality.</p>
+      <p>Use it to join scanned pages, combine reports, or put chapters of a document together. When you need the file smaller afterwards, try <a href="compress-pdf.html">Compress PDF</a>, or shrink it to an exact size with <a href="compress-kb.html">Compress KB</a>.</p>
+    </section>
   </div>
 </main>
 
-<footer class="site">
+<footer class="site-footer">
   <div class="wrap">
-    <span>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</span>
-    <nav aria-label="Footer">
-      <a href="index.html">Home</a>
-      <a href="privacy-policy.html">Privacy Policy</a>
-    </nav>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="44" height="44"></span>Chami PDF Maker</div>
+        <p class="footer-tag">Free PDF tools. Your files never leave your device.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+      </nav>
+    </div>
+    <p class="footer-base">&copy; 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</p>
   </div>
 </footer>
 </body>

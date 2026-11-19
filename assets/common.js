@@ -1,6 +1,11 @@
-/* Chami PDF Maker website — shared helpers (no libraries, no tracking). */
+/* Chami PDF Maker website — shared helpers + site UI (v7, no libraries, no tracking).
+   The Chami.* tool helpers below are unchanged from v6: every tool page
+   relies on them exactly as they are. Only the site UI (nav, menu,
+   dropdown, FAQ, reveal, toast) is new. */
 (function () {
   'use strict';
+
+  /* ---------------- Tool helpers (unchanged) ---------------- */
 
   function fmtBytes(n) {
     if (n == null || isNaN(n)) return '';
@@ -23,8 +28,7 @@
     if (!el) return;
     el.textContent = msg || '';
     /* Keep any other classes on the element (e.g. layout classes):
-       only swap the status kind. The old version overwrote className
-       entirely, which silently dropped classes added elsewhere. */
+       only swap the status kind. */
     el.classList.add('status');
     el.classList.remove('error', 'ok');
     if (kind) el.classList.add(kind);
@@ -104,7 +108,7 @@
   /* Shared preview modal. openPreview(title, blob, kind):
      blob may be a single Blob or an array of Blobs / {blob, label} items.
      kind is 'pdf' or 'image' (auto-detected from the blob type if omitted).
-     PDFs are rendered page by page to <canvas> with pdf.js (see below):
+     PDFs are rendered page by page to <canvas> with pdf.js:
      an <iframe> from a blob URL renders blank on many mobile / in-app
      browsers, which was the mobile Preview-blank bug. Images show
      stacked, all of them, scrollable. Blob URLs are revoked when the
@@ -291,29 +295,136 @@
     document.body.style.overflow = 'hidden';
   }
 
-  /* Mobile header menu: hamburger toggle. Works on every page that loads
-     common.js; harmless on pages without a toggle button. */
-  function initNavToggle() {
-    var btn = document.querySelector('.nav-toggle');
-    var header = btn && btn.closest('header.site');
-    var nav = header && header.querySelector('nav.main');
-    if (!btn || !header || !nav) return;
+  /* Small toast for short confirmations (e.g. "Link copied"). */
+  var toastTimer = null;
+  function toast(msg, kind) {
+    var el = document.querySelector('.toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'toast';
+      el.setAttribute('role', 'status');
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.classList.toggle('success', kind === 'success');
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2600);
+  }
+
+  /* ---------------- Site UI (new) ---------------- */
+
+  function initHeader() {
+    var header = document.getElementById('siteHeader') || document.querySelector('header.site');
+    if (!header) return;
+    /* Navbar shadow + blur after 8px of scroll. */
+    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  function initNav() {
+    var btn = document.getElementById('navToggle') || document.querySelector('.nav-toggle');
+    var nav = document.getElementById('mainNav');
+    if (!btn || !nav) return;
+    var overlay = document.getElementById('navOverlay');
+    var isNew = !!document.getElementById('siteHeader');
+    var header = btn.closest('header');
+    function setMenu(open) {
+      if (isNew) {
+        nav.classList.toggle('open', open);
+        if (overlay) overlay.classList.toggle('show', open);
+        document.body.classList.toggle('menu-locked', open);
+      } else if (header) {
+        /* Legacy markup (header.site + nav.main): old toggle behavior. */
+        header.classList.toggle('nav-open', open);
+      }
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
     btn.addEventListener('click', function () {
-      var open = header.classList.toggle('nav-open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var open = isNew ? !nav.classList.contains('open') : !(header && header.classList.contains('nav-open'));
+      setMenu(open);
     });
+    if (overlay) overlay.addEventListener('click', function () { setMenu(false); });
     nav.addEventListener('click', function (e) {
       /* closest() so a tap on any element inside a link (icon, span)
          still closes the menu — e.target alone is the inner element. */
       var link = e.target && e.target.closest ? e.target.closest('a') : null;
-      if (link) {
-        header.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
+      if (link) setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  }
+
+  function initDropdown() {
+    var drop = document.getElementById('toolsDrop');
+    if (!drop) return;
+    var btn = drop.querySelector('.drop-btn');
+    if (!btn) return;
+    function closeDrop() { drop.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = drop.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', function (e) { if (!drop.contains(e.target)) closeDrop(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrop(); });
+  }
+
+  /* FAQ accordion — one open at a time. Only .faq-item pages; the old
+     <details> FAQ on unconverted pages keeps working natively. */
+  function initFaq() {
+    var items = document.querySelectorAll('.faq-item');
+    if (!items.length) return;
+    items.forEach(function (item) {
+      var btn = item.querySelector('.faq-q');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var isOpen = item.classList.contains('open');
+        items.forEach(function (other) {
+          other.classList.remove('open');
+          var b = other.querySelector('.faq-q');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+      });
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNavToggle);
-  else initNavToggle();
+
+  /* Scroll reveal, once only. */
+  function initReveal() {
+    var els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Dismissible mobile download bar (homepage only). */
+  function initAppBar() {
+    var bar = document.getElementById('appBar');
+    var closeBtn = document.getElementById('appBarClose');
+    if (!bar || !closeBtn) return;
+    closeBtn.addEventListener('click', function () { bar.style.display = 'none'; });
+  }
+
+  function init() {
+    initHeader();
+    initNav();
+    initDropdown();
+    initFaq();
+    initReveal();
+    initAppBar();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 
   window.Chami = {
     fmtBytes: fmtBytes,
@@ -326,6 +437,7 @@
     setupDropzone: setupDropzone,
     requireLib: requireLib,
     openPreview: openPreview,
-    closePreview: closePreview
+    closePreview: closePreview,
+    toast: toast
   };
 })();
