@@ -4,147 +4,153 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Free PDF Tools — Image to PDF, Merge, Split, Compress</title>
-<meta name="description" content="Free online PDF tools: image to PDF, merge, split, compress PDF and resize images. No signup, no watermark. Your files never leave your device.">
+<meta name="description" content="Free online PDF tools: image to PDF, merge, split, compress PDF and resize images. No signup, no watermark. Get the free offline Android app.">
+<meta name="theme-color" content="#064e3b">
+<meta property="og:title" content="Chami PDF Maker — Free PDF Tools"><meta property="og:description" content="Image to PDF, merge, split, compress and resize. Free, no signup, no watermark."><meta property="og:type" content="website">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: data: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>try{var t=localStorage.getItem("theme");document.documentElement.dataset.theme=t||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}catch(e){}</script>
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/">
 <link rel="icon" href="assets/panda-512.png">
 <style>
-/* ===== EDIT YOUR COLOURS HERE (only these 7 lines control the whole site) ===== */
-:root{
-  --bg:#f6f7fb;        /* page background */
-  --card:#ffffff;      /* cards and panels */
-  --ink:#151a24;       /* main text */
-  --muted:#5d6676;     /* secondary text */
-  --line:#e3e6ee;      /* borders */
-  --accent:#16A34A;    /* buttons, links, highlights */
-  --accent-2:#14532D;  /* second colour used in gradients */
-  --ok:#15803d; --bad:#b91c1c;
-  --r:14px;
-}
+/* ===== Colours: change the --accent lines to restyle the whole site ===== */
+:root{--bg:#f4f9f6;--card:#fff;--ink:#0b1f19;--muted:#546a60;--line:#dbe8e1;--accent:#059669;--accent-2:#065f46;--link:#047857;--soft:#e4f5ec;--ok:#047857;--bad:#b91c1c;--errbg:#fee2e2;--r:16px;--sh:0 1px 2px rgba(6,78,59,.06),0 10px 28px rgba(6,78,59,.08);color-scheme:light}
+:root[data-theme=dark]{--bg:#06130f;--card:#0d211a;--ink:#e8f5ef;--muted:#9bb7aa;--line:#183b2f;--accent:#10b981;--link:#34d399;--soft:#0f2e23;--ok:#34d399;--bad:#fca5a5;--errbg:#3b1414;--sh:0 1px 2px #0006,0 10px 28px #0006;color-scheme:dark}
 *{box-sizing:border-box;margin:0}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:env(safe-area-inset-bottom,0)}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-h1,h2,h3{line-height:1.2;letter-spacing:-.02em}
-h1{font-size:clamp(2rem,5.5vw,3.4rem)}
-h2{font-size:clamp(1.4rem,3vw,1.9rem);margin-bottom:18px}
-section{padding:44px 0}
-
-/* header */
-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0)}
-.bar{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink)}
-.brand img{width:34px;height:34px;border-radius:9px}
-nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
-nav a{color:var(--ink);padding:7px 10px;border-radius:8px;font-size:.9rem}
-nav a:hover,nav a.on{background:#dcfce7;text-decoration:none}
-nav a.dl{background:var(--accent);color:#fff;margin-left:6px}
-#burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:1.3rem;cursor:pointer;color:var(--ink)}
-@media(max-width:940px){
-  #burger{display:block}
-  nav{display:none;position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);padding:10px 20px 16px;flex-direction:column;align-items:stretch}
-  nav.open{display:flex;animation:drop .22s ease}
-  nav a{padding:12px}
-  nav a.dl{margin:6px 0 0;text-align:center}
-}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:env(safe-area-inset-bottom,0);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.15;letter-spacing:-.03em}
+h1{font-size:clamp(2.2rem,6vw,3.9rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:8px;font-weight:800}
+section{padding:48px 0}
+.sub{color:var(--muted);margin-bottom:24px}
+svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0)}
+.bar{display:flex;align-items:center;gap:10px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-right:auto}
+.brand:hover{text-decoration:none}.brand img{width:36px;height:36px;border-radius:10px}
+nav{display:flex;gap:4px;align-items:center}
+nav a{color:var(--muted);padding:8px 14px;border-radius:10px;font-weight:600;font-size:.93rem;transition:.2s}
+nav a:hover,nav a.on{background:var(--soft);color:var(--ink);text-decoration:none}
+nav a.dl{background:linear-gradient(135deg,#059669,#047857);color:#fff;margin-left:4px}
+.icbtn{width:42px;height:42px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);cursor:pointer;transition:.2s}
+.icbtn:hover{border-color:var(--accent)}
+.sun{display:none}[data-theme=dark] .sun{display:block}[data-theme=dark] .moon{display:none}
+#burger{display:none}
+@media(max-width:760px){#burger{display:grid}nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 16px;flex-direction:column;align-items:stretch}nav.open{display:flex;animation:drop .22s ease}nav a{padding:13px}nav a.dl{margin:6px 0 0;text-align:center}}
 @keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-
-/* hero — the one orchestrated moment */
-.hero{position:relative;overflow:hidden;padding:64px 0 52px;text-align:center}
-.hero:before,.hero:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(80px);opacity:.28;z-index:-1;animation:float 14s ease-in-out infinite}
-.hero:before{background:var(--accent);left:-120px;top:-140px}
-.hero:after{background:var(--accent-2);right:-120px;bottom:-160px;animation-delay:-7s}
+.hero{position:relative;overflow:hidden;padding:76px 0 56px;text-align:center}
+.hero:before,.hero:after{content:"";position:absolute;width:460px;height:460px;border-radius:50%;filter:blur(90px);opacity:.3;z-index:-1;animation:float 14s ease-in-out infinite}
+.hero:before{background:var(--accent);left:-140px;top:-160px}.hero:after{background:#6ee7b7;right:-140px;bottom:-180px;animation-delay:-7s}
 @keyframes float{50%{transform:translate(40px,30px) scale(1.1)}}
-.hero .in>*{animation:up .7s both}
-.hero .in>*:nth-child(2){animation-delay:.1s}.hero .in>*:nth-child(3){animation-delay:.2s}
+.hero .in>*{animation:up .7s both}.hero .in>:nth-child(2){animation-delay:.08s}.hero .in>:nth-child(3){animation-delay:.16s}.hero .in>:nth-child(4){animation-delay:.24s}.hero .in>:nth-child(5){animation-delay:.32s}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.hero p{max-width:620px;margin:16px auto 26px;color:var(--muted);font-size:1.1rem}
+.pill{display:inline-block;background:var(--soft);color:var(--link);border:1px solid var(--line);padding:6px 16px;border-radius:99px;font-weight:700;font-size:.82rem;margin-bottom:18px}
+.hero h1{max-width:15ch;margin:0 auto}.hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--accent),#6ee7b7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:580px;margin:18px auto 28px;color:var(--muted);font-size:1.15rem}
+.stats{margin-top:30px;display:flex;gap:8px 26px;justify-content:center;flex-wrap:wrap;color:var(--muted);font-size:.9rem;font-weight:600}
 .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font:600 .98rem inherit;font-family:inherit;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,40,80,.12);text-decoration:none}
-.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 .98rem inherit;font-family:inherit;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--sh);text-decoration:none}.btn:active{transform:scale(.97)}
+.btn.pri{background:linear-gradient(135deg,#059669,#047857);color:#fff;border:0;box-shadow:0 6px 18px rgba(5,150,105,.35)}
 .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
-.btn.sm{min-height:36px;padding:0 14px;font-size:.88rem}
-
-/* tool cards */
+.btn.sm{min-height:38px;padding:0 16px;font-size:.88rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
-.tc{display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s}
-.tc:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(30,40,80,.12);border-color:var(--accent);text-decoration:none}
-.tc .ic{font-size:1.7rem}
-.tc h3{font-size:1.05rem;margin:8px 0 4px}
-.tc p{color:var(--muted);font-size:.92rem}
-.pop{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.92rem}
-.pop a{background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:.85rem}
-
-/* app + steps + faq */
-.app{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-radius:20px;padding:30px}
-.app p{opacity:.92;max-width:560px;margin-top:6px}
-.app small{display:block;opacity:.8;margin-top:10px}
-.app .btn{background:#fff;color:var(--accent)}
+.tc{display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;color:var(--ink);box-shadow:var(--sh);transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s;animation:up .5s both}
+.tc:nth-child(2){animation-delay:.05s}.tc:nth-child(3){animation-delay:.1s}.tc:nth-child(4){animation-delay:.15s}.tc:nth-child(5){animation-delay:.2s}.tc:nth-child(6){animation-delay:.25s}.tc:nth-child(7){animation-delay:.3s}
+.tc:hover{transform:translateY(-5px);border-color:var(--accent);text-decoration:none}
+.tc .ic{width:50px;height:50px;border-radius:14px;background:var(--soft);color:var(--accent);display:grid;place-items:center;transition:.25s}
+.tc:hover .ic{background:var(--accent);color:#fff;transform:rotate(-6deg)}
+.tc h3{font-size:1.1rem;margin:14px 0 4px}.tc p{color:var(--muted);font-size:.92rem}
+.pop{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.92rem}
+.pop a{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:.85rem;transition:.2s}.pop a:hover{border-color:var(--accent);text-decoration:none}
+.app{display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#064e3b,#047857);color:#ecfdf5;border-radius:26px;padding:clamp(24px,5vw,46px)}
+.app p{color:#c3ebd9;max-width:560px;margin-top:8px}.app small{display:block;color:#a7d9c3;margin-top:12px}
+.app .btn{background:#ecfdf5;color:#064e3b;border:0}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:s;list-style:none;padding:0}
-.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 18px 64px;position:relative}
-.steps li:before{content:counter(s);position:absolute;left:18px;top:18px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
-details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-summary{cursor:pointer;font-weight:600}
-details p{color:var(--muted);margin-top:8px}
-
-/* tool page */
-.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(30,40,80,.06);margin-top:18px}
-.back{display:inline-block;margin-top:24px;font-size:.92rem}
-.drop{display:block;border:2px dashed #c4c9d8;border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;background:#f8fdf9;transition:.18s}
-.drop:hover,.drop.over,.drop:focus-within{border-color:var(--accent);background:#dcfce7}
-.drop b{display:block;font-size:1.05rem}
-.drop span{color:var(--muted);font-size:.9rem}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 20px 68px;position:relative;color:var(--muted)}
+.steps li b{color:var(--ink)}
+.steps li:before{content:counter(s);position:absolute;left:20px;top:20px;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#047857);color:#fff;display:grid;place-items:center;font-weight:700}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}summary:after{content:"+";color:var(--accent);font-size:1.4rem;line-height:1}details[open] summary:after{content:"–"}
+details p{color:var(--muted);margin-top:10px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,32px);box-shadow:var(--sh);margin-top:14px;animation:up .4s both}
+.back{display:inline-flex;align-items:center;gap:6px;margin-top:22px;font-size:.92rem;font-weight:600}.back svg{width:16px;height:16px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs a{white-space:nowrap;display:inline-flex;gap:6px;align-items:center;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:.86rem;font-weight:600;transition:.2s}
+.tabs a:hover{border-color:var(--accent);text-decoration:none}.tabs a.on{background:#047857;border-color:#047857;color:#fff}.tabs svg{width:16px;height:16px}
+.drop{position:relative;display:block;border:2px dashed var(--accent);border-radius:18px;padding:36px 16px;text-align:center;cursor:pointer;background:var(--soft);transition:.2s}
+.drop:hover,.drop.over,.drop:focus-within{background:color-mix(in srgb,var(--accent) 16%,var(--soft));transform:scale(1.005)}
+.drop svg{width:38px;height:38px;color:var(--accent);margin-bottom:4px}
+.drop b{display:block;font-size:1.05rem}.drop span{color:var(--muted);font-size:.9rem}
 .drop input{position:absolute;opacity:0;width:1px;height:1px}
 #list{list-style:none;padding:0;margin-top:14px;display:grid;gap:8px}
-#list li{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;animation:up .25s both}
-#list .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.93rem}
+#list li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 10px;animation:up .25s both}
+#list .th{width:44px;height:44px;border-radius:10px;overflow:hidden;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:.7rem;flex:none}
+#list .th img{width:100%;height:100%;object-fit:cover}
+#list .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.93rem;font-weight:600}
 #list .sz{color:var(--muted);font-size:.82rem;white-space:nowrap}
-.ib{width:34px;height:34px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:.95rem}
-.ib:hover{background:#dcfce7}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
-.opts label{display:grid;gap:5px;font-size:.88rem;font-weight:600}
-.opts input,.opts select{font:inherit;font-weight:400;min-height:42px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
-.opts .ck{display:flex;align-items:center;gap:8px}
-.opts .ck input{width:20px;min-height:20px}
+.ib{width:36px;height:36px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;transition:.2s}.ib:hover:not(:disabled){border-color:var(--accent);background:var(--soft)}.ib:disabled{opacity:.35;cursor:default}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:20px}
+.opts label{display:grid;gap:6px;font-size:.88rem;font-weight:600}
+.opts input,.opts select{font:inherit;font-weight:400;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);width:100%}
+.opts .ck{display:flex;align-items:center;gap:8px}.opts .ck input{width:20px;min-height:20px}
 .opts .hint{grid-column:1/-1;color:var(--muted);font-size:.85rem;font-weight:400}
-.go{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.prog{height:8px;background:#e8eaf3;border-radius:99px;overflow:hidden;margin-top:16px}
-.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s}
+.go{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:18px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#059669,#6ee7b7);transition:width .25s}
 #status{font-size:.88rem;color:var(--muted);margin-top:6px;min-height:1.3em}
-#err{margin-top:14px;padding:12px 14px;border-radius:10px;background:#fee2e2;color:var(--bad);font-size:.92rem}
+#err{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--errbg);color:var(--bad);font-size:.92rem}
 #res{list-style:none;padding:0;margin-top:18px;display:grid;gap:8px}
-#res li{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:10px;padding:10px 12px;animation:up .3s both}
-#res .nm{flex:1;min-width:140px;font-weight:600;word-break:break-all}
-#res .nt{color:var(--muted);font-size:.84rem}
-footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
+#res li{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--accent);background:var(--soft);border-radius:14px;padding:10px 14px;animation:up .3s both}
+#res .nm{flex:1;min-width:140px;font-weight:600;word-break:break-all}#res .nt{color:var(--muted);font-size:.84rem}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:30px 0;color:var(--muted);font-size:.9rem;text-align:center}
 footer a{margin:0 8px}
-@media(max-width:560px){section{padding:32px 0}.panel{padding:16px}.hero{padding:44px 0 36px}}
+@media(max-width:560px){section{padding:34px 0}.hero{padding:48px 0 36px}.btn{width:100%}.btns{flex-direction:column}.go .btn,.app .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.8"/><path d="m21 15-5-5L5 21"/></symbol>
+<symbol id="merge" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+<symbol id="split" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></symbol>
+<symbol id="compress" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></symbol>
+<symbol id="target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></symbol>
+<symbol id="resize" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
+<symbol id="up" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 20h16"/></symbol>
+<symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+<symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></symbol>
+<symbol id="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+</defs></svg>
 <header>
   <div class="wrap bar">
     <a class="brand" href="#home"><img src="assets/panda-512.png" alt="Chami PDF Maker logo" width="34" height="34">Chami PDF Maker</a>
-    <button id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">☰</button>
     <nav id="nav"></nav>
+    <button class="icbtn" id="theme" type="button" aria-label="Switch light or dark theme"><svg class="i moon"><use href="#moon"/></svg><svg class="i sun"><use href="#sun"/></svg></button>
+    <button class="icbtn" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg class="i"><use href="#menu"/></svg></button>
   </div>
 </header>
 
 <main>
 <div id="home">
   <div class="hero"><div class="wrap in">
-    <h1>Free PDF tools, right in your browser</h1>
-    <p>Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.</p>
-    <div class="btns"><a class="btn pri" href="#image-to-pdf">Convert images to PDF</a><a class="btn" href="#merge-pdf">Merge PDFs</a><a class="btn" href="#download-app">Get the app</a></div>
+    <span class="pill">Free · No signup · No watermark</span>
+    <h1>Every PDF tool you need, <em>beautifully simple</em></h1>
+    <p>Convert images to PDF, merge, split, compress and resize in seconds, on desktop or mobile.</p>
+    <div class="btns"><a class="btn pri" href="#image-to-pdf">Convert images to PDF</a><a class="btn" href="#merge-pdf">Merge PDFs</a><a class="btn" href="#download-app">Get the Android app</a></div>
+    <div class="stats"><span>✓ 7 web tools</span><span>✓ Works on any device</span><span>✓ Free forever</span></div>
   </div></div>
 
-  <section><div class="wrap">
-    <h2>Choose a tool</h2>
+  <section id="tools"><div class="wrap">
+    <h2>Choose a tool</h2><p class="sub">Tap a tool to get started.</p>
     <div class="grid" id="cards"></div>
     <div class="pop">Popular:
       <a href="compress-pdf-to-150kb.html">Compress PDF to 150KB</a>
@@ -159,7 +165,7 @@ footer a{margin:0 8px}
     <div class="app">
       <div>
         <h2 style="margin:0">Get the Chami PDF Maker app</h2>
-        <p>All 10 tools in one free app: Images to PDF, Merge, Split, Protect, Compress, PDF to Images, Image Resizer, PDF Reader, Format Convert and OCR. Works offline. Android 8.0 or newer.</p>
+        <p>All 10 tools in one free app: Images to PDF, Merge, Split, Protect, Compress, PDF to Images, Image Resizer, PDF Reader, Format Convert and OCR. The app works fully offline, and your files never leave your device. Android 8.0 or newer.</p>
         <small>Not on Google Play. This is a direct APK download. When your phone asks, allow “Install unknown apps”.</small>
       </div>
       <a class="btn" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk">Download v1.2 (about 54 MB)</a>
@@ -170,7 +176,7 @@ footer a{margin:0 8px}
     <h2>How it works</h2>
     <ol class="steps">
       <li><b>Choose a tool</b><br>Pick the one you need from the list above.</li>
-      <li><b>Add your files</b><br>Drop them in or tap to choose. Everything is processed on your device.</li>
+      <li><b>Add your files</b><br>Drop them in or tap to choose. You can reorder them before you start.</li>
       <li><b>Download the result</b><br>No waiting, no email, no account.</li>
     </ol>
   </div></section>
@@ -178,19 +184,20 @@ footer a{margin:0 8px}
   <section><div class="wrap">
     <h2>Questions</h2>
     <details><summary>Is Chami PDF Maker really free?</summary><p>Yes. Every tool is free, with no signup, no account and no watermark.</p></details>
-    <details><summary>Are my files uploaded to a server?</summary><p>No. All processing happens in your own browser. Your files are never uploaded anywhere.</p></details>
+    <details><summary>Does the Android app need internet?</summary><p>No. The app works fully offline, and your files never leave your device.</p></details>
     <details><summary>Do the tools work on mobile?</summary><p>Yes, on Android and iPhone browsers as well as desktop. For the best experience on Android, get the app.</p></details>
-    <details><summary>Is there a file size limit?</summary><p>No server limit, because files stay on your device. Very large files are limited only by your device’s memory.</p></details>
+    <details><summary>Is there a file size limit?</summary><p>There is no fixed limit. Very large files depend on your device’s memory, so the app is best for big files.</p></details>
   </div></section>
 </div>
 
 <div id="tool" hidden>
   <div class="wrap">
-    <a class="back" href="#home">← All tools</a>
+    <a class="back" href="#home"><svg class="i"><use href="#back"/></svg>All tools</a>
+    <div class="tabs" id="tabs"></div>
     <div class="panel">
       <h1 id="t-title" style="font-size:clamp(1.6rem,4vw,2.2rem)"></h1>
       <p id="t-desc" style="color:var(--muted);margin:6px 0 18px"></p>
-      <label class="drop" id="drop"><b>Drop files here or tap to choose</b><span id="t-hint"></span><input type="file" id="file"></label>
+      <label class="drop" id="drop"><svg class="i"><use href="#up"/></svg><b>Drop files here or tap to choose</b><span id="t-hint"></span><input type="file" id="file"></label>
       <ul id="list"></ul>
       <div class="opts" id="opts"></div>
       <div class="go"><button class="btn pri" id="run" disabled>Start</button><button class="btn" id="clear" hidden>Clear files</button></div>
@@ -198,14 +205,14 @@ footer a{margin:0 8px}
       <div id="status" role="status" aria-live="polite"></div>
       <div id="err" role="alert" hidden></div>
       <ul id="res"></ul>
-      <div class="go"><button class="btn" id="all" hidden>Download all</button></div>
+      <div class="go"><button class="btn" id="all" hidden>Download all as ZIP</button></div>
     </div>
   </div>
 </div>
 </main>
 
 <footer><div class="wrap">
-  <p>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</p>
+  <p>© 2026 Chami Apps — Chami PDF Maker. The Android app works fully offline.</p>
   <p style="margin-top:8px"><a href="#home">Home</a><a href="privacy-policy.html">Privacy Policy</a></p>
 </div></footer>
 
@@ -215,6 +222,7 @@ footer a{margin:0 8px}
 const $=s=>document.querySelector(s);
 const LIBS={
   pdflib:"https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js",
+  jszip:"https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js",
   pdfjs:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
 };
 const WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
@@ -238,11 +246,12 @@ function loadImg(f){
   return new Promise((res,rej)=>{
     const u=URL.createObjectURL(f),i=new Image();
     i.onload=()=>{URL.revokeObjectURL(u);res(i)};
-    i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("Cannot read image: "+f.name))};
+    i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("Cannot read “"+f.name+"”. Please use a JPG, PNG or WEBP image (HEIC is not supported by browsers)."))};
     i.src=u;
   });
 }
 function mkCanvas(w,h,white){
+  const lim=Math.min(1,Math.sqrt(5e7/(Math.max(1,w)*Math.max(1,h))));w*=lim;h*=lim;
   const c=document.createElement("canvas");c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));
   const x=c.getContext("2d");if(white){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}
   return c;
@@ -320,7 +329,7 @@ function parseRange(str,n){
 
 /* ---------- tool definitions ---------- */
 const TOOLS=[
-{id:"image-to-pdf",icon:"🖼",name:"Image to PDF",short:"Turn JPG, PNG and WEBP photos into one PDF.",
+{id:"image-to-pdf",icon:"image",name:"Image to PDF",short:"Turn JPG, PNG and WEBP photos into one PDF.",
  desc:"Add photos, put them in order, and get a single PDF.",accept:"image/*",multi:true,min:1,order:true,hint:"JPG, PNG, WEBP",btn:"Create PDF",
  opts:`<label>Page size<select id="o-size"><option value="a4">A4 (fit image inside)</option><option value="fit">Same size as image</option></select></label>
  <label>Margin (points)<select id="o-margin"><option value="0">None</option><option value="18" selected>Small</option><option value="36">Large</option></select></label>`,
@@ -330,7 +339,7 @@ const TOOLS=[
   for(let i=0;i<files.length;i++){
     p(i/files.length,"Adding image "+(i+1)+" of "+files.length);
     const img=await loadImg(files[i]),W=img.naturalWidth,H=img.naturalHeight;
-    const c=mkCanvas(W,H,true);c.getContext("2d").drawImage(img,0,0,W,H);
+    const k=Math.min(1,4000/Math.max(W,H)),c=mkCanvas(W*k,H*k,true);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
     const e=await d.embedJpg(await bytes(await cBlob(c,"image/jpeg",.92)));
     let pw,ph,w=e.width,h=e.height;
     if(o.size==="a4"){
@@ -341,7 +350,7 @@ const TOOLS=[
   }
   return[{name:"images.pdf",blob:new Blob([await d.save()],{type:"application/pdf"})}];
  }},
-{id:"merge-pdf",icon:"📑",name:"Merge PDF",short:"Combine several PDFs into one, in your order.",
+{id:"merge-pdf",icon:"merge",name:"Merge PDF",short:"Combine several PDFs into one, in your order.",
  desc:"Add at least two PDFs and arrange them with the arrows.",accept:"application/pdf",multi:true,min:2,order:true,hint:"PDF files",btn:"Merge PDFs",opts:"",
  async run(files,o,p){
   await lib("pdflib");
@@ -355,7 +364,7 @@ const TOOLS=[
   }
   return[{name:"merged.pdf",blob:new Blob([await out.save()],{type:"application/pdf"})}];
  }},
-{id:"split-pdf",icon:"✂",name:"Split PDF",short:"Extract the pages you need, or every page separately.",
+{id:"split-pdf",icon:"split",name:"Split PDF",short:"Extract the pages you need, or every page separately.",
  desc:"Pick pages to extract, or save each page as its own PDF.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Split PDF",
  opts:`<label>Mode<select id="o-mode"><option value="range">Extract pages</option><option value="each">Every page separately</option></select></label>
  <label data-show="mode:range">Pages<input id="o-range" placeholder="1-3, 5, 8" autocomplete="off"></label>`,
@@ -375,7 +384,7 @@ const TOOLS=[
   }
   return out;
  }},
-{id:"compress-pdf",icon:"📦",name:"Compress PDF",short:"Reduce PDF size for email and WhatsApp.",
+{id:"compress-pdf",icon:"compress",name:"Compress PDF",short:"Reduce PDF size for email and WhatsApp.",
  desc:"Shrinks the PDF by re-saving each page as a compressed image. Text becomes part of the image, so it can no longer be selected.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Compress PDF",
  opts:`<label>Strength<select id="o-lvl"><option value="0">Light — best quality</option><option value="1" selected>Balanced</option><option value="2">Strong — smallest file</option></select></label>`,
  async run(files,o,p){
@@ -386,7 +395,7 @@ const TOOLS=[
   const note=blob.size<files[0].size?"Reduced from "+fmt(files[0].size)+" to "+fmt(blob.size):"This PDF is already small. The result is not smaller than the original ("+fmt(files[0].size)+").";
   return[{name:baseName(files[0].name)+"-compressed.pdf",blob,note}];
  }},
-{id:"compress-kb",icon:"🎯",name:"Compress to KB",short:"Shrink an image or PDF under 100 KB, 200 KB, 500 KB or 1 MB.",
+{id:"compress-kb",icon:"target",name:"Compress to KB",short:"Shrink an image or PDF under 100 KB, 200 KB, 500 KB or 1 MB.",
  desc:"Choose a size limit and we find the best quality that fits.",accept:"image/*,application/pdf",multi:false,min:1,hint:"One image or PDF",btn:"Compress",
  opts:`<label>Target size<select id="o-t"><option value="100">Under 100 KB</option><option value="200" selected>Under 200 KB</option><option value="500">Under 500 KB</option><option value="1024">Under 1 MB</option><option value="custom">Custom…</option></select></label>
  <label data-show="t:custom">Custom size (KB)<input id="o-c" type="number" min="10" step="1" value="150"></label>
@@ -400,13 +409,13 @@ const TOOLS=[
     r=await pdfToTarget(pages,target,p);met=r.met;blob=await buildPdf(r.items);name=baseName(f.name)+"-"+kb+"kb.pdf";
   }else{
     const img=await loadImg(f),c=mkCanvas(img.naturalWidth,img.naturalHeight,true);
-    c.getContext("2d").drawImage(img,0,0);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
     p(.5,"Finding the best quality…");
     r=await shrinkCanvas(c,target,[1,.85,.7,.55,.4,.3,.2]);met=r.met;blob=r.blob;name=baseName(f.name)+"-"+kb+"kb.jpg";
   }
   return[{name,blob,note:(met?"Reached ":"Could not reach the target. Smallest possible: ")+fmt(blob.size)+(met?" (target "+kb+" KB)":"")}];
  }},
-{id:"pdf-to-images",icon:"🎨",name:"PDF to Images",short:"Turn PDF pages into JPG or PNG at 2x quality.",
+{id:"pdf-to-images",icon:"layers",name:"PDF to Images",short:"Turn PDF pages into JPG or PNG at 2x quality.",
  desc:"Every page becomes an image file.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Convert to images",
  opts:`<label>Format<select id="o-f"><option value="jpg">JPG</option><option value="png">PNG</option></select></label>`,
  async run(files,o,p){
@@ -415,7 +424,7 @@ const TOOLS=[
     out.push({name:base+"-page-"+(i+1)+(png?".png":".jpg"),blob:await cBlob(pages[i].c,png?"image/png":"image/jpeg",.92)});
   return out;
  }},
-{id:"image-resizer",icon:"↔",name:"Image Resizer",short:"Resize by pixels, percent or preset, to an exact KB.",
+{id:"image-resizer",icon:"resize",name:"Image Resizer",short:"Resize by pixels, percent or preset, to an exact KB.",
  desc:"Resize one or many images. Presets crop the image to fill the exact size.",accept:"image/*",multi:true,min:1,hint:"JPG, PNG, WEBP",btn:"Resize",
  opts:`<label>Resize by<select id="o-mode"><option value="px">Pixels</option><option value="pct">Percent</option><option value="preset">Preset size</option></select></label>
  <label data-show="mode:px">Width (px)<input id="o-w" type="number" min="1" placeholder="auto"></label>
@@ -455,8 +464,10 @@ const TOOLS=[
 ];
 
 /* ---------- page: nav + cards ---------- */
-$("#nav").innerHTML=`<a href="#home" data-r="home">Home</a>`+TOOLS.map(t=>`<a href="#${t.id}" data-r="${t.id}">${t.name}</a>`).join("")+`<a class="dl" href="#download-app" data-r="app">Download app</a>`;
-$("#cards").innerHTML=TOOLS.map(t=>`<a class="tc" href="#${t.id}"><div class="ic" aria-hidden="true">${t.icon}</div><h3>${t.name}</h3><p>${t.short}</p></a>`).join("");
+$("#nav").innerHTML=`<a href="#home" data-r="home">Home</a><a href="#tools" data-r="tools">Tools</a><a class="dl" href="#download-app" data-r="app">Android app</a>`;
+$("#tabs").innerHTML=TOOLS.map(t=>`<a href="#${t.id}" data-r="${t.id}"><svg class="i"><use href="#${t.icon}"/></svg>${t.name}</a>`).join("");
+$("#theme").onclick=()=>{const d=document.documentElement,n=d.dataset.theme==="dark"?"light":"dark";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}};
+$("#cards").innerHTML=TOOLS.map(t=>`<a class="tc" href="#${t.id}"><div class="ic" aria-hidden="true"><svg class="i"><use href="#${t.icon}"/></svg></div><h3>${t.name}</h3><p>${t.short}</p></a>`).join("");
 $("#burger").onclick=()=>{const n=$("#nav"),o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
 
 /* ---------- tool page logic ---------- */
@@ -470,7 +481,9 @@ function renderList(){
   const ul=$("#list");ul.innerHTML="";
   files.forEach((f,i)=>{
     const li=document.createElement("li");
-    li.innerHTML=`<span class="nm"></span><span class="sz">${fmt(f.size)}</span>`;
+    li.innerHTML=`<span class="th"></span><span class="nm"></span><span class="sz">${fmt(f.size)}</span>`;
+    const th=li.querySelector(".th");
+    if(f.type.startsWith("image/")){const u=URL.createObjectURL(f),im=new Image();im.alt="";im.onload=im.onerror=()=>URL.revokeObjectURL(u);im.src=u;th.appendChild(im)}else th.textContent="PDF";
     li.querySelector(".nm").textContent=f.name;
     const add=(t,l,fn,dis)=>{const b=document.createElement("button");b.className="ib";b.type="button";b.textContent=t;b.setAttribute("aria-label",l);b.disabled=!!dis;b.onclick=fn;li.appendChild(b)};
     if(tool.order&&files.length>1){
@@ -533,8 +546,9 @@ function showResults(){
     li.appendChild(b);ul.appendChild(li);
   });
   $("#all").hidden=results.length<2;
+  ul.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
-$("#all").onclick=()=>results.forEach((r,i)=>setTimeout(()=>download(r),i*400));
+$("#all").onclick=async()=>{const b=$("#all");b.disabled=true;try{await lib("jszip");const z=new JSZip();results.forEach(r=>z.file(r.name,r.blob));download({name:"chami-pdf-maker.zip",blob:await z.generateAsync({type:"blob"})})}catch(e){showErr(e.message)}b.disabled=false};
 
 $("#run").onclick=async()=>{
   if(busy||!tool||files.length<tool.min)return;
@@ -567,13 +581,14 @@ function route(){
   $("#nav").classList.remove("open");$("#burger").setAttribute("aria-expanded","false");
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.r===(t?t.id:"home")&&a.dataset.r!=="app"));
   if(t){
+    document.querySelectorAll("#tabs a").forEach(a=>{const on=a.dataset.r===t.id;a.classList.toggle("on",on);if(on)a.scrollIntoView({inline:"center",block:"nearest"})});
     $("#home").hidden=true;$("#tool").hidden=false;
     if(!tool||tool.id!==t.id)openTool(t);
     window.scrollTo(0,0);
   }else{
     $("#tool").hidden=true;$("#home").hidden=false;tool=null;
     document.title="Free PDF Tools — Image to PDF, Merge, Split, Compress";
-    if(h==="download-app"){const el=$("#download-app");if(el)setTimeout(()=>el.scrollIntoView(),0)}
+    if(h==="download-app"||h==="tools"){const el=document.getElementById(h);if(el)setTimeout(()=>el.scrollIntoView(),0)}
     else window.scrollTo(0,0);
   }
 }
