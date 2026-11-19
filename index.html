@@ -1,259 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Free PDF Tools — Image to PDF, Merge, Split, Compress</title>
-<meta name="description" content="Free online PDF tools: convert image to PDF, merge PDF, split PDF, compress PDF and resize images. No signup, no watermark. Your files never leave your device.">
-<meta name="keywords" content="image to pdf, jpg to pdf, merge pdf, split pdf, compress pdf, pdf to jpg, resize image, free pdf tools online">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Free online PDF tools: image to PDF, merge, split, compress PDF and resize images. No signup, no watermark. Your files never leave your device.">
 <link rel="canonical" href="https://flemax369-sketch.github.io/chami-pdf-maker-website/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Chami PDF Maker — Free PDF Tools, Right in Your Browser">
-<meta property="og:description" content="Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.">
-<meta property="og:url" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/">
-<meta property="og:image" content="https://flemax369-sketch.github.io/chami-pdf-maker-website/assets/panda-512.png">
-<link rel="icon" href="assets/panda-512.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Chami PDF Maker","url":"https://flemax369-sketch.github.io/chami-pdf-maker-website/","description":"Free online PDF tools that run entirely in your browser. Convert image to PDF, merge, split, compress and more."}
-</script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Is Chami PDF Maker really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every tool on this website is free to use, with no signup, no account and no watermark on your files."}},
-{"@type":"Question","name":"Are my files uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens in your own browser. Your files are never uploaded to any server, which also keeps the tools fast even when many people use the site at once."}},
-{"@type":"Question","name":"Do the tools work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. The tools work on Android and iPhone browsers as well as on desktop. For the best experience on Android, get the Chami PDF Maker app."}},
-{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no server limit, because files are processed on your device. Very large files are limited only by your device's memory."}}
-]}
-</script>
-<link rel="stylesheet" href="assets/style.css?v=7">
+<link rel="icon" href="assets/panda-512.png">
+<style>
+/* ===== EDIT YOUR COLOURS HERE (only these 7 lines control the whole site) ===== */
+:root{
+  --bg:#f6f7fb;        /* page background */
+  --card:#ffffff;      /* cards and panels */
+  --ink:#151a24;       /* main text */
+  --muted:#5d6676;     /* secondary text */
+  --line:#e3e6ee;      /* borders */
+  --accent:#4f46e5;    /* buttons, links, highlights */
+  --accent-2:#7c3aed;  /* second colour used in gradients */
+  --ok:#15803d; --bad:#b91c1c;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:env(safe-area-inset-bottom,0)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.2;letter-spacing:-.02em}
+h1{font-size:clamp(2rem,5.5vw,3.4rem)}
+h2{font-size:clamp(1.4rem,3vw,1.9rem);margin-bottom:18px}
+section{padding:44px 0}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink)}
+.brand img{width:34px;height:34px;border-radius:9px}
+nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--ink);padding:7px 10px;border-radius:8px;font-size:.9rem}
+nav a:hover,nav a.on{background:#eef0f7;text-decoration:none}
+nav a.dl{background:var(--accent);color:#fff;margin-left:6px}
+#burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:1.3rem;cursor:pointer;color:var(--ink)}
+@media(max-width:940px){
+  #burger{display:block}
+  nav{display:none;position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);padding:10px 20px 16px;flex-direction:column;align-items:stretch}
+  nav.open{display:flex;animation:drop .22s ease}
+  nav a{padding:12px}
+  nav a.dl{margin:6px 0 0;text-align:center}
+}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* hero — the one orchestrated moment */
+.hero{position:relative;overflow:hidden;padding:64px 0 52px;text-align:center}
+.hero:before,.hero:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(80px);opacity:.28;z-index:-1;animation:float 14s ease-in-out infinite}
+.hero:before{background:var(--accent);left:-120px;top:-140px}
+.hero:after{background:var(--accent-2);right:-120px;bottom:-160px;animation-delay:-7s}
+@keyframes float{50%{transform:translate(40px,30px) scale(1.1)}}
+.hero .in>*{animation:up .7s both}
+.hero .in>*:nth-child(2){animation-delay:.1s}.hero .in>*:nth-child(3){animation-delay:.2s}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero p{max-width:620px;margin:16px auto 26px;color:var(--muted);font-size:1.1rem}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font:600 .98rem inherit;font-family:inherit;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,40,80,.12);text-decoration:none}
+.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:0}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.sm{min-height:36px;padding:0 14px;font-size:.88rem}
+
+/* tool cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.tc{display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s}
+.tc:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(30,40,80,.12);border-color:var(--accent);text-decoration:none}
+.tc .ic{font-size:1.7rem}
+.tc h3{font-size:1.05rem;margin:8px 0 4px}
+.tc p{color:var(--muted);font-size:.92rem}
+.pop{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.92rem}
+.pop a{background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:.85rem}
+
+/* app + steps + faq */
+.app{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-radius:20px;padding:30px}
+.app p{opacity:.92;max-width:560px;margin-top:6px}
+.app small{display:block;opacity:.8;margin-top:10px}
+.app .btn{background:#fff;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 18px 64px;position:relative}
+.steps li:before{content:counter(s);position:absolute;left:18px;top:18px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin-top:8px}
+
+/* tool page */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(30,40,80,.06);margin-top:18px}
+.back{display:inline-block;margin-top:24px;font-size:.92rem}
+.drop{display:block;border:2px dashed #c4c9d8;border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;background:#fafbff;transition:.18s}
+.drop:hover,.drop.over,.drop:focus-within{border-color:var(--accent);background:#f1f0ff}
+.drop b{display:block;font-size:1.05rem}
+.drop span{color:var(--muted);font-size:.9rem}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+#list{list-style:none;padding:0;margin-top:14px;display:grid;gap:8px}
+#list li{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;animation:up .25s both}
+#list .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.93rem}
+#list .sz{color:var(--muted);font-size:.82rem;white-space:nowrap}
+.ib{width:34px;height:34px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:.95rem}
+.ib:hover{background:#eef0f7}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
+.opts label{display:grid;gap:5px;font-size:.88rem;font-weight:600}
+.opts input,.opts select{font:inherit;font-weight:400;min-height:42px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+.opts .ck{display:flex;align-items:center;gap:8px}
+.opts .ck input{width:20px;min-height:20px}
+.opts .hint{grid-column:1/-1;color:var(--muted);font-size:.85rem;font-weight:400}
+.go{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.prog{height:8px;background:#e8eaf3;border-radius:99px;overflow:hidden;margin-top:16px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s}
+#status{font-size:.88rem;color:var(--muted);margin-top:6px;min-height:1.3em}
+#err{margin-top:14px;padding:12px 14px;border-radius:10px;background:#fee2e2;color:var(--bad);font-size:.92rem}
+#res{list-style:none;padding:0;margin-top:18px;display:grid;gap:8px}
+#res li{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:10px;padding:10px 12px;animation:up .3s both}
+#res .nm{flex:1;min-width:140px;font-weight:600;word-break:break-all}
+#res .nt{color:var(--muted);font-size:.84rem}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
+footer a{margin:0 8px}
+@media(max-width:560px){section{padding:32px 0}.panel{padding:16px}.hero{padding:44px 0 36px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header" id="siteHeader">
-  <div class="wrap nav-wrap">
-    <a class="logo" href="index.html"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="40" height="40"></span>Chami PDF Maker</a>
-    <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-      <a href="index.html" class="active" aria-current="page">Home</a>
-      <div class="has-drop" id="toolsDrop">
-        <button class="drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Tools
-          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="drop-menu" role="menu">
-          <a href="image-to-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>Image to PDF</a>
-          <a href="merge-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>Merge PDF</a>
-          <a href="split-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>Split PDF</a>
-          <a href="compress-pdf.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg>Compress PDF</a>
-          <a href="compress-kb.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Compress KB</a>
-          <a href="pdf-to-images.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg>PDF to Images</a>
-          <a href="image-resizer.html" role="menuitem"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Image Resizer</a>
-        </div>
-      </div>
-      <a href="#download-app">Download App</a>
-      <span class="nav-cta"><a class="btn btn-primary" href="#download-app">Download App</a></span>
-    </nav>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#home"><img src="assets/panda-512.png" alt="Chami PDF Maker logo" width="34" height="34">Chami PDF Maker</a>
+    <button id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav">☰</button>
+    <nav id="nav"></nav>
   </div>
 </header>
-<div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
-<main id="main">
-  <section class="hero">
-    <div class="wrap hero-grid">
+<main>
+<div id="home">
+  <div class="hero"><div class="wrap in">
+    <h1>Free PDF tools, right in your browser</h1>
+    <p>Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.</p>
+    <div class="btns"><a class="btn pri" href="#image-to-pdf">Convert images to PDF</a><a class="btn" href="#merge-pdf">Merge PDFs</a><a class="btn" href="#download-app">Get the app</a></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <h2>Choose a tool</h2>
+    <div class="grid" id="cards"></div>
+    <div class="pop">Popular:
+      <a href="compress-pdf-to-150kb.html">Compress PDF to 150KB</a>
+      <a href="compress-pdf-to-100kb.html">Compress PDF to 100KB</a>
+      <a href="compress-pdf-to-200kb.html">Compress PDF to 200KB</a>
+      <a href="resize-image-to-1080x1350.html">Resize image to 1080x1350</a>
+      <a href="compress-jpg-to-200kb.html">Compress JPG to 200KB</a>
+    </div>
+  </div></section>
+
+  <section id="download-app"><div class="wrap">
+    <div class="app">
       <div>
-        <span class="hero-badge load-in" style="--d:0ms"><span class="dot"></span>Free &middot; No signup &middot; No watermark</span>
-        <h1 class="load-in" style="--d:60ms">Free <span style="color:var(--green)">PDF Tools</span>, Right in Your Browser</h1>
-        <p class="lead load-in" style="--d:120ms">Image to PDF, merge, split, compress and more. No signup, no watermark. Your files never leave your device.</p>
-        <div class="cta-row load-in" style="--d:180ms">
-          <a class="btn btn-primary" href="image-to-pdf.html">Convert Image to PDF</a>
-          <a class="btn btn-secondary" href="#download-app">Download the App</a>
-        </div>
+        <h2 style="margin:0">Get the Chami PDF Maker app</h2>
+        <p>All 10 tools in one free app: Images to PDF, Merge, Split, Protect, Compress, PDF to Images, Image Resizer, PDF Reader, Format Convert and OCR. Works offline. Android 8.0 or newer.</p>
+        <small>Not on Google Play. This is a direct APK download. When your phone asks, allow “Install unknown apps”.</small>
       </div>
-      <div class="hero-art load-in" style="--d:240ms" aria-hidden="true">
-        <div class="hero-glow"></div>
-        <div class="doc doc-a"><span class="doc-tag">PDF &middot; 3 pages</span><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div></div>
-        <div class="doc doc-b"><span class="doc-tag">Compressed &middot; 92 KB</span><div class="doc-bar"></div><div class="doc-bar"></div><div class="doc-bar"></div></div>
-        <div class="doc doc-c"><span class="doc-tag">Merged &middot; 12 pages</span><div class="doc-bar"></div><div class="doc-bar"></div></div>
-        <img class="hero-panda" src="assets/panda-512.png" alt="" width="150" height="150">
-      </div>
+      <a class="btn" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk">Download v1.2 (about 54 MB)</a>
     </div>
-  </section>
+  </div></section>
 
-  <section class="trust" aria-label="Why Chami PDF Maker">
-    <div class="wrap">
-      <div class="trust-grid reveal">
-        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>No signup</div>
-        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/></svg></span>No watermark</div>
-        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 2 20 20"/><path d="M10 5.2A9.77 9.77 0 0 1 22 9.5a9.6 9.6 0 0 1-2.5 4.9M5 5.5A9.8 9.8 0 0 0 2 9.5a9.6 9.6 0 0 0 5 8.4M6 18h12a4 4 0 0 0 .9-7.9"/></svg></span>Files never uploaded</div>
-        <div class="trust-item"><span class="trust-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01M1.42 9a16 16 0 0 1 21.16 0"/></svg></span>Works offline in the app</div>
-      </div>
-    </div>
-  </section>
+  <section><div class="wrap">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>Choose a tool</b><br>Pick the one you need from the list above.</li>
+      <li><b>Add your files</b><br>Drop them in or tap to choose. Everything is processed on your device.</li>
+      <li><b>Download the result</b><br>No waiting, no email, no account.</li>
+    </ol>
+  </div></section>
 
-  <section aria-labelledby="toolsTitle">
-    <div class="wrap">
-      <div class="tools-head reveal">
-        <h2 id="toolsTitle">Every PDF tool you need</h2>
-        <p>Seven free tools that run entirely in your browser. Pick one and get it done in seconds.</p>
-      </div>
-      <div class="tool-grid">
-        <a class="tool-card reveal" style="--d:0ms" href="image-to-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg></span><h3>Image to PDF</h3><p>Turn JPG, PNG and WEBP photos into a PDF, on A4 pages.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:60ms" href="merge-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></span><h3>Merge PDF</h3><p>Combine multiple PDFs into one document, in your order.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:120ms" href="split-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></span><h3>Split PDF</h3><p>Extract the pages you need, or get every page separately.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:0ms" href="compress-pdf.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 8-2-2-1.5-1.5a2 2 0 0 0-3 0L3 16v5h5L19.5 9.5a2 2 0 0 0 0-3L21 8Z"/><path d="m14 7 3 3"/></svg></span><h3>Compress PDF</h3><p>Reduce PDF file size for email and WhatsApp sharing.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:60ms" href="compress-kb.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span><h3>Compress KB</h3><p>Shrink an image or PDF to under 100 KB, 200 KB, 500 KB or 1 MB.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:120ms" href="pdf-to-images.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L6 21"/></svg></span><h3>PDF to Images</h3><p>Turn PDF pages into JPG or PNG images at 2x quality.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="tool-card reveal" style="--d:0ms" href="image-resizer.html"><span class="tool-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span><h3>Image Resizer</h3><p>Resize images by pixels, percent or preset, to an exact KB.</p><span class="tool-go" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-      </div>
-      <nav class="popular reveal" aria-label="Popular searches">
-        <div class="popular-row">
-          <span class="popular-label">Popular:</span>
-          <a class="chip" href="compress-pdf-to-100kb.html">Compress PDF to 100KB</a>
-          <a class="chip" href="compress-pdf-to-150kb.html">Compress PDF to 150KB</a>
-          <a class="chip" href="compress-pdf-to-200kb.html">Compress PDF to 200KB</a>
-          <a class="chip" href="resize-image-to-1080x1350.html">Resize Image to 1080x1350</a>
-          <a class="chip" href="compress-jpg-to-200kb.html">Compress JPG to 200KB</a>
-        </div>
-      </nav>
-    </div>
-  </section>
-
-  <section class="app-section" id="download-app" aria-labelledby="appTitle">
-    <div class="wrap app-grid">
-      <div class="reveal">
-        <h2 id="appTitle">All 10 tools in one free app</h2>
-        <p>Take Chami PDF Maker with you. The Android app works fully offline, with no signup and no ads.</p>
-        <ul class="feature-list">
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Images to PDF</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Merge</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Split</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Protect</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Compress</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>PDF to Images</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Image Resizer</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>PDF Reader</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Format Convert</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>OCR</li>
-        </ul>
-        <div class="app-badges">
-          <span class="badge">100% offline</span>
-          <span class="badge">No signup</span>
-          <span class="badge">No ads</span>
-        </div>
-        <p><a class="btn btn-primary" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk" download>Download the app — v1.2, ~54 MB, free</a></p>
-        <div class="install-note">
-          <b>Direct APK download, not on Google Play.</b> Install in 3 steps:
-          <ol>
-            <li>Download the APK file.</li>
-            <li>Allow &ldquo;Install unknown apps&rdquo; when your phone asks.</li>
-            <li>Open and enjoy — no account needed.</li>
-          </ol>
-        </div>
-        <p class="app-req">Requires Android 8.0 or newer.</p>
-      </div>
-      <div class="phone-stage reveal" style="--d:120ms" aria-hidden="true">
-        <div class="phone">
-          <div class="phone-notch"><span></span></div>
-          <div class="phone-app-head">
-            <img src="assets/panda-512.png" alt="" width="34" height="34">
-            <div><b>CHAMI PDF MAKER</b><small>Professional PDF Toolkit</small></div>
-          </div>
-          <div class="phone-body">
-            <div class="phone-search">Search tools&hellip;</div>
-            <div class="phone-tiles">
-              <div class="phone-tile"><i style="background:#DCFCE7"></i>Images to PDF</div>
-              <div class="phone-tile"><i style="background:#DBEAFE"></i>Merge PDF</div>
-              <div class="phone-tile"><i style="background:#FEF3C7"></i>Split PDF</div>
-              <div class="phone-tile"><i style="background:#FCE7F3"></i>Compress KB</div>
-              <div class="phone-tile"><i style="background:#E0E7FF"></i>PDF to Images</div>
-              <div class="phone-tile"><i style="background:#CCFBF1"></i>Image Resizer</div>
-              <div class="phone-tile"><i style="background:#F3E8FF"></i>PDF Reader</div>
-              <div class="phone-tile"><i style="background:#FFEDD5"></i>Format Convert</div>
-              <div class="phone-tile"><i style="background:#DCFCE7"></i>OCR</div>
-            </div>
-          </div>
-          <div class="phone-nav"><b>Home</b><span>History</span><span>Settings</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section aria-labelledby="howTitle">
-    <div class="wrap">
-      <div class="tools-head reveal">
-        <h2 id="howTitle">How it works</h2>
-        <p>Three steps. No account, no waiting, no email.</p>
-      </div>
-      <div class="steps">
-        <div class="step reveal" style="--d:0ms"><div class="step-num">1</div><h3>Choose a tool</h3><p>Pick the tool you need from the list above — image to PDF, merge, split, compress and more.</p></div>
-        <div class="step reveal" style="--d:120ms"><div class="step-num">2</div><h3>Add your files</h3><p>Drop files in or tap to choose them. Everything is processed on your device.</p></div>
-        <div class="step reveal" style="--d:240ms"><div class="step-num">3</div><h3>Download the result</h3><p>Preview it first if you like, then tap download. No waiting, no email, no account.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="privacy" aria-labelledby="privacyTitle">
-    <div class="wrap privacy-inner reveal">
-      <div class="privacy-ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></div>
-      <h2 id="privacyTitle">Everything happens on your device</h2>
-      <p>Your files are never uploaded to any server. All processing happens in your own browser, on your own phone or computer — so your documents stay yours, and the tools stay fast. Read the full <a href="privacy-policy.html">Privacy Policy</a>.</p>
-    </div>
-  </section>
-
-  <section aria-labelledby="faqTitle">
-    <div class="wrap faq-wrap">
-      <div class="tools-head reveal">
-        <h2 id="faqTitle">Frequently asked questions</h2>
-      </div>
-      <div class="faq reveal">
-        <div class="faq-item">
-          <button class="faq-q" type="button" aria-expanded="false"><span>Is Chami PDF Maker really free?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-          <div class="faq-a"><div><p>Yes. Every tool on this website is free to use, with no signup, no account and no watermark on your files.</p></div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" type="button" aria-expanded="false"><span>Are my files uploaded to a server?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-          <div class="faq-a"><div><p>No. All processing happens in your own browser. Your files are never uploaded to any server, which also keeps the tools fast even when many people use the site at once.</p></div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" type="button" aria-expanded="false"><span>Do the tools work on mobile?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-          <div class="faq-a"><div><p>Yes. The tools work on Android and iPhone browsers as well as on desktop. For the best experience on Android, get the Chami PDF Maker app.</p></div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" type="button" aria-expanded="false"><span>Is there a file size limit?</span><span class="fx" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-          <div class="faq-a"><div><p>There is no server limit, because files are processed on your device. Very large files are limited only by your device's memory.</p></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand"><span class="logo-tile"><img src="assets/panda-512.png" alt="Chami PDF Maker logo — panda" width="44" height="44"></span>Chami PDF Maker</div>
-        <p class="footer-tag">Free PDF tools. Your files never leave your device.</p>
-      </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="privacy-policy.html">Privacy Policy</a>
-      </nav>
-    </div>
-    <p class="footer-base">&copy; 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</p>
-  </div>
-</footer>
-
-<div class="app-bar" id="appBar" role="region" aria-label="Download the app">
-  <img src="assets/panda-512.png" alt="" width="44" height="44">
-  <div><b>Chami PDF Maker app</b><small>All 10 tools, free, offline</small></div>
-  <a class="btn btn-primary" href="https://github.com/flemax369-sketch/chami-pdf-maker/releases/download/v1.2/chami-pdf-maker-v1.2.apk" download>Download</a>
-  <button class="app-bar-close" type="button" id="appBarClose" aria-label="Dismiss download bar">&times;</button>
+  <section><div class="wrap">
+    <h2>Questions</h2>
+    <details><summary>Is Chami PDF Maker really free?</summary><p>Yes. Every tool is free, with no signup, no account and no watermark.</p></details>
+    <details><summary>Are my files uploaded to a server?</summary><p>No. All processing happens in your own browser. Your files are never uploaded anywhere.</p></details>
+    <details><summary>Do the tools work on mobile?</summary><p>Yes, on Android and iPhone browsers as well as desktop. For the best experience on Android, get the app.</p></details>
+    <details><summary>Is there a file size limit?</summary><p>No server limit, because files stay on your device. Very large files are limited only by your device’s memory.</p></details>
+  </div></section>
 </div>
 
-<script defer src="assets/common.js?v=7"></script>
+<div id="tool" hidden>
+  <div class="wrap">
+    <a class="back" href="#home">← All tools</a>
+    <div class="panel">
+      <h1 id="t-title" style="font-size:clamp(1.6rem,4vw,2.2rem)"></h1>
+      <p id="t-desc" style="color:var(--muted);margin:6px 0 18px"></p>
+      <label class="drop" id="drop"><b>Drop files here or tap to choose</b><span id="t-hint"></span><input type="file" id="file"></label>
+      <ul id="list"></ul>
+      <div class="opts" id="opts"></div>
+      <div class="go"><button class="btn pri" id="run" disabled>Start</button><button class="btn" id="clear" hidden>Clear files</button></div>
+      <div class="prog" id="prog" hidden><i></i></div>
+      <div id="status" role="status" aria-live="polite"></div>
+      <div id="err" role="alert" hidden></div>
+      <ul id="res"></ul>
+      <div class="go"><button class="btn" id="all" hidden>Download all</button></div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer><div class="wrap">
+  <p>© 2026 Chami Apps — Chami PDF Maker. Free online PDF tools. Your files never leave your device.</p>
+  <p style="margin-top:8px"><a href="#home">Home</a><a href="privacy-policy.html">Privacy Policy</a></p>
+</div></footer>
+
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const LIBS={
+  pdflib:"https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js",
+  pdfjs:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+};
+const WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const loaded={};
+function lib(name){
+  if(loaded[name])return loaded[name];
+  loaded[name]=new Promise((res,rej)=>{
+    const s=document.createElement("script");s.src=LIBS[name];
+    s.onload=()=>{if(name==="pdfjs")window.pdfjsLib.GlobalWorkerOptions.workerSrc=WORKER;res()};
+    s.onerror=()=>{delete loaded[name];rej(new Error("Could not load a required library. Check your internet connection and try again."))};
+    document.head.appendChild(s);
+  });
+  return loaded[name];
+}
+const cBlob=(c,t,q)=>new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(new Error("Image encoding failed.")),t,q));
+const bytes=async b=>new Uint8Array(await b.arrayBuffer());
+const fmt=n=>n<1024?n+" B":n<1048576?(n/1024).toFixed(1)+" KB":(n/1048576).toFixed(2)+" MB";
+const baseName=n=>n.replace(/\.[^.]+$/,"");
+const isPdf=f=>f.type==="application/pdf"||/\.pdf$/i.test(f.name);
+function loadImg(f){
+  return new Promise((res,rej)=>{
+    const u=URL.createObjectURL(f),i=new Image();
+    i.onload=()=>{URL.revokeObjectURL(u);res(i)};
+    i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("Cannot read image: "+f.name))};
+    i.src=u;
+  });
+}
+function mkCanvas(w,h,white){
+  const c=document.createElement("canvas");c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));
+  const x=c.getContext("2d");if(white){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}
+  return c;
+}
+function scaled(src,s){const c=mkCanvas(src.width*s,src.height*s,true);c.getContext("2d").drawImage(src,0,0,c.width,c.height);return c}
+
+/* Find the best JPEG that fits under `target` bytes. Tries each scale in order. */
+async function shrinkCanvas(src,target,scales){
+  let best=null;
+  for(const s of scales){
+    const c=s===1?src:scaled(src,s);
+    let lo=.2,hi=.92,b=await cBlob(c,"image/jpeg",lo);
+    if(!best||b.size<best.size)best=b;
+    if(b.size>target)continue;
+    let ok=b;
+    for(let i=0;i<6;i++){const m=(lo+hi)/2;b=await cBlob(c,"image/jpeg",m);if(b.size<=target){ok=b;lo=m}else hi=m}
+    return{blob:ok,met:true};
+  }
+  return{blob:best,met:false};
+}
+/* PDF helpers */
+async function renderPages(file,scale,p){
+  await lib("pdfjs");
+  const pdf=await pdfjsLib.getDocument({data:await bytes(file)}).promise;
+  const out=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    p&&p((i-1)/pdf.numPages,"Reading page "+i+" of "+pdf.numPages);
+    const pg=await pdf.getPage(i),v1=pg.getViewport({scale:1}),v=pg.getViewport({scale});
+    const c=mkCanvas(v.width,v.height,true);
+    await pg.render({canvasContext:c.getContext("2d"),viewport:v}).promise;
+    out.push({c,w:v1.width,h:v1.height});
+  }
+  return out;
+}
+async function buildPdf(items){
+  await lib("pdflib");
+  const d=await PDFLib.PDFDocument.create();
+  for(const it of items){
+    const e=await d.embedJpg(await bytes(it.blob));
+    d.addPage([it.w,it.h]).drawImage(e,{x:0,y:0,width:it.w,height:it.h});
+  }
+  return new Blob([await d.save()],{type:"application/pdf"});
+}
+async function encodeAll(pages,s,q){
+  const r=[];
+  for(const pg of pages)r.push({blob:await cBlob(s===1?pg.c:scaled(pg.c,s),"image/jpeg",q),w:pg.w,h:pg.h});
+  return r;
+}
+const est=(items)=>items.reduce((a,i)=>a+i.blob.size+600,1500);
+async function pdfToTarget(pages,target,p){
+  let best=null;
+  for(const s of[1,.8,.65,.5,.38,.28]){
+    p&&p(.7,"Trying "+Math.round(s*100)+"% resolution");
+    let lo=.2,hi=.9,it=await encodeAll(pages,s,lo);
+    if(!best||est(it)<est(best))best=it;
+    if(est(it)>target)continue;
+    let ok=it;
+    for(let i=0;i<5;i++){const m=(lo+hi)/2;it=await encodeAll(pages,s,m);if(est(it)<=target){ok=it;lo=m}else hi=m}
+    return{items:ok,met:true};
+  }
+  return{items:best,met:false};
+}
+function parseRange(str,n){
+  const out=[];
+  for(const part of str.split(",").map(x=>x.trim()).filter(Boolean)){
+    const m=part.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+    if(!m)throw new Error("Invalid page range “"+part+"”. Use a format like 1-3, 5, 8.");
+    const a=+m[1],b=m[2]?+m[2]:a;
+    if(a<1||b<a||b>n)throw new Error("Pages must be between 1 and "+n+" (got “"+part+"”).");
+    for(let i=a;i<=b;i++)if(!out.includes(i-1))out.push(i-1);
+  }
+  if(!out.length)throw new Error("Enter the pages you want, for example 1-3, 5.");
+  return out;
+}
+
+/* ---------- tool definitions ---------- */
+const TOOLS=[
+{id:"image-to-pdf",icon:"🖼",name:"Image to PDF",short:"Turn JPG, PNG and WEBP photos into one PDF.",
+ desc:"Add photos, put them in order, and get a single PDF.",accept:"image/*",multi:true,min:1,order:true,hint:"JPG, PNG, WEBP",btn:"Create PDF",
+ opts:`<label>Page size<select id="o-size"><option value="a4">A4 (fit image inside)</option><option value="fit">Same size as image</option></select></label>
+ <label>Margin (points)<select id="o-margin"><option value="0">None</option><option value="18" selected>Small</option><option value="36">Large</option></select></label>`,
+ async run(files,o,p){
+  await lib("pdflib");
+  const d=await PDFLib.PDFDocument.create(),m=+o.margin;
+  for(let i=0;i<files.length;i++){
+    p(i/files.length,"Adding image "+(i+1)+" of "+files.length);
+    const img=await loadImg(files[i]),W=img.naturalWidth,H=img.naturalHeight;
+    const c=mkCanvas(W,H,true);c.getContext("2d").drawImage(img,0,0,W,H);
+    const e=await d.embedJpg(await bytes(await cBlob(c,"image/jpeg",.92)));
+    let pw,ph,w=e.width,h=e.height;
+    if(o.size==="a4"){
+      pw=595.28;ph=841.89;if(W>H)[pw,ph]=[ph,pw];
+      const s=Math.min((pw-2*m)/w,(ph-2*m)/h);w*=s;h*=s;
+    }else{pw=w+2*m;ph=h+2*m}
+    d.addPage([pw,ph]).drawImage(e,{x:(pw-w)/2,y:(ph-h)/2,width:w,height:h});
+  }
+  return[{name:"images.pdf",blob:new Blob([await d.save()],{type:"application/pdf"})}];
+ }},
+{id:"merge-pdf",icon:"📑",name:"Merge PDF",short:"Combine several PDFs into one, in your order.",
+ desc:"Add at least two PDFs and arrange them with the arrows.",accept:"application/pdf",multi:true,min:2,order:true,hint:"PDF files",btn:"Merge PDFs",opts:"",
+ async run(files,o,p){
+  await lib("pdflib");
+  const out=await PDFLib.PDFDocument.create();
+  for(let i=0;i<files.length;i++){
+    p(i/files.length,"Merging file "+(i+1)+" of "+files.length);
+    let src;
+    try{src=await PDFLib.PDFDocument.load(await files[i].arrayBuffer())}
+    catch(e){throw new Error(files[i].name+" could not be opened. It may be damaged or password protected.")}
+    (await out.copyPages(src,src.getPageIndices())).forEach(x=>out.addPage(x));
+  }
+  return[{name:"merged.pdf",blob:new Blob([await out.save()],{type:"application/pdf"})}];
+ }},
+{id:"split-pdf",icon:"✂",name:"Split PDF",short:"Extract the pages you need, or every page separately.",
+ desc:"Pick pages to extract, or save each page as its own PDF.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Split PDF",
+ opts:`<label>Mode<select id="o-mode"><option value="range">Extract pages</option><option value="each">Every page separately</option></select></label>
+ <label data-show="mode:range">Pages<input id="o-range" placeholder="1-3, 5, 8" autocomplete="off"></label>`,
+ async run(files,o,p){
+  await lib("pdflib");
+  let src;
+  try{src=await PDFLib.PDFDocument.load(await files[0].arrayBuffer())}
+  catch(e){throw new Error("This PDF could not be opened. It may be damaged or password protected.")}
+  const n=src.getPageCount(),base=baseName(files[0].name);
+  const sets=o.mode==="each"?[...Array(n).keys()].map(i=>[i]):[parseRange(o.range,n)];
+  const out=[];
+  for(let k=0;k<sets.length;k++){
+    p(k/sets.length,"Building file "+(k+1)+" of "+sets.length);
+    const d=await PDFLib.PDFDocument.create();
+    (await d.copyPages(src,sets[k])).forEach(x=>d.addPage(x));
+    out.push({name:o.mode==="each"?base+"-page-"+(sets[k][0]+1)+".pdf":base+"-extract.pdf",blob:new Blob([await d.save()],{type:"application/pdf"})});
+  }
+  return out;
+ }},
+{id:"compress-pdf",icon:"📦",name:"Compress PDF",short:"Reduce PDF size for email and WhatsApp.",
+ desc:"Shrinks the PDF by re-saving each page as a compressed image. Text becomes part of the image, so it can no longer be selected.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Compress PDF",
+ opts:`<label>Strength<select id="o-lvl"><option value="0">Light — best quality</option><option value="1" selected>Balanced</option><option value="2">Strong — smallest file</option></select></label>`,
+ async run(files,o,p){
+  const[s,q]=[[1,.85],[.75,.62],[.5,.45]][+o.lvl];
+  const pages=await renderPages(files[0],1.5,p);
+  p(.8,"Compressing…");
+  const blob=await buildPdf(await encodeAll(pages,s,q));
+  const note=blob.size<files[0].size?"Reduced from "+fmt(files[0].size)+" to "+fmt(blob.size):"This PDF is already small. The result is not smaller than the original ("+fmt(files[0].size)+").";
+  return[{name:baseName(files[0].name)+"-compressed.pdf",blob,note}];
+ }},
+{id:"compress-kb",icon:"🎯",name:"Compress to KB",short:"Shrink an image or PDF under 100 KB, 200 KB, 500 KB or 1 MB.",
+ desc:"Choose a size limit and we find the best quality that fits.",accept:"image/*,application/pdf",multi:false,min:1,hint:"One image or PDF",btn:"Compress",
+ opts:`<label>Target size<select id="o-t"><option value="100">Under 100 KB</option><option value="200" selected>Under 200 KB</option><option value="500">Under 500 KB</option><option value="1024">Under 1 MB</option><option value="custom">Custom…</option></select></label>
+ <label data-show="t:custom">Custom size (KB)<input id="o-c" type="number" min="10" step="1" value="150"></label>
+ <div class="hint">Images are saved as JPG. Transparent areas become white.</div>`,
+ async run(files,o,p){
+  const kb=o.t==="custom"?+o.c:+o.t;
+  if(!(kb>=10))throw new Error("Enter a target size of at least 10 KB.");
+  const f=files[0],target=kb*1024;let r,name,blob,met;
+  if(isPdf(f)){
+    const pages=await renderPages(f,1.5,p);
+    r=await pdfToTarget(pages,target,p);met=r.met;blob=await buildPdf(r.items);name=baseName(f.name)+"-"+kb+"kb.pdf";
+  }else{
+    const img=await loadImg(f),c=mkCanvas(img.naturalWidth,img.naturalHeight,true);
+    c.getContext("2d").drawImage(img,0,0);
+    p(.5,"Finding the best quality…");
+    r=await shrinkCanvas(c,target,[1,.85,.7,.55,.4,.3,.2]);met=r.met;blob=r.blob;name=baseName(f.name)+"-"+kb+"kb.jpg";
+  }
+  return[{name,blob,note:(met?"Reached ":"Could not reach the target. Smallest possible: ")+fmt(blob.size)+(met?" (target "+kb+" KB)":"")}];
+ }},
+{id:"pdf-to-images",icon:"🎨",name:"PDF to Images",short:"Turn PDF pages into JPG or PNG at 2x quality.",
+ desc:"Every page becomes an image file.",accept:"application/pdf",multi:false,min:1,hint:"One PDF file",btn:"Convert to images",
+ opts:`<label>Format<select id="o-f"><option value="jpg">JPG</option><option value="png">PNG</option></select></label>`,
+ async run(files,o,p){
+  const pages=await renderPages(files[0],2,p),png=o.f==="png",base=baseName(files[0].name),out=[];
+  for(let i=0;i<pages.length;i++)
+    out.push({name:base+"-page-"+(i+1)+(png?".png":".jpg"),blob:await cBlob(pages[i].c,png?"image/png":"image/jpeg",.92)});
+  return out;
+ }},
+{id:"image-resizer",icon:"↔",name:"Image Resizer",short:"Resize by pixels, percent or preset, to an exact KB.",
+ desc:"Resize one or many images. Presets crop the image to fill the exact size.",accept:"image/*",multi:true,min:1,hint:"JPG, PNG, WEBP",btn:"Resize",
+ opts:`<label>Resize by<select id="o-mode"><option value="px">Pixels</option><option value="pct">Percent</option><option value="preset">Preset size</option></select></label>
+ <label data-show="mode:px">Width (px)<input id="o-w" type="number" min="1" placeholder="auto"></label>
+ <label data-show="mode:px">Height (px)<input id="o-h" type="number" min="1" placeholder="auto"></label>
+ <label class="ck" data-show="mode:px"><input id="o-keep" type="checkbox" checked>Keep proportions</label>
+ <label data-show="mode:pct">Percent<input id="o-pct" type="number" min="1" max="500" value="50"></label>
+ <label data-show="mode:preset">Preset<select id="o-preset"><option>1080x1350</option><option>1080x1080</option><option>1280x720</option><option>1920x1080</option><option>800x800</option><option>600x600</option><option>413x531</option></select></label>
+ <label>Format<select id="o-fmt"><option value="jpg">JPG</option><option value="png">PNG</option></select></label>
+ <label data-show="fmt:jpg">Max size (KB, optional)<input id="o-kb" type="number" min="10" placeholder="no limit"></label>`,
+ async run(files,o,p){
+  const out=[];
+  for(let i=0;i<files.length;i++){
+    p(i/files.length,"Resizing "+files[i].name);
+    const img=await loadImg(files[i]),W=img.naturalWidth,H=img.naturalHeight;
+    let w,h,sx=0,sy=0,sw=W,sh=H;
+    if(o.mode==="pct"){const k=Math.max(1,+o.pct||0)/100;w=Math.round(W*k);h=Math.round(H*k)}
+    else if(o.mode==="preset"){[w,h]=o.preset.split("x").map(Number);const r=Math.max(w/W,h/H);sw=w/r;sh=h/r;sx=(W-sw)/2;sy=(H-sh)/2}
+    else{
+      w=+o.w||0;h=+o.h||0;
+      if(!w&&!h)throw new Error("Enter a width, a height, or both.");
+      if(o.keep){
+        if(w&&!h)h=Math.round(H*w/W);else if(h&&!w)w=Math.round(W*h/H);
+        else{const r=Math.min(w/W,h/H);w=Math.round(W*r);h=Math.round(H*r)}
+      }else{w=w||W;h=h||H}
+    }
+    if(w>16000||h>16000)throw new Error("That size is too large for a browser. Use under 16000 px.");
+    const png=o.fmt==="png",c=mkCanvas(w,h,!png);
+    c.getContext("2d").drawImage(img,sx,sy,sw,sh,0,0,c.width,c.height);
+    let blob,note;
+    if(png)blob=await cBlob(c,"image/png");
+    else if(+o.kb>0){const r=await shrinkCanvas(c,o.kb*1024,[1]);blob=r.blob;note=r.met?fmt(blob.size):"Could not reach "+o.kb+" KB at this size. Result: "+fmt(blob.size)}
+    else blob=await cBlob(c,"image/jpeg",.92);
+    out.push({name:baseName(files[i].name)+"-"+c.width+"x"+c.height+(png?".png":".jpg"),blob,note});
+  }
+  return out;
+ }}
+];
+
+/* ---------- page: nav + cards ---------- */
+$("#nav").innerHTML=`<a href="#home" data-r="home">Home</a>`+TOOLS.map(t=>`<a href="#${t.id}" data-r="${t.id}">${t.name}</a>`).join("")+`<a class="dl" href="#download-app" data-r="app">Download app</a>`;
+$("#cards").innerHTML=TOOLS.map(t=>`<a class="tc" href="#${t.id}"><div class="ic" aria-hidden="true">${t.icon}</div><h3>${t.name}</h3><p>${t.short}</p></a>`).join("");
+$("#burger").onclick=()=>{const n=$("#nav"),o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
+
+/* ---------- tool page logic ---------- */
+let tool=null,files=[],results=[],busy=false;
+const fileEl=$("#file"),drop=$("#drop");
+
+function showErr(m){const e=$("#err");e.hidden=!m;e.textContent=m||""}
+function setProg(v,msg){$("#prog").hidden=false;$("#prog i").style.width=Math.round(v*100)+"%";$("#status").textContent=msg||""}
+function clearResults(){$("#res").innerHTML="";$("#all").hidden=true;results=[]}
+function renderList(){
+  const ul=$("#list");ul.innerHTML="";
+  files.forEach((f,i)=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<span class="nm"></span><span class="sz">${fmt(f.size)}</span>`;
+    li.querySelector(".nm").textContent=f.name;
+    const add=(t,l,fn,dis)=>{const b=document.createElement("button");b.className="ib";b.type="button";b.textContent=t;b.setAttribute("aria-label",l);b.disabled=!!dis;b.onclick=fn;li.appendChild(b)};
+    if(tool.order&&files.length>1){
+      add("↑","Move up",()=>move(i,-1),i===0);
+      add("↓","Move down",()=>move(i,1),i===files.length-1);
+    }
+    add("✕","Remove file",()=>{files.splice(i,1);changed()});
+    ul.appendChild(li);
+  });
+  $("#run").disabled=busy||files.length<tool.min;
+  $("#clear").hidden=!files.length;
+}
+function move(i,d){const j=i+d;[files[i],files[j]]=[files[j],files[i]];changed()}
+function changed(){showErr("");clearResults();renderList()}
+function matches(f){
+  const a=tool.accept;
+  if(a==="image/*")return f.type.startsWith("image/");
+  if(a==="application/pdf")return isPdf(f);
+  return f.type.startsWith("image/")||isPdf(f);
+}
+function addFiles(list){
+  const all=[...list],ok=all.filter(matches);
+  if(!ok.length){showErr("That file type is not supported here. Accepted: "+tool.hint+".");return}
+  showErr(ok.length<all.length?"Some files were skipped because they are not supported. Accepted: "+tool.hint+".":"");
+  files=tool.multi?files.concat(ok):[ok[0]];
+  clearResults();renderList();
+}
+fileEl.onchange=()=>{if(tool&&fileEl.files.length)addFiles(fileEl.files);fileEl.value=""};
+["dragenter","dragover"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop",ev=>{if(tool&&ev.dataTransfer&&ev.dataTransfer.files.length)addFiles(ev.dataTransfer.files)});
+$("#clear").onclick=()=>{files=[];changed();$("#prog").hidden=true;$("#status").textContent=""};
+
+function readOpts(){
+  const o={};
+  $("#opts").querySelectorAll("[id^=o-]").forEach(e=>{o[e.id.slice(2)]=e.type==="checkbox"?e.checked:e.value});
+  return o;
+}
+function refreshOpts(){
+  $("#opts").querySelectorAll("[data-show]").forEach(el=>{
+    const[k,v]=el.dataset.show.split(":"),src=document.getElementById("o-"+k);
+    el.hidden=!src||src.value!==v;
+  });
+}
+$("#opts").addEventListener("input",refreshOpts);
+
+function download(r){
+  const u=URL.createObjectURL(r.blob),a=document.createElement("a");
+  a.href=u;a.download=r.name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),30000);
+}
+function showResults(){
+  const ul=$("#res");ul.innerHTML="";
+  results.forEach(r=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<span class="nm"></span><span class="nt"></span>`;
+    li.querySelector(".nm").textContent=r.name;
+    li.querySelector(".nt").textContent=[fmt(r.blob.size),r.note].filter(Boolean).join(" · ");
+    const b=document.createElement("button");b.className="btn sm pri";b.textContent="Download";b.onclick=()=>download(r);
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("#all").hidden=results.length<2;
+}
+$("#all").onclick=()=>results.forEach((r,i)=>setTimeout(()=>download(r),i*400));
+
+$("#run").onclick=async()=>{
+  if(busy||!tool||files.length<tool.min)return;
+  busy=true;showErr("");clearResults();renderList();
+  const btn=$("#run");btn.textContent="Working…";setProg(.02,"Starting…");
+  try{
+    const out=await tool.run(files.slice(),readOpts(),setProg);
+    results=out;setProg(1,"Done. Your file is ready.");showResults();
+  }catch(e){
+    console.error(e);$("#prog").hidden=true;$("#status").textContent="";
+    showErr(e&&e.message?e.message:"Something went wrong. Try a different file.");
+  }finally{busy=false;btn.textContent=tool.btn;renderList()}
+};
+
+function openTool(t){
+  tool=t;files=[];results=[];busy=false;
+  document.title=t.name+" — Free PDF Tools | Chami PDF Maker";
+  $("#t-title").textContent=t.name;$("#t-desc").textContent=t.desc;
+  $("#t-hint").textContent=t.hint+(t.multi?" · you can add several":"");
+  fileEl.accept=t.accept;fileEl.multiple=!!t.multi;
+  $("#opts").innerHTML=t.opts;refreshOpts();
+  $("#run").textContent=t.btn;$("#prog").hidden=true;$("#status").textContent="";
+  showErr("");clearResults();renderList();
+}
+
+/* ---------- router ---------- */
+function route(){
+  const h=decodeURIComponent(location.hash.slice(1));
+  const t=TOOLS.find(x=>x.id===h)||(!h&&TOOLS.find(x=>x.id===document.body.dataset.tool));
+  $("#nav").classList.remove("open");$("#burger").setAttribute("aria-expanded","false");
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.r===(t?t.id:"home")&&a.dataset.r!=="app"));
+  if(t){
+    $("#home").hidden=true;$("#tool").hidden=false;
+    if(!tool||tool.id!==t.id)openTool(t);
+    window.scrollTo(0,0);
+  }else{
+    $("#tool").hidden=true;$("#home").hidden=false;tool=null;
+    document.title="Free PDF Tools — Image to PDF, Merge, Split, Compress";
+    if(h==="download-app"){const el=$("#download-app");if(el)setTimeout(()=>el.scrollIntoView(),0)}
+    else window.scrollTo(0,0);
+  }
+}
+window.addEventListener("hashchange",route);
+route();
+</script>
 </body>
 </html>
