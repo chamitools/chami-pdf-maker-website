@@ -15,8 +15,8 @@
   --ink:#151a24;       /* main text */
   --muted:#5d6676;     /* secondary text */
   --line:#e3e6ee;      /* borders */
-  --accent:#4f46e5;    /* buttons, links, highlights */
-  --accent-2:#7c3aed;  /* second colour used in gradients */
+  --accent:#16A34A;    /* buttons, links, highlights */
+  --accent-2:#14532D;  /* second colour used in gradients */
   --ok:#15803d; --bad:#b91c1c;
   --r:14px;
 }
@@ -40,7 +40,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdro
 .brand img{width:34px;height:34px;border-radius:9px}
 nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
 nav a{color:var(--ink);padding:7px 10px;border-radius:8px;font-size:.9rem}
-nav a:hover,nav a.on{background:#eef0f7;text-decoration:none}
+nav a:hover,nav a.on{background:#dcfce7;text-decoration:none}
 nav a.dl{background:var(--accent);color:#fff;margin-left:6px}
 #burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;font-size:1.3rem;cursor:pointer;color:var(--ink)}
 @media(max-width:940px){
@@ -94,8 +94,8 @@ details p{color:var(--muted);margin-top:8px}
 /* tool page */
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(30,40,80,.06);margin-top:18px}
 .back{display:inline-block;margin-top:24px;font-size:.92rem}
-.drop{display:block;border:2px dashed #c4c9d8;border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;background:#fafbff;transition:.18s}
-.drop:hover,.drop.over,.drop:focus-within{border-color:var(--accent);background:#f1f0ff}
+.drop{display:block;border:2px dashed #c4c9d8;border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;background:#f8fdf9;transition:.18s}
+.drop:hover,.drop.over,.drop:focus-within{border-color:var(--accent);background:#dcfce7}
 .drop b{display:block;font-size:1.05rem}
 .drop span{color:var(--muted);font-size:.9rem}
 .drop input{position:absolute;opacity:0;width:1px;height:1px}
@@ -104,7 +104,7 @@ details p{color:var(--muted);margin-top:8px}
 #list .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.93rem}
 #list .sz{color:var(--muted);font-size:.82rem;white-space:nowrap}
 .ib{width:34px;height:34px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:.95rem}
-.ib:hover{background:#eef0f7}
+.ib:hover{background:#dcfce7}
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
 .opts label{display:grid;gap:5px;font-size:.88rem;font-weight:600}
 .opts input,.opts select{font:inherit;font-weight:400;min-height:42px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
