@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://flemax369-sketch.github.io/chami-pdf-maker-website/sitemap.xml
+Sitemap: https://chamitools.github.io/chami-pdf-maker-website/sitemap.xml
