@@ -92,8 +92,9 @@
     $('zipBtn').disabled = true; // no partial ZIP while pages are still rendering
     busy = true;
     Chami.showResult($('resultBox'), false);
+    var pdf = null;
     try {
-      var pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
+      pdf = await pdfjsLib.getDocument({ data: file.bytes.slice(0) }).promise;
       // Only drop the previous results once the new PDF has actually
       // opened — a bad file used to wipe the good results for nothing.
       pages.forEach(function (p) { URL.revokeObjectURL(p.url); });
@@ -132,6 +133,8 @@
       renderPages();
       Chami.setStatus(status, 'Conversion failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {
+      // Always release the pdf.js document, even when a page fails mid-way.
+      if (pdf) { try { await pdf.destroy(); } catch (ignored) { /* already torn down */ } }
       busy = false;
       btn.disabled = !file;
     }

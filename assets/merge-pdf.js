@@ -196,7 +196,9 @@
         added++;
       } catch (e) {
         failed++;
-        Chami.setStatus(status, 'Could not open "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
+        var emsg = e && e.message ? e.message : String(e);
+        if (/encrypt|password/i.test(emsg)) emsg = 'this PDF is password-protected. Please use an unlocked copy.';
+        Chami.setStatus(status, 'Could not open "' + file.name + '": ' + emsg, 'error');
       }
     }
     if (added) {

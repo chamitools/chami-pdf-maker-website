@@ -56,7 +56,9 @@
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
+      var msg = e && e.message ? e.message : String(e);
+      if (/encrypt|password/i.test(msg)) msg = 'This PDF is password-protected. Please use an unlocked copy — this tool cannot open password-protected PDFs.';
+      Chami.setStatus(status, 'Could not open that PDF: ' + msg, 'error');
     }
   }
 

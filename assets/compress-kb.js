@@ -37,7 +37,7 @@
     var f = list[0];
     if (!f) return;
     var isPdf = f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
-    var isImg = /^image\//.test(f.type);
+    var isImg = /^image\//.test(f.type || '') || /\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(f.name || '');
     if (!isPdf && !isImg) {
       Chami.setStatus(status, '"' + f.name + '" is not an image or PDF file. Please choose a JPG, PNG, WEBP image or a PDF.', 'error');
       return;

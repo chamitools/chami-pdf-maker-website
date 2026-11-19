@@ -43,7 +43,9 @@
       Chami.showResult($('resultBox'), false);
       renderInfo();
     } catch (e) {
-      Chami.setStatus(status, 'Could not open that PDF: ' + (e && e.message ? e.message : e), 'error');
+      var msg = e && e.message ? e.message : String(e);
+      if (/password/i.test(msg)) msg = 'This PDF is password-protected. Please use an unlocked copy — this tool cannot open password-protected PDFs.';
+      Chami.setStatus(status, 'Could not open that PDF: ' + msg, 'error');
     }
   }
 
@@ -86,17 +88,22 @@
         Chami.setStatus(status, 'Compressing... page ' + i + ' of ' + pdf.numPages + ' (' + q.label + ' quality)');
         await new Promise(function (r) { setTimeout(r, 0); });
       }
-      var out = doc.output('blob');
+      var rebuilt = doc.output('blob');
+      // Text-only PDFs can come out BIGGER once every page becomes an image.
+      // Never hand the user a bigger file: keep the original instead.
+      var keepOriginal = rebuilt.size >= srcFile.size;
+      var out = keepOriginal ? new Blob([srcFile.bytes], { type: 'application/pdf' }) : rebuilt;
       var saved = srcFile.size - out.size;
       var pct = srcFile.size > 0 ? Math.round(saved / srcFile.size * 100) : 0;
       $('sizeInfo').textContent = 'Before: ' + Chami.fmtBytes(srcFile.size) + '  →  After: ' + Chami.fmtBytes(out.size) +
-        (saved > 0 ? '  (saved ' + pct + '%)' : '  (no size saved — this PDF is mostly text, which is already small)');
-      $('downloadBtn').onclick = function () { Chami.downloadBlob(out, 'chami-compressed.pdf'); };
+        (keepOriginal ? '  (this PDF is mostly text and already small — rebuilding it would make it bigger, so your original is kept as-is)'
+          : '  (saved ' + pct + '%)');
+      $('downloadBtn').onclick = function () { Chami.downloadBlob(out, keepOriginal ? srcFile.name : 'chami-compressed.pdf'); };
       $('previewBtn').onclick = function () {
-        Chami.openPreview('Compressed PDF — ' + Chami.fmtBytes(out.size), out, 'pdf');
+        Chami.openPreview((keepOriginal ? 'Original PDF — ' : 'Compressed PDF — ') + Chami.fmtBytes(out.size), out, 'pdf');
       };
       Chami.showResult($('resultBox'), true);
-      Chami.setStatus(status, 'Done! Your compressed PDF is ready.', 'ok');
+      Chami.setStatus(status, keepOriginal ? 'Done — this PDF is already as small as this tool can make it, so the original is kept.' : 'Done! Your compressed PDF is ready.', keepOriginal ? '' : 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Compression failed: ' + (e && e.message ? e.message : e), 'error');
     } finally {

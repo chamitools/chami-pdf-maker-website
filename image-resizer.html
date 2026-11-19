@@ -21,8 +21,8 @@
 {"@type":"Question","name":"Are my images uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Resizing runs entirely in your browser. Your images never leave your device."}}
 ]}
 </script>
-<script defer src="assets/common.js?v=6"></script>
-<script defer src="assets/image-resizer.js?v=6"></script>
+<script defer src="assets/common.js?v=7"></script>
+<script defer src="assets/image-resizer.js?v=7"></script>
 </head>
 <body>
 <header class="site">
@@ -83,13 +83,24 @@
           <label class="opt-label" for="presetInput">Preset</label>
           <div class="opt-control">
             <select id="presetInput">
-              <option value="whatsapp">WhatsApp status / post (1080 x 1080)</option>
+              <option value="whatsapp">WhatsApp square post (1080 x 1080)</option>
               <option value="instagram">Instagram post (1080 x 1080)</option>
               <option value="instagram-portrait">Instagram portrait (1080 x 1350)</option>
               <option value="story">Instagram / WhatsApp story (1080 x 1920)</option>
               <option value="passport">Passport photo (413 x 531)</option>
               <option value="a4">A4 at 300 dpi (2480 x 3508)</option>
             </select>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label class="opt-label" for="fitMode">If the shape differs</label>
+          <div class="opt-control">
+            <select id="fitMode">
+              <option value="cover" selected>Fill the frame — crop the edges, no stretching</option>
+              <option value="contain">Fit inside — add white borders, no cropping</option>
+              <option value="stretch">Stretch — squash to the exact size</option>
+            </select>
+            <p class="opt-hint">Applies when your photo has a different shape than the new size, for example a 4:3 photo resized to 1080 x 1350.</p>
           </div>
         </div>
         <div class="opt-row">

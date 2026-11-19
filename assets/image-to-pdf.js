@@ -6,6 +6,62 @@
   var files = []; // {name, type, dataUrl, width, height}
   var $ = function (id) { return document.getElementById(id); };
 
+
+  /* Work out an image MIME type. Some Android pickers send an empty type
+     for a valid photo, so fall back to the file extension. */
+  function mimeOf(file) {
+    var t = String(file.type || '').toLowerCase();
+    if (/^image\//.test(t)) return t;
+    var m = String(file.name || '').toLowerCase().match(/\.([a-z0-9]+)$/);
+    var map = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', bmp: 'image/bmp', avif: 'image/avif' };
+    return (m && map[m[1]]) || '';
+  }
+
+  /* Read the EXIF orientation (1-8) from the first bytes of a JPEG.
+     Returns 1 (upright) when there is no EXIF data or it cannot be read.
+     Phone photos are often stored sideways with an orientation tag;
+     jsPDF embeds the raw JPEG and ignores that tag, so a tagged photo
+     would land in the PDF rotated or squashed. */
+  function jpegOrientation(buf) {
+    try {
+      var v = new DataView(buf);
+      if (v.byteLength < 4 || v.getUint16(0) !== 0xFFD8) return 1;
+      var off = 2;
+      while (off + 4 <= v.byteLength) {
+        var marker = v.getUint16(off);
+        if ((marker & 0xFF00) !== 0xFF00 || marker === 0xFFDA) return 1;
+        if (marker === 0xFFE1) {
+          if (off + 14 > v.byteLength || v.getUint32(off + 4) !== 0x45786966) return 1; // "Exif"
+          var tiff = off + 10;
+          var little = v.getUint16(tiff) === 0x4949;
+          var ifd = tiff + v.getUint32(tiff + 4, little);
+          if (ifd + 2 > v.byteLength) return 1;
+          var n = v.getUint16(ifd, little);
+          for (var i = 0; i < n; i++) {
+            var e = ifd + 2 + i * 12;
+            if (e + 12 > v.byteLength) return 1;
+            if (v.getUint16(e, little) === 0x0112) {
+              var o = v.getUint16(e + 8, little);
+              return (o >= 1 && o <= 8) ? o : 1;
+            }
+          }
+          return 1;
+        }
+        off += 2 + v.getUint16(off + 2);
+      }
+    } catch (err) { /* unreadable EXIF: treat as upright */ }
+    return 1;
+  }
+
+  function readOrientation(file) {
+    return new Promise(function (resolve) {
+      var r = new FileReader();
+      r.onload = function () { resolve(jpegOrientation(r.result)); };
+      r.onerror = function () { resolve(1); };
+      r.readAsArrayBuffer(file.slice(0, 131072));
+    });
+  }
+
   function renderList() {
     var list = $('imgList');
     list.innerHTML = '';
@@ -203,19 +259,27 @@
       var file = list[k];
       // Some pickers (notably on Android) send an empty MIME type for a
       // valid image, so fall back to the file extension before rejecting.
-      if (!/^image\//.test(file.type || '') && !/\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(file.name || '')) {
-        Chami.setStatus(status, '"' + file.name + '" is not an image file. Please choose JPG, PNG or WEBP images.', 'error');
+      var mime = mimeOf(file);
+      if (!mime && !/\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(file.name || '')) {
+        Chami.setStatus(status, /\.(heic|heif)$/i.test(file.name || '')
+          ? '"' + file.name + '" is a HEIC photo, which most browsers cannot open. Please save or share it as JPG first (on iPhone: Settings > Camera > Formats > Most Compatible).'
+          : '"' + file.name + '" is not an image file. Please choose JPG, PNG or WEBP images.', 'error');
         failed++;
         continue;
       }
       try {
         var dataUrl = await Chami.readAsDataURL(file);
+        // An empty file type leaves a generic data-URL header; give it the real one.
+        if (mime && !/^data:image\//.test(dataUrl)) dataUrl = dataUrl.replace(/^data:[^;,]*/, 'data:' + mime);
         var img = await Chami.loadImage(dataUrl);
-        files.push({ name: file.name, type: file.type, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight });
+        var orient = (mime === 'image/jpeg') ? await readOrientation(file) : 1;
+        files.push({ name: file.name, type: mime, dataUrl: dataUrl, width: img.naturalWidth, height: img.naturalHeight, orient: orient });
         added++;
       } catch (e) {
         failed++;
-        Chami.setStatus(status, 'Could not read "' + file.name + '": ' + (e && e.message ? e.message : e), 'error');
+        var emsg = e && e.message ? e.message : String(e);
+        if (/\.(heic|heif)$/i.test(file.name || '') || /heic|heif/.test(mime)) emsg = 'HEIC photos are not supported by this browser. Please save or share it as JPG first.';
+        Chami.setStatus(status, 'Could not read "' + file.name + '": ' + emsg, 'error');
       }
     }
     if (added) {
@@ -250,20 +314,26 @@
         // overflowed.) Original keeps the image's own page size, so its
         // orientation must match the image's aspect — jsPDF enforces
         // orientation by swapping dimensions.
-        if (size === 'a4') {
-          wPt = 595.28; hPt = 841.89; // A4 portrait, in points
+        var isA4 = (size === 'a4' || size === 'a4auto');
+        if (isA4) {
+          // 'a4' is always portrait; 'a4auto' turns the page landscape for
+          // a wide photo so it is not shrunk onto a portrait sheet.
+          var land = (size === 'a4auto' && f.width > f.height);
+          wPt = land ? 841.89 : 595.28; hPt = land ? 595.28 : 841.89; // A4, in points
           format = 'a4';
-          orientation = 'portrait';
+          orientation = land ? 'landscape' : 'portrait';
         } else {
           // Original: one point per pixel (72 dpi), so nothing is downscaled.
-          wPt = f.width; hPt = f.height;
+          // PDF pages max out at 14400 pt, so only an enormous image is shrunk.
+          var cap = Math.min(1, 14400 / Math.max(f.width, f.height));
+          wPt = f.width * cap; hPt = f.height * cap;
           format = [wPt, hPt];
           orientation = f.width >= f.height ? 'landscape' : 'portrait';
         }
         if (i === 0) doc = new jsPDF({ unit: 'pt', format: format, orientation: orientation, compress: true });
         else doc.addPage(format, orientation);
         var drawW = wPt, drawH = hPt, x = 0, y = 0;
-        if (size === 'a4') {
+        if (isA4) {
           // Fit inside a uniform 36pt margin on every side, keeping the
           // image's aspect ratio exactly (never stretched, never cropped),
           // centred on the page.
@@ -275,7 +345,9 @@
         }
         // jsPDF accepts a data URL for JPEG/PNG/WEBP. Do NOT pass a raw
         // ArrayBuffer here: jsPDF 2.5.1 throws "charCodeAt is not a function".
-        if (f.type === 'image/jpeg' || f.type === 'image/jpg') {
+        // A JPEG carrying an EXIF rotation goes through the canvas (the browser
+        // applies the rotation there); an upright JPEG is embedded untouched.
+        if ((f.type === 'image/jpeg' || f.type === 'image/jpg') && !(f.orient > 1)) {
           doc.addImage(f.dataUrl, 'JPEG', x, y, drawW, drawH);
         } else if (f.type === 'image/png') {
           doc.addImage(f.dataUrl, 'PNG', x, y, drawW, drawH);
@@ -297,7 +369,7 @@
       };
       Chami.showResult($('resultBox'), true);
       var meta = $('resultMeta');
-      if (meta) meta.textContent = (size === 'a4' ? 'A4' : 'Original size') + '  •  ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + '  •  ' + Chami.fmtBytes(out.size);
+      if (meta) meta.textContent = (size === 'original' ? 'Original size' : 'A4') + '  •  ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + '  •  ' + Chami.fmtBytes(out.size);
       Chami.setStatus(status, 'Done! Your PDF is ready — ' + pages.length + ' page' + (pages.length > 1 ? 's' : '') + ', ' + Chami.fmtBytes(out.size) + '.', 'ok');
     } catch (e) {
       Chami.setStatus(status, 'Could not create the PDF: ' + (e && e.message ? e.message : e), 'error');
@@ -311,7 +383,7 @@
     var c = document.createElement('canvas');
     c.width = img.naturalWidth; c.height = img.naturalHeight;
     c.getContext('2d').drawImage(img, 0, 0);
-    var jpg = c.toDataURL('image/jpeg', 0.92);
+    var jpg = c.toDataURL('image/jpeg', 0.95);
     doc.addImage(jpg, 'JPEG', x, y, w, h);
   }
 

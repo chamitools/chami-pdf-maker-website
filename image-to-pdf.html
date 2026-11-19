@@ -22,8 +22,8 @@
 ]}
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script defer src="assets/common.js?v=6"></script>
-<script defer src="assets/image-to-pdf.js?v=6"></script>
+<script defer src="assets/common.js?v=7"></script>
+<script defer src="assets/image-to-pdf.js?v=7"></script>
 </head>
 <body>
 <header class="site">
@@ -65,10 +65,11 @@
           <label class="opt-label" for="pageSize">Page size</label>
           <div class="opt-control">
             <select id="pageSize">
-              <option value="a4" selected>A4 — standard page, image fitted</option>
+              <option value="a4" selected>A4 portrait — image fitted</option>
+              <option value="a4auto">A4 auto — landscape page for wide photos</option>
               <option value="original">Original — page same size as image</option>
             </select>
-            <p class="opt-hint">A4 portrait page — your photo is fitted and centred, never stretched.</p>
+            <p class="opt-hint">A4 pages — your photo is fitted and centred, never stretched. Use "A4 auto" so wide photos get a landscape page.</p>
           </div>
         </div>
       </div>

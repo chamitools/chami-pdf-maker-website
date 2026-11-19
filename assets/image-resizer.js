@@ -8,7 +8,7 @@
   var $ = function (id) { return document.getElementById(id); };
 
   var PRESETS = {
-    whatsapp:  { label: 'WhatsApp status / post', w: 1080, h: 1080 },
+    whatsapp:  { label: 'WhatsApp square post', w: 1080, h: 1080 },
     instagram: { label: 'Instagram post', w: 1080, h: 1080 },
     'instagram-portrait': { label: 'Instagram portrait', w: 1080, h: 1350 },
     story:     { label: 'Instagram / WhatsApp story', w: 1080, h: 1920 },
@@ -39,8 +39,12 @@
     if (busy) { Chami.setStatus(status, 'Please wait for the current resize to finish before choosing another image.', 'error'); return; }
     var f = list[0];
     if (!f) return;
-    if (!/^image\//.test(f.type)) {
-      Chami.setStatus(status, '"' + f.name + '" is not an image file. Please choose a JPG, PNG or WEBP image.', 'error');
+    // Some Android pickers send an empty type for a valid photo: fall back to the extension.
+    var isImage = /^image\//.test(f.type || '') || /\.(jpe?g|png|webp|gif|bmp|avif)$/i.test(f.name || '');
+    if (!isImage) {
+      Chami.setStatus(status, /\.(heic|heif)$/i.test(f.name || '')
+        ? '"' + f.name + '" is a HEIC photo, which most browsers cannot open. Please save or share it as JPG first.'
+        : '"' + f.name + '" is not an image file. Please choose a JPG, PNG or WEBP image.', 'error');
       return;
     }
     try {
@@ -91,6 +95,25 @@
     });
   }
 
+
+  /* Draw the photo into the new size without distorting it.
+     cover   = fill the frame, crop the overflow evenly (default)
+     contain = fit inside, white borders, nothing cropped
+     stretch = squash to the exact size (old behaviour) */
+  function drawFitted(ctx, img, w, h, fit) {
+    var iw = img.naturalWidth, ih = img.naturalHeight;
+    if (fit === 'stretch' || Math.abs(iw / ih - w / h) < 0.002) { ctx.drawImage(img, 0, 0, w, h); return; }
+    if (fit === 'contain') {
+      var s = Math.min(w / iw, h / ih);
+      var dw = Math.round(iw * s), dh = Math.round(ih * s);
+      ctx.drawImage(img, Math.round((w - dw) / 2), Math.round((h - dh) / 2), dw, dh);
+      return;
+    }
+    var sc = Math.max(w / iw, h / ih);
+    var sw = w / sc, sh = h / sc;
+    ctx.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, w, h);
+  }
+
   async function resize() {
     var status = $('status');
     if (!file) { Chami.setStatus(status, 'Please choose an image first.', 'error'); return; }
@@ -113,12 +136,15 @@
       var ctx = canvas.getContext('2d');
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      if (format === 'jpg') {
+      var fitEl = $('fitMode');
+      var fit = fitEl ? fitEl.value : 'cover';
+      if (format === 'jpg' || fit === 'contain') {
         // White background: JPEG has no transparency, so a transparent PNG
-        // would otherwise come out with a black background.
+        // would otherwise come out with a black background (and 'fit inside'
+        // needs a clean border).
         ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, size.w, size.h);
       }
-      ctx.drawImage(img, 0, 0, size.w, size.h);
+      drawFitted(ctx, img, size.w, size.h, fit);
       var blob, targetMissed = false;
       if (format === 'png') {
         blob = await canvasToBlob(canvas, 'png');
@@ -140,12 +166,16 @@
       } else {
         blob = await canvasToBlob(canvas, format, 0.92);
       }
-      var ext = format === 'jpg' ? 'jpg' : format;
+      // Some browsers (older Safari) cannot save WEBP and silently give PNG:
+      // name the file by what it really is, and say so.
+      var ext = blob.type === 'image/png' ? 'png' : blob.type === 'image/webp' ? 'webp' : 'jpg';
+      var webpFallback = (format === 'webp' && blob.type !== 'image/webp');
       var base = file.name.replace(/\.[^.]+$/, '');
       $('sizeInfo').textContent = 'New size: ' + size.w + ' x ' + size.h + ' px — ' + Chami.fmtBytes(blob.size) +
         (format === 'png' && hasTargetKb ? ' (target KB does not apply to PNG — PNG is lossless, so its size is whatever the pixels need)'
           : hasTargetKb && targetMissed ? ' (target was ' + targetKb + ' KB — still above target, this is the smallest possible at this size)'
-          : hasTargetKb ? ' (target was ' + targetKb + ' KB)' : '');
+          : hasTargetKb ? ' (target was ' + targetKb + ' KB)' : '') +
+        (webpFallback ? '  Note: this browser cannot save WEBP, so a PNG was made instead. Choose JPG for a smaller file.' : '');
       $('downloadBtn').onclick = function () { Chami.downloadBlob(blob, base + '-resized.' + ext); };
       $('previewBtn').onclick = function () {
         Chami.openPreview('Resized image — ' + size.w + ' x ' + size.h + ' px (' + Chami.fmtBytes(blob.size) + ')', blob, 'image');
