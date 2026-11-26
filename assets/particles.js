@@ -7,6 +7,8 @@
   'use strict';
   if (window.__chamiParticles) return;
   window.__chamiParticles = true;
+  /* Respect "reduce motion": no floating dots at all. */
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var COLORS = ['#22C55E', '#16A34A', '#86EFAC', '#BBF7D0'];
   var canvas = document.createElement('canvas');

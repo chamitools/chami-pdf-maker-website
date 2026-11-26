@@ -317,43 +317,55 @@
   function initHeader() {
     var header = document.getElementById('siteHeader') || document.querySelector('header.site');
     if (!header) return;
-    /* Navbar shadow + blur after 8px of scroll. */
+    /* Soft shadow under the header once the page scrolls. */
     var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 8); };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
+  /* Mobile menu. One source of truth: setMenu(open) flips the drawer, the dim
+     overlay, the page scroll lock and the ARIA state together, so the page
+     behind can never stay dimmed. It closes on: overlay tap, X button, any
+     link tap, Escape, growing to desktop width, and back/forward restore. */
   function initNav() {
-    var btn = document.getElementById('navToggle') || document.querySelector('.nav-toggle');
+    var btn = document.getElementById('navToggle');
     var nav = document.getElementById('mainNav');
     if (!btn || !nav) return;
     var overlay = document.getElementById('navOverlay');
-    var isNew = !!document.getElementById('siteHeader');
-    var header = btn.closest('header');
+    var closeBtn = document.getElementById('navClose');
     function setMenu(open) {
-      if (isNew) {
-        nav.classList.toggle('open', open);
-        if (overlay) overlay.classList.toggle('show', open);
-        document.body.classList.toggle('menu-locked', open);
-      } else if (header) {
-        /* Legacy markup (header.site + nav.main): old toggle behavior. */
-        header.classList.toggle('nav-open', open);
-      }
+      nav.classList.toggle('open', open);
+      if (overlay) overlay.classList.toggle('show', open);
+      document.body.classList.toggle('menu-locked', open);
       btn.setAttribute('aria-expanded', String(open));
       btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if (open && closeBtn) closeBtn.focus();
+      if (!open && document.activeElement && nav.contains(document.activeElement)) btn.focus();
     }
-    btn.addEventListener('click', function () {
-      var open = isNew ? !nav.classList.contains('open') : !(header && header.classList.contains('nav-open'));
-      setMenu(open);
-    });
+    btn.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
     if (overlay) overlay.addEventListener('click', function () { setMenu(false); });
+    if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
     nav.addEventListener('click', function (e) {
-      /* closest() so a tap on any element inside a link (icon, span)
-         still closes the menu — e.target alone is the inner element. */
       var link = e.target && e.target.closest ? e.target.closest('a') : null;
       if (link) setMenu(false);
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+    window.addEventListener('resize', function () { if (window.innerWidth >= 1180) setMenu(false); });
+    window.addEventListener('pageshow', function () { setMenu(false); });
+  }
+
+  /* Light / dark switch. White is the default; the choice is remembered. */
+  function initTheme() {
+    var tbtn = document.getElementById('themeToggle');
+    if (!tbtn) return;
+    tbtn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'dark' ? '#052E16' : '#14532D');
+    });
   }
 
   function initDropdown() {
@@ -418,6 +430,7 @@
   function init() {
     initHeader();
     initNav();
+    initTheme();
     initDropdown();
     initFaq();
     initReveal();
