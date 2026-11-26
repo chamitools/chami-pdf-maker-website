@@ -9,6 +9,7 @@
 <meta property="og:title" content="Chami PDF Maker — Free PDF Tools"><meta property="og:description" content="Image to PDF, merge, split, compress and resize. Free, no signup, no watermark."><meta property="og:type" content="website">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: data: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<script>try{var t=localStorage.getItem("theme");document.documentElement.dataset.theme=t||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <link rel="canonical" href="https://chamitools.github.io/chami-pdf-maker-website/">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
@@ -20,6 +21,7 @@
 <style>
 /* ===== Colours: change the --accent lines to restyle the whole site ===== */
 :root{--bg:#FFFFFF;--card:#fff;--ink:#0F172A;--muted:#475569;--line:#E2E8F0;--accent:#22C55E;--accent-2:#14532D;--link:#16A34A;--soft:#DCFCE7;--ok:#16A34A;--bad:#b91c1c;--errbg:#fee2e2;--r:16px;--sh:0 1px 2px rgba(6,78,59,.06),0 10px 28px rgba(6,78,59,.08);color-scheme:light}
+:root[data-theme=dark]{--bg:#052E16;--card:#0d211a;--ink:#e8f5ef;--muted:#9bb7aa;--line:#183b2f;--accent:#22C55E;--link:#4ADE80;--soft:#14532D;--ok:#4ADE80;--bad:#fca5a5;--errbg:#3b1414;--sh:0 1px 2px #0006,0 10px 28px #0006;color-scheme:dark}
 
 *{box-sizing:border-box;margin:0}
 [hidden]{display:none!important}
@@ -44,6 +46,7 @@ nav a:hover,nav a.on{background:var(--soft);color:var(--ink);text-decoration:non
 nav a.dl{background:linear-gradient(135deg,#059669,#047857);color:#fff;margin-left:4px}
 .icbtn{width:42px;height:42px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);cursor:pointer;transition:.2s}
 .icbtn:hover{border-color:var(--accent)}
+.sun{display:none}[data-theme=dark] .sun{display:block}[data-theme=dark] .moon{display:none}
 
 #burger{display:none}
 @media(max-width:760px){#burger{display:grid}nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 16px;flex-direction:column;align-items:stretch}nav.open{display:flex;animation:drop .22s ease}nav a{padding:13px}nav a.dl{margin:6px 0 0;text-align:center}}
@@ -139,6 +142,7 @@ footer a{margin:0 8px}
   <div class="wrap bar">
     <a class="brand" href="#home"><img src="assets/panda-512.png" alt="Chami PDF Maker logo" width="34" height="34">Chami PDF Maker</a>
     <nav id="nav"></nav>
+    <button class="icbtn" id="theme" type="button" aria-label="Switch light or dark theme"><svg class="i moon"><use href="#moon"/></svg><svg class="i sun"><use href="#sun"/></svg></button>
     <button class="icbtn" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg class="i"><use href="#menu"/></svg></button>
   </div>
 </header>
@@ -470,6 +474,7 @@ const TOOLS=[
 /* ---------- page: nav + cards ---------- */
 $("#nav").innerHTML=`<a href="#home" data-r="home">Home</a><a href="#tools" data-r="tools">Tools</a><a class="dl" href="#download-app" data-r="app">Android app</a>`;
 $("#tabs").innerHTML=TOOLS.map(t=>`<a href="#${t.id}" data-r="${t.id}"><svg class="i"><use href="#${t.icon}"/></svg>${t.name}</a>`).join("");
+$("#theme").onclick=()=>{const d=document.documentElement,n=d.dataset.theme==="dark"?"light":"dark";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}};
 
 $("#cards").innerHTML=TOOLS.map(t=>`<a class="tc" href="#${t.id}"><div class="ic" aria-hidden="true"><svg class="i"><use href="#${t.icon}"/></svg></div><h3>${t.name}</h3><p>${t.short}</p></a>`).join("");
 $("#burger").onclick=()=>{const n=$("#nav"),o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
