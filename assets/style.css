@@ -4,7 +4,7 @@
    pages and by the tool JS (Chami.*) are styled below — do not remove
    them until those pages are converted. */
 :root{
-  --green:#16A34A; --green-hover:#15803D; --green-dark:#14532D;
+  --green:#16A34A; --green-bright:#22C55E; --green-hover:#15803D; --green-dark:#14532D;
   --green-050:#F0FDF4; --green-100:#DCFCE7; --green-200:#BBF7D0;
   --bg:#FFFFFF; --slate:#F8FAFC; --slate-2:#F1F5F9;
   --border:#E2E8F0; --line-soft:#EDF1EF;
@@ -103,7 +103,7 @@ header.site nav.main a.active{background:var(--green);color:#fff}
 .hero p.lead{font-size:clamp(1.05rem,1.5vw,1.2rem);color:var(--body);max-width:560px}
 .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 .hero-art{position:relative;min-height:420px}
-.hero-glow{position:absolute;inset:8% 0 0 8%;background:radial-gradient(closest-side,rgba(22,163,74,.22),transparent 72%);border-radius:50%;filter:blur(8px)}
+.hero-glow{position:absolute;inset:8% 0 0 8%;background:radial-gradient(closest-side,rgba(34,197,94,.28),transparent 72%);border-radius:50%;filter:blur(8px)}
 .doc{position:absolute;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:18px;width:210px;animation:floaty 7s ease-in-out infinite}
 .doc::before{content:"";position:absolute;top:0;right:0;border-style:solid;border-width:0 26px 26px 0;border-color:transparent var(--slate-2) transparent transparent;border-radius:0 12px 0 0}
 .doc .doc-bar{height:10px;border-radius:99px;background:var(--slate-2);margin-bottom:10px}
@@ -130,7 +130,7 @@ header.site nav.main a.active{background:var(--green);color:#fff}
 .tool-card{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:28px 24px;box-shadow:var(--shadow-sm);transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);text-decoration:none;position:relative;color:var(--ink)}
 .tool-card:hover{transform:translateY(-6px);border-color:var(--green);box-shadow:var(--shadow-lg);text-decoration:none}
 .tool-ic{width:52px;height:52px;border-radius:50%;background:var(--green-050);color:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:background .22s var(--ease),color .22s var(--ease),transform .22s var(--ease)}
-.tool-card:hover .tool-ic{background:var(--green);color:#fff;transform:scale(1.06)}
+.tool-card:hover .tool-ic{background:var(--green-bright);color:#fff;transform:scale(1.06)}
 .tool-card h3{margin-bottom:6px}
 .tool-card p{color:var(--body);font-size:.98rem;margin:0}
 .tool-go{position:absolute;top:24px;right:24px;color:var(--muted);transition:transform .22s var(--ease),color .22s var(--ease)}
@@ -172,7 +172,7 @@ header.site nav.main a.active{background:var(--green);color:#fff}
 .phone:hover{transform:rotate(0deg)}
 .phone-notch{height:28px;display:flex;align-items:center;justify-content:center}
 .phone-notch span{width:84px;height:6px;border-radius:99px;background:var(--slate-2)}
-.phone-app-head{background:var(--green);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.phone-app-head{background:var(--green-bright);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
 .phone-app-head img{width:34px;height:34px;border-radius:9px;object-fit:cover}
 .phone-app-head b{font-family:var(--font-head);font-size:.98rem;display:block;line-height:1.2}
 .phone-app-head small{opacity:.85;font-size:.75rem}
@@ -188,7 +188,7 @@ header.site nav.main a.active{background:var(--green);color:#fff}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;position:relative;margin-top:48px}
 .steps::before{content:"";position:absolute;top:31px;left:12%;right:12%;height:2px;background:var(--green-100);z-index:0}
 .step{text-align:center;position:relative;z-index:1}
-.step-num{width:62px;height:62px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--font-head);font-weight:700;font-size:1.4rem;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 0 8px #fff,0 0 0 10px var(--green-100)}
+.step-num{width:62px;height:62px;border-radius:50%;background:var(--green-bright);color:#fff;font-family:var(--font-head);font-weight:700;font-size:1.4rem;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 0 8px #fff,0 0 0 10px var(--green-100)}
 .step h3{margin-bottom:8px}
 .step p{color:var(--body);margin:0}
 
